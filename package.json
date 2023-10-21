@@ -2,9 +2,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run setup && next build",
+    "build": "next build",
     "build-only": "next build",
     "start": "next start",
+    "export": "next export",
     "setup": "node ./lib/setup.mjs"
   },
   "dependencies": {
