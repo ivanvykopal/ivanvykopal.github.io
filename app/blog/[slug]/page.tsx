@@ -3,9 +3,6 @@ import { notFound } from 'next/navigation';
 import { Mdx } from 'app/components/mdx';
 import { allBlogs } from 'contentlayer/generated';
 import Balancer from 'react-wrap-balancer';
-import ViewCounter from '../view-counter';
-import { getViewsCount } from 'lib/metrics';
-import { Suspense } from 'react';
 
 export async function generateMetadata({
   params,
@@ -23,8 +20,8 @@ export async function generateMetadata({
     slug,
   } = post;
   const ogImage = image
-    ? `https://leerob.io${image}`
-    : `https://leerob.io/og?title=${title}`;
+    ? `http://localhost:3000${image}`
+    : `http://localhost:3000/og?title=${title}`;
 
   return {
     title,
@@ -34,7 +31,7 @@ export async function generateMetadata({
       description,
       type: 'article',
       publishedTime,
-      url: `https://leerob.io/blog/${slug}`,
+      url: `http://localhost:3000/blog/${slug}`,
       images: [
         {
           url: ogImage,
@@ -103,21 +100,8 @@ export default async function Blog({ params }) {
           {formatDate(post.publishedAt)}
         </p>
         {/* I also want an error boundary here */}
-        <Suspense>
-          <Views slug={post.slug} />
-        </Suspense>
       </div>
       <Mdx code={post.body.code} />
     </section>
   );
-}
-
-async function Views({ slug }: { slug: string }) {
-  let views;
-  try {
-    views = await getViewsCount();
-  } catch (error) {
-    console.error(error);
-  }
-  return <ViewCounter allViews={views} slug={slug} trackView />;
 }

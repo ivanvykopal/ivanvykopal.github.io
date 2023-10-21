@@ -7,14 +7,20 @@ import { LayoutGroup, motion } from 'framer-motion';
 
 const navItems = {
   '/': {
-    name: 'home',
+    name: 'Home',
   },
-  '/blog': {
-    name: 'blog',
+  '/cv': {
+    name: 'CV',
   },
-  '/guestbook': {
-    name: 'guestbook',
-  },
+  // '/projects': {
+  //   name: 'Projects',
+  // },
+  // '/study-materials': {
+  //   name: 'Study Materials',
+  // },
+  // '/blog': {
+  //   name: 'Blog',
+  // },
 };
 
 export default function Navbar() {

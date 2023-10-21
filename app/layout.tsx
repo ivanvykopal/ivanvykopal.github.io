@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import Sidebar from './components/sidebar';
-import { Analytics } from '@vercel/analytics/react';
 
 const graphik = localFont({
   src: [
@@ -23,17 +22,17 @@ const graphik = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://leerob.io'),
+  metadataBase: new URL('http://localhost:3000'),
   title: {
-    default: 'Lee Robinson',
-    template: '%s | Lee Robinson',
+    default: 'Ivan Vykopal',
+    template: '%s | Ivan Vykopal',
   },
-  description: 'Developer, writer, and creator.',
+  description: 'Research Assistant and PhD student at KInIT.',
   openGraph: {
-    title: 'Lee Robinson',
-    description: 'Developer, writer, and creator.',
-    url: 'https://leerob.io',
-    siteName: 'Lee Robinson',
+    title: 'Ivan Vykopal',
+    description: 'Research Assistant and PhD student at KInIT.',
+    url: 'http://localhost:3000',
+    siteName: 'Ivan Vykopal',
     locale: 'en_US',
     type: 'website',
   },
@@ -49,7 +48,7 @@ export const metadata: Metadata = {
     },
   },
   twitter: {
-    title: 'Lee Robinson',
+    title: 'Ivan Vykopal',
     card: 'summary_large_image',
   },
   verification: {
@@ -75,7 +74,6 @@ export default function RootLayout({
         <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
           <Sidebar />
           {children}
-          <Analytics />
         </main>
       </body>
     </html>
