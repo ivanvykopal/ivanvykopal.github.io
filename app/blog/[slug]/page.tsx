@@ -47,6 +47,13 @@ export async function generateMetadata({
   };
 }
 
+export async function generateStaticParams() {
+  // Define the dynamic paths that should be pre-rendered at build time
+  return allBlogs.map((post) => ({
+    slug: post.slug,
+  }))
+}
+
 function formatDate(date: string) {
   const currentDate = new Date();
   const targetDate = new Date(date);
