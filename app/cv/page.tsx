@@ -6,10 +6,8 @@ import { SkillsCard } from "./SkillsCard";
 export default function Page() {
   return (
     <section>
+      <h1 className="font-bold text-2xl mb-8 tracking-tighter">Experience</h1>
       <div className="prose prose-neutral dark:prose-invert">
-        <h2 className="dark:prose-invert dark:text-white">
-          Experience
-        </h2>
         <ul className="list-none list-inline">
           <li className="mb-9">
             <ExperienceCard
@@ -73,10 +71,8 @@ export default function Page() {
           </li>
         </ul>
       </div>
+      <h1 className="font-bold text-2xl mb-8 tracking-tighter">Education</h1>
       <div className="prose prose-neutral dark:prose-invert">
-        <h2 className="dark:prose-invert dark:text-white">
-          Education
-        </h2>
         <ul className="list-none list-inline">
           <li className="mb-9">
             <EducationCard
@@ -124,10 +120,8 @@ export default function Page() {
           </li>
         </ul>
       </div>
+      <h1 className="font-bold text-2xl mb-8 tracking-tighter">Skills</h1>
       <div className="prose prose-neutral dark:prose-invert">
-        <h2 className="dark:prose-invert dark:text-white">
-          Skills
-        </h2>
         <ul className="list-none list-inline">
           <li>
             <SkillsCard
@@ -222,6 +216,6 @@ export default function Page() {
           </li>
         </ul>
       </div>
-    </section>
+    </section >
   );
 }

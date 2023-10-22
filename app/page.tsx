@@ -1,33 +1,9 @@
 import Image from 'next/image';
 import kinit from 'public/images/kinit.png';
 import ivanvykopal from 'public/images/ivanvykopal.jpeg';
+import { ArrowIcon } from './ArrowIcon';
+import { Badge } from './Badge';
 
-function Badge(props) {
-  return (
-    <a
-      {...props}
-      target="_blank"
-      className="border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 rounded p-1 text-sm inline-flex items-center leading-4 text-neutral-900 dark:text-neutral-100 no-underline"
-    />
-  );
-}
-
-function ArrowIcon() {
-  return (
-    <svg
-      width="12"
-      height="12"
-      viewBox="0 0 12 12"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M2.07102 11.3494L0.963068 10.2415L9.2017 1.98864H2.83807L2.85227 0.454545H11.8438V9.46023H10.2955L10.3097 3.09659L2.07102 11.3494Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
 
 export default async function Page() {
 
@@ -45,12 +21,12 @@ export default async function Page() {
                 <Image
                   alt="KInIT logo"
                   src={kinit}
-                  priority
-                  width={11}
-                  height={11}
+                  // priority
+                  width={12}
+                  height={12}
                   className="rounded object-cover image-icon"
                 />
-                {` Kempelen Institute of Intelligent Technologies`}
+                <span className='ml-1'>Kempelen Institute of Intelligent Technologies</span>
               </Badge>
             </span>
             {` and member of the NLP team, focusing on machine learning, deep learning, the analysis of large language models, and computer vision.`}
@@ -110,7 +86,7 @@ export default async function Page() {
             target="_blank"
             href="ivan.vykopal@kinit.sk"
           >
-            <ArrowIcon />
+            <ArrowIcon size={12} />
             <p className="h-7 ml-2">Email</p>
           </a>
           <a
@@ -119,7 +95,7 @@ export default async function Page() {
             target="_blank"
             href="https://www.linkedin.com/in/ivan-vykopal-668893211/"
           >
-            <ArrowIcon />
+            <ArrowIcon size={12} />
             <p className="h-7 ml-2">LinkedIn</p>
           </a>
           <a
@@ -128,7 +104,7 @@ export default async function Page() {
             target="_blank"
             href="https://github.com/ivanvykopal"
           >
-            <ArrowIcon />
+            <ArrowIcon size={12} />
             <p className="h-7 ml-2">GitHub</p>
           </a>
         </li>
