@@ -1,12 +1,17 @@
 const { get } = require('@vercel/edge-config');
 const { withContentlayer } = require('next-contentlayer');
 
+let envImageUnoptimize = process.env.NODE_ENV !== "production" ? false : true
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    serverActions: true,
-  },
+  // experimental: {
+  //   serverActions: true,
+  // },
   output: 'export',
+  images: {
+    unoptimized: envImageUnoptimize,
+  },
   // redirects() {
   //   try {
   //     return get('redirects');
