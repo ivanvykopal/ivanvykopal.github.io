@@ -6,21 +6,22 @@ const nextConfig = {
   experimental: {
     serverActions: true,
   },
-  redirects() {
-    try {
-      return get('redirects');
-    } catch {
-      return [];
-    }
-  },
-  headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: securityHeaders,
-      },
-    ];
-  },
+  output: 'export',
+  // redirects() {
+  //   try {
+  //     return get('redirects');
+  //   } catch {
+  //     return [];
+  //   }
+  // },
+  // headers() {
+  //   return [
+  //     {
+  //       source: '/(.*)',
+  //       headers: securityHeaders,
+  //     },
+  //   ];
+  // },
 };
 
 // https://nextjs.org/docs/advanced-features/security-headers
