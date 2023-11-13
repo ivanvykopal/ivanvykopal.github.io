@@ -8,6 +8,16 @@ export default function Page() {
         <ul className="list-none list-inline">
           <li>
             <ResearchCard
+              title="Digital Pathology in Cardiac Transplant Diagnostics: From Biopsies to Algorithms"
+              authors={["Martin Kveton", "Lukas Hudec", "Ivan Vykopal", "Matej Halinkovic", "Miroslav Laco", "Andrea Felsoova", "Wanda Benesova", "Ondrej Fabian"]}
+              abstract="In the field of heart transplantation, the ability to accurately and promptly diagnose cardiac allograft rejection is crucial. This comprehensive review explores the transformative role of digital pathology and computational pathology, especially through machine learning, in this critical domain. These methodologies harness large datasets to extract subtle patterns and valuable information that extend beyond human perceptual capabilities, potentially enhancing diagnostic outcomes. Current research indicates that these computer-based systems could offer accuracy and performance matching, or even exceeding, that of expert pathologists, thereby introducing more objectivity and reducing observer variability. Despite promising results, several challenges such as limited sample sizes, diverse data sources, and the absence of standardized protocols pose significant barriers to the widespread adoption of these techniques. The future of digital pathology in heart transplantation diagnostics depends on utilizing larger, more diverse patient cohorts, standardizing data collection, processing, and evaluation protocols, and fostering collaborative research efforts. The integration of various data types, including clinical, demographic, and imaging information, could further refine diagnostic precision. As researchers address these challenges and promote collaborative efforts, digital pathology has the potential to become an integral part of clinical practice, ultimately improving patient care in heart transplantation."
+              publisher="Cardiovascular Pathology"
+              link="https://www.sciencedirect.com/science/article/pii/S1054880723000716"
+              year="2023"
+            />
+          </li>
+          <li>
+            <ResearchCard
               title="DeepLabV3+ Ensemble for Diagnosis of Cardiac Transplant Rejection"
               authors={["Ivan Vykopal", "Lukas Hudec", "Martin Kveton", "Ondrej Fabian", "Andrea Felsoova", "Wanda Benesova"]}
               abstract="Heart transplantation is a complex procedure, often joined with complications such as cardiac transplant rejection. Current diagnostic methods include regular invasive and time-consuming biopsies followed by histopathological analysis. Deep learning has the potential to significantly enhance speed and objectivity and introduce new information from the obtained sample to increase the chances of predicting rejection. Our study presents several deep-learning approaches for quantitative analysis of histological scans for acquiring supportive information. The proposed segmentation methods focus on inflammation, endocardium, and blood vessels. The study compares the experimental results of multiple methods evaluated using real data from medical experts. This study lays the groundwork for future research and demonstrates the potential of deep learning applied to the prediction of transplant rejection."
