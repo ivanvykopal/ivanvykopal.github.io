@@ -12,6 +12,14 @@ export default function Page() {
           <ul className="list-none list-inline">
             <li>
               <ProjectCard
+                name="Disinformation Capabilities of Large Language Models"
+                description="Source code for the paper 'Disinformation Capabilities of Large Language Models'"
+                link="https://github.com/kinit-sk/disinformation-capabilities"
+                icon={<AiFillGithub size={30} />}
+              />
+            </li>
+            <li>
+              <ProjectCard
                 name="ArXiv Viewer"
                 description="Implementation of viewer for ArXiv. The application allows you to search for scientific papers from the last day or the last week and also filter by category. In the application, the user can tag some papers and add them to a favorites list to read them later. The application also retrieves data from the Call for papers (WikiCFP)."
                 link="https://arxiv-viewer.vercel.app"

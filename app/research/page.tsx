@@ -8,6 +8,17 @@ export default function Page() {
         <ul className="list-none list-inline">
           <li>
             <ResearchCard
+              title="Disinformation Capabilities of Large Language Models"
+              authors={["Ivan Vykopal", "Matúš Pikuliak", "Ivan Srba", "Robert Moro", "Dominik Macko", "Maria Bielikova"]}
+              abstract="Automated disinformation generation is often listed as one of the risks of large language models (LLMs). The theoretical ability to flood the information space with disinformation content might have dramatic consequences for democratic societies around the world. This paper presents a comprehensive study of the disinformation capabilities of the current generation of LLMs to generate false news articles in English language. In our study, we evaluated the capabilities of 10 LLMs using 20 disinformation narratives. We evaluated several aspects of the LLMs: how well they are at generating news articles, how strongly they tend to agree or disagree with the disinformation narratives, how often they generate safety warnings, etc. We also evaluated the abilities of detection models to detect these articles as LLM-generated. We conclude that LLMs are able to generate convincing news articles that agree with dangerous disinformation narratives."
+              publisher="arXiv preprint"
+              link="https://arxiv.org/abs/2311.08838v1"
+              pdf="https://arxiv.org/pdf/2311.08838v1.pdf"
+              year="2023"
+            />
+          </li>
+          <li>
+            <ResearchCard
               title="Digital Pathology in Cardiac Transplant Diagnostics: From Biopsies to Algorithms"
               authors={["Martin Kveton", "Lukas Hudec", "Ivan Vykopal", "Matej Halinkovic", "Miroslav Laco", "Andrea Felsoova", "Wanda Benesova", "Ondrej Fabian"]}
               abstract="In the field of heart transplantation, the ability to accurately and promptly diagnose cardiac allograft rejection is crucial. This comprehensive review explores the transformative role of digital pathology and computational pathology, especially through machine learning, in this critical domain. These methodologies harness large datasets to extract subtle patterns and valuable information that extend beyond human perceptual capabilities, potentially enhancing diagnostic outcomes. Current research indicates that these computer-based systems could offer accuracy and performance matching, or even exceeding, that of expert pathologists, thereby introducing more objectivity and reducing observer variability. Despite promising results, several challenges such as limited sample sizes, diverse data sources, and the absence of standardized protocols pose significant barriers to the widespread adoption of these techniques. The future of digital pathology in heart transplantation diagnostics depends on utilizing larger, more diverse patient cohorts, standardizing data collection, processing, and evaluation protocols, and fostering collaborative research efforts. The integration of various data types, including clinical, demographic, and imaging information, could further refine diagnostic precision. As researchers address these challenges and promote collaborative efforts, digital pathology has the potential to become an integral part of clinical practice, ultimately improving patient care in heart transplantation."
