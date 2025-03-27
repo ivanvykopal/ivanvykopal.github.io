@@ -1,4 +1,3 @@
-const { get } = require('@vercel/edge-config');
 const { withContentlayer } = require('next-contentlayer2');
 
 let envImageUnoptimize = process.env.NODE_ENV !== "production" ? false : true
@@ -12,21 +11,6 @@ const nextConfig = {
   images: {
     unoptimized: envImageUnoptimize,
   },
-  // redirects() {
-  //   try {
-  //     return get('redirects');
-  //   } catch {
-  //     return [];
-  //   }
-  // },
-  // headers() {
-  //   return [
-  //     {
-  //       source: '/(.*)',
-  //       headers: securityHeaders,
-  //     },
-  //   ];
-  // },
 };
 
 // https://nextjs.org/docs/advanced-features/security-headers
