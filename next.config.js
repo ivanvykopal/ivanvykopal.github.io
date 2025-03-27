@@ -7,7 +7,7 @@ const nextConfig = {
   // experimental: {
   //   serverActions: true,
   // },
-  // output: 'export',
+  output: 'export',
   images: {
     unoptimized: envImageUnoptimize,
   },
