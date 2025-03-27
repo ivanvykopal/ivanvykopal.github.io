@@ -12,6 +12,54 @@ export default function Page() {
           <ul className="list-none list-inline">
             <li>
               <ProjectCard
+                name="Large Language Models for Multilingual Previously Fact-Checked Claim Detection"
+                description="The repository for the paper 'Large Language Models for Multilingual Previously Fact-Checked Claim Detection'"
+                link="https://github.com/kinit-sk/llms-claim-matching"
+                icon={<AiFillGithub size={30} />}
+              />
+            </li>
+            <li>
+              <ProjectCard
+                name="NLP Resources"
+                description="A list of resources for NLP tasks. The list includes datasets and modelsfor Slovak and Czech languages."
+                link="https://github.com/ivanvykopal/nlp-resources"
+                icon={<AiFillGithub size={30} />}
+              />
+            </li>
+            <li>
+              <ProjectCard
+                name="XTranslator"
+                description="Python package for translating text using multiple translation services. The package also include language detection and is available on PyPI."
+                link="https://github.com/ivanvykopal/xtranslator"
+                icon={<AiFillGithub size={30} />}
+              />
+            </li>
+            <li>
+              <ProjectCard
+                name="Soft Language Prompts for Language Transfer"
+                description="This is the source code for the paper Soft Language Prompts for Language Transfer."
+                link="https://github.com/kinit-sk/adapter-prompt-evaluation"
+                icon={<AiFillGithub size={30} />}
+              />
+            </li>
+            <li>
+              <ProjectCard
+                name="Task Templates"
+                description="Templates for the NLP tasks."
+                link="https://github.com/ivanvykopal/tasktemplates"
+                icon={<AiFillGithub size={30} />}
+              />
+            </li>
+            <li>
+              <ProjectCard
+                name="Project for the NLP Lectures"
+                description="Project for NLP Lectures at FIT BUT"
+                link="https://github.com/ivanvykopal/NLP-Project"
+                icon={<AiFillGithub size={30} />}
+              />
+            </li>
+            <li>
+              <ProjectCard
                 name="Disinformation Capabilities of Large Language Models"
                 description="Source code for the paper 'Disinformation Capabilities of Large Language Models'"
                 link="https://github.com/kinit-sk/disinformation-capabilities"

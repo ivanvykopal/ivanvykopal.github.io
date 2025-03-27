@@ -41,6 +41,20 @@ export default function Page() {
           </li>
           <li>
             <MaterialCard
+              name="Hugging Face Agents Course"
+              link="https://huggingface.co/learn/agents-course"
+              type="text"
+            />
+          </li>
+          <li>
+            <MaterialCard
+              name="Hugging Face Deep RL Course"
+              link="https://huggingface.co/learn/deep-rl-course"
+              type="text"
+            />
+          </li>
+          <li>
+            <MaterialCard
               name="NLP Course from Stanford"
               link="https://web.stanford.edu/class/cs224n/"
               type="text"

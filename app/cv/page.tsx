@@ -45,30 +45,6 @@ export default function Page() {
               url="https://iteria.app/"
             />
           </li>
-          <li className="mb-9">
-            <ExperienceCard
-              position="Administrative Officer"
-              company="Datalogic"
-              location="Trnava, Slovakia"
-              startDate="Jun 2021"
-              endDate="Jan 2022"
-              description=""
-              emplymentType="Part-time"
-              url="https://www.datalogic.com/eng/index.html"
-            />
-          </li>
-          <li className="mb-9">
-            <ExperienceCard
-              position="Administrative Officer"
-              company="Datalogic"
-              location="Trnava, Slovakia"
-              startDate="Jul 2019"
-              endDate="Jan 2020"
-              description=""
-              emplymentType="Part-time"
-              url="https://www.datalogic.com/eng/index.html"
-            />
-          </li>
         </ul>
       </div>
       <h1 className="font-bold text-2xl mb-8 tracking-tighter">Education</h1>
@@ -107,17 +83,6 @@ export default function Page() {
               url="https://www.fiit.stuba.sk/en"
             />
           </li>
-          <li className="mb-9">
-            <EducationCard
-              faculty="Gymnasium of Ján Hollý"
-              school=""
-              location="Trnava, Slovakia"
-              startDate="Sep 2014"
-              endDate="Jun 2018"
-              description=""
-              url=""
-            />
-          </li>
         </ul>
       </div>
       <h1 className="font-bold text-2xl mb-8 tracking-tighter">Skills</h1>
@@ -149,6 +114,7 @@ export default function Page() {
                 "Svelte",
                 "MATLAB",
                 "XML",
+                "Bash"
               ]}
             />
           </li>
@@ -156,14 +122,15 @@ export default function Page() {
             <SkillsCard
               category="Frameworks"
               skills={[
+                "PyTorch",
+                "Transformers",
+                "TensorFlow",
                 "React",
                 "Next.js",
                 "Node.js",
                 "Express",
                 "Flask",
                 "Django",
-                "TensorFlow",
-                "PyTorch",
               ]}
             />
           </li>
@@ -189,9 +156,12 @@ export default function Page() {
             <SkillsCard
               category="Other"
               skills={[
+                "Natural Language Processing",
+                "Large Langage Models",
+                "Fact-Checking",
+                "Low-Resource Languages",
                 "Machine Learning",
                 "Deep Learning",
-                "Natural Language Processing",
                 "Computer Vision",
                 "Data Science",
                 "Data Analysis",
@@ -199,7 +169,6 @@ export default function Page() {
                 "Software Engineering",
                 "Software Development",
                 "Image Processing",
-                "Large Langage Models",
               ]}
             />
           </li>

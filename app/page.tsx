@@ -56,7 +56,7 @@ export default async function Page() {
       </div>
       <div className="prose prose-neutral dark:prose-invert">
         <h3 className="dark:prose-invert dark:text-white">
-          PhD topic: Natural Language Processing
+          PhD Topic: Multilingual Natural Language Processing for Supporting Fact-Checking
         </h3>
       </div>
       <div className="prose prose-neutral dark:prose-invert">
@@ -84,7 +84,7 @@ export default async function Page() {
             className="flex items-center hover:text-neutral-800 dark:hover:text-neutral-100 transition-all"
             rel="noopener noreferrer"
             target="_blank"
-            href="ivan.vykopal@kinit.sk"
+            href="mailto:ivan.vykopal@kinit.sk"
           >
             <ArrowIcon size={12} />
             <p className="h-7 ml-2">Email</p>
@@ -106,6 +106,24 @@ export default async function Page() {
           >
             <ArrowIcon size={12} />
             <p className="h-7 ml-2">GitHub</p>
+          </a>
+          <a
+            className="flex items-center hover:text-neutral-800 dark:hover:text-neutral-100 transition-all"
+            rel="noopener noreferrer"
+            target="_blank"
+            href="https://www.researchgate.net/profile/Ivan-Vykopal"
+          >
+            <ArrowIcon size={12} />
+            <p className="h-7 ml-2">ResearchGate</p>
+          </a>
+          <a
+            className="flex items-center hover:text-neutral-800 dark:hover:text-neutral-100 transition-all"
+            rel="noopener noreferrer"
+            target="_blank"
+            href="https://orcid.org/0000-0002-0431-0044"
+          >
+            <ArrowIcon size={12} />
+            <p className="h-7 ml-2">ORCID</p>
           </a>
         </li>
       </ul>
