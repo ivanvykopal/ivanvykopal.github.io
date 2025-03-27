@@ -7,10 +7,10 @@ const nextConfig = {
   // experimental: {
   //   serverActions: true,
   // },
-  // output: 'export',
+  output: 'export',
   images: {
     unoptimized: envImageUnoptimize,
-  },
+  }
 };
 
 module.exports = withContentlayer(nextConfig);
