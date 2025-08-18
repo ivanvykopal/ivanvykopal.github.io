@@ -1,6 +1,7 @@
 import { ArrowIcon } from "app/ArrowIcon";
 import React from "react";
 import { BsFileEarmarkPdfFill } from "react-icons/bs"
+import Abstract from "./Abstract";
 
 interface ResearchCardProps {
   title: string;
@@ -27,11 +28,16 @@ export const ResearchCard = ({
 
   const formatAuthors = (authors: string[]): string[] => {
     return authors.map(author => {
-      let name = author.split(' ')[0];
-      let surname = author.split(' ')[1];
-
-      return `${name[0]}. ${surname}`
-    })
+      const parts = author.trim().split(/\s+/);
+      const firstName = parts[0];
+      const surname = parts[parts.length - 1];
+      const middleNames = parts.slice(1, -1);
+  
+      // Take initials of middle names
+      const middleInitials = middleNames.map(n => `${n[0]}.`).join(' ');
+  
+      return `${firstName[0]}. ${middleInitials} ${surname}`.replace(/\s+/g, ' ').trim();
+    });
   }
 
   const boldMe = (authors: string, myName = "I. Vykopal") => {
@@ -79,12 +85,7 @@ export const ResearchCard = ({
           {boldMe(formatAuthors(authors).join(', '))}
         </p>
       </div>
-      <div className="flex flex-col">
-        <span className="mt-4 p-0 font-semibold">
-          Abstract:
-        </span>
-        <p className="text-base mt-2 mb-0 pb-0">{abstract}</p>
-      </div>
+      <Abstract abstract={abstract} />
       <div className="flex flex-col">
         <span className="mb-0 pb-0 mt-6"><span className="font-semibold">Publisher:</span> {publisher}</span>
         <span className="mb-0"><span className="font-semibold">Publication year:</span> {year}</span>

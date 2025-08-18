@@ -12,6 +12,14 @@ export default function Page() {
           <ul className="list-none list-inline">
             <li>
               <ProjectCard
+                name="PEFT Tutorial for NLP Summer School"
+                description="This repository contains the code for the PEFT tutorial for the NLP Summer School 2025. The tutorial covers the basics of PEFT and how to use it in practice."
+                link="https://github.com/ivanvykopal/peft-kinit-2025"
+                icon={<AiFillGithub size={30} />}
+              />
+            </li>
+            <li>
+              <ProjectCard
                 name="Large Language Models for Multilingual Previously Fact-Checked Claim Detection"
                 description="The repository for the paper 'Large Language Models for Multilingual Previously Fact-Checked Claim Detection'"
                 link="https://github.com/kinit-sk/llms-claim-matching"

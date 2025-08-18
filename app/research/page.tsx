@@ -8,6 +8,39 @@ export default function Page() {
         <ul className="list-none list-inline">
           <li>
             <ResearchCard
+              title="Multilingual Political Views of Large Language Models: Identification and Steering"
+              authors={["Daniil Gurgurov", "Katharina Trinley", "Ivan Vykopal", "Josef van Genabith", "Simon Ostermann", "Roberto Zamparelli"]}
+              abstract="Large language models (LLMs) are increasingly used in everyday tools and applications, raising concerns about their potential influence on political views. While prior research has shown that LLMs often exhibit measurable political biases--frequently skewing toward liberal or progressive positions--key gaps remain. Most existing studies evaluate only a narrow set of models and languages, leaving open questions about the generalizability of political biases across architectures, scales, and multilingual settings. Moreover, few works examine whether these biases can be actively controlled. In this work, we address these gaps through a large-scale study of political orientation in modern open-source instruction-tuned LLMs. We evaluate seven models, including LLaMA-3.1, Qwen-3, and Aya-Expanse, across 14 languages using the Political Compass Test with 11 semantically equivalent paraphrases per statement to ensure robust measurement. Our results reveal that larger models consistently shift toward libertarian-left positions, with significant variations across languages and model families. To test the manipulability of political stances, we utilize a simple center-of-mass activation intervention technique and show that it reliably steers model responses toward alternative ideological positions across multiple languages. Our code is publicly available at this https URL."
+              publisher="arXiv preprint"
+              link="https://arxiv.org/abs/2507.22623"
+              pdf="https://arxiv.org/pdf/2507.22623"
+              year="2025"
+            />
+          </li>
+          <li>
+            <ResearchCard
+              title="A Generative-AI-Driven Claim Retrieval System Capable of Detecting and Retrieving Claims from Social Media Platforms in Multiple Languages"
+              authors={["Ivan Vykopal", "Martin Hyben", "Robert Moro", "Michal Gregor", "Jakub Simko"]}
+              abstract="Online disinformation poses a global challenge, placing significant demands on fact-checkers who must verify claims efficiently to prevent the spread of false information. A major issue in this process is the redundant verification of already fact-checked claims, which increases workload and delays responses to newly emerging claims. This research introduces an approach that retrieves previously fact-checked claims, evaluates their relevance to a given input, and provides supplementary information to support fact-checkers. Our method employs large language models (LLMs) to filter irrelevant fact-checks and generate concise summaries and explanations, enabling fact-checkers to faster assess whether a claim has been verified before. In addition, we evaluate our approach through both automatic and human assessments, where humans interact with the developed tool to review its effectiveness. Our results demonstrate that LLMs are able to filter out many irrelevant fact-checks and, therefore, reduce effort and streamline the fact-checking process."
+              publisher="arXiv preprint"
+              link="https://arxiv.org/abs/2504.20668"
+              pdf="https://arxiv.org/pdf/2504.20668"
+              year="2025"
+            />
+          </li>
+          <li>
+            <ResearchCard
+              title="dfkinit2b at CheckThat! 2025: Leveraging LLMs and Ensemble of Methods for Multilingual Claim Normalization"
+              authors={["Tatiana Anikina", "Ivan Vykopal", "Sebastian Kula", "Ravi Kiran Chikkala", "Natalia Skachkova", "Jing Yang", "Veronika Solopova", "Vera Schmitt", "Simon Ostermann"]}
+              abstract="The rapid spread of misinformation on social media across languages presents a major challenge for fact-checking efforts. Social media posts are often noisy, informal, and unstructured, with irrelevant content, making it difficult to extract concise, verifiable claims. To address this, the CLEF 2025 CheckThat! Shared Task on Multilingual Claim Extraction and Normalization focuses on transforming social media posts into normalized claims, short, clear and check-worthy statements that capture the essence of potentially misleading content. In this paper, we investigate several approaches to this task, including parameter-efficient fine-tuning, prompting large language models (LLMs), and an ensemble of methods. We evaluate our approaches in two settings: monolingual, where we are provided with training and validation data, and the zero-shot setting, where no training data is available for the target language. Our approaches achieved first place in 6 out of 13 languages in the monolingual setting and ranked second or third in the remaining languages. In the zero-shot setting, we achieved the highest performance across all seven languages, demonstrating strong generalization to unseen languages."
+              publisher="Preprint server (Accepted to CLEF 2025 CheckThat! Shared Task)"
+              link="https://www.dfki.de/fileadmin/user_upload/import/15977_paper_149.pdf"
+              pdf="https://www.dfki.de/fileadmin/user_upload/import/15977_paper_149.pdf"
+              year="2025"
+            />
+          </li>
+          <li>
+            <ResearchCard
               title="Large Language Models for Multilingual Previously Fact-Checked Claim Detection"
               authors={["Ivan Vykopal", "Matúš Pikuliak", "Simon Ostermann", "Tatiana Anikina", "Michal Gregor", "Marián Šimko"]}
               abstract="In our era of widespread false information, human fact-checkers often face the challenge of duplicating efforts when verifying claims that may have already been addressed in other countries or languages. As false information transcends linguistic boundaries, the ability to automatically detect previously fact-checked claims across languages has become an increasingly important task. This paper presents the first comprehensive evaluation of large language models (LLMs) for multilingual previously fact-checked claim detection. We assess seven LLMs across 20 languages in both monolingual and cross-lingual settings. Our results show that while LLMs perform well for high-resource languages, they struggle with low-resource languages. Moreover, translating original texts into English proved to be beneficial for low-resource languages. These findings highlight the potential of LLMs for multilingual previously fact-checked claim detection and provide a foundation for further research on this promising application of LLMs."
@@ -21,10 +54,10 @@ export default function Page() {
             <ResearchCard
               title="Small Models, Big Impact: Efficient Corpus and Graph-Based Adaptation of Small Multilingual Language Models for Low-Resource Languages"
               authors={["Daniil Gurgurov", "Ivan Vykopal", "Josef van Genabith", "Simon Ostermann"]}
-              abstract="Low-resource languages (LRLs) face significant challenges in natural language processing (NLP) due to limited data. While current state-of-the-art large language models (LLMs) still struggle with LRLs, smaller multilingual models (mLMs) such as mBERT and XLM-R offer greater promise due to a better fit of their capacity to low training data sizes. This study systematically investigates parameter-efficient adapter-based methods for adapting mLMs to LRLs, evaluating three architectures: Sequential Bottleneck, Invertible Bottleneck, and Low-Rank Adaptation. Using unstructured text from GlotCC and structured knowledge from ConceptNet, we show that small adaptation datasets (e.g., up to 1 GB of free-text or a few MB of knowledge graph data) yield gains in intrinsic (masked language modeling) and extrinsic tasks (topic classification, sentiment analysis, and named entity recognition). We find that Sequential Bottleneck adapters excel in language modeling, while Invertible Bottleneck adapters slightly outperform other methods on downstream tasks due to better embedding alignment and larger parameter counts. Adapter-based methods match or outperform full fine-tuning while using far fewer parameters, and smaller mLMs prove more effective for LRLs than massive LLMs like LLaMA-3, GPT-4, and DeepSeek-R1-based distilled models. While adaptation improves performance, pre-training data size remains the dominant factor, especially for languages with extensive pre-training coverage."
-              publisher="arXiv preprint"
-              link="https://arxiv.org/abs/2502.10140"
-              pdf="https://arxiv.org/pdf/2502.10140"
+              abstract="Low-resource languages (LRLs) face significant challenges in natural language processing (NLP) due to limited data. While current state-of-the-art large language models (LLMs) still struggle with LRLs, smaller multilingual models (mLMs) such as mBERT and XLM-R offer greater promise due to a better fit of their capacity to low training data sizes. This study systematically investigates parameter-efficient adapter-based methods for adapting mLMs to LRLs, evaluating three architectures: Sequential Bottleneck, Invertible Bottleneck, and Low-Rank Adaptation. Using unstructured text from GlotCC and structured knowledge from ConceptNet, we show that small adaptation datasets (e.g., up to 1 GB of free-text or a few MB of knowledge graph data) yield gains in intrinsic (masked language modeling) and extrinsic tasks (topic classification, sentiment analysis, and named entity recognition). We find that Sequential Bottleneck adapters excel in language modeling, while Invertible Bottleneck adapters slightly outperform other methods on downstream tasks due to better embedding alignment and larger parameter counts. Adapter-based methods match or outperform full fine-tuning while using far fewer parameters, and smaller mLMs prove more effective for LRLs than massive LLMs like LLaMA-3, GPT-4, and DeepSeek-R1-based distilled models. While adaptation improves performance, pre-training data size remains the dominant factor, especially for languages with extensive pre-training coverage.The code for our experiments is available at https://github.com/d-gurgurov/Knowledge-Driven-Adaptation-LLMs."
+              publisher="Student Research Workshop @ ACL2024, Association for Computational Linguistics"
+              link="https://aclanthology.org/2025.acl-srw.24/"
+              pdf="https://aclanthology.org/2025.acl-srw.24.pdf"
               year="2025"
             />
           </li>
@@ -33,10 +66,10 @@ export default function Page() {
               title="Soft Language Prompts for Language Transfer"
               authors={["Ivan Vykopal", "Simon Ostermann", "Marián Šimko"]}
               abstract="Cross-lingual knowledge transfer, especially between high- and low-resource languages, remains challenging in natural language processing (NLP). This study offers insights for improving cross-lingual NLP applications through the combination of parameter-efficient fine-tuning methods. We systematically explore strategies for enhancing cross-lingual transfer through the incorporation of language-specific and task-specific adapters and soft prompts. We present a detailed investigation of various combinations of these methods, exploring their efficiency across 16 languages, focusing on 10 mid- and low-resource languages. We further present to our knowledge the first use of soft prompts for language transfer, a technique we call soft language prompts. Our findings demonstrate that in contrast to claims of previous work, a combination of language and task adapters does not always work best; instead, combining a soft language prompt with a task adapter outperforms most configurations in many cases."
-              publisher="arXiv preprint (Accepted at the NAACL 2025 Main Conference)"
-              link="https://arxiv.org/abs/2407.02317"
-              pdf="https://arxiv.org/pdf/2407.02317"
-              year="2024"
+              publisher="NAACL 2025 Main Conference, Association for Computational Linguistics"
+              link="https://aclanthology.org/2025.naacl-long.517/"
+              pdf="https://aclanthology.org/2025.naacl-long.517.pdf"
+              year="2025"
             />
           </li>
           <li>
@@ -66,7 +99,7 @@ export default function Page() {
               title="Disinformation Capabilities of Large Language Models"
               authors={["Ivan Vykopal", "Matúš Pikuliak", "Ivan Srba", "Robert Moro", "Dominik Macko", "Maria Bielikova"]}
               abstract="Automated disinformation generation is often listed as one of the risks of large language models (LLMs). The theoretical ability to flood the information space with disinformation content might have dramatic consequences for democratic societies around the world. This paper presents a comprehensive study of the disinformation capabilities of the current generation of LLMs to generate false news articles in English language. In our study, we evaluated the capabilities of 10 LLMs using 20 disinformation narratives. We evaluated several aspects of the LLMs: how well they are at generating news articles, how strongly they tend to agree or disagree with the disinformation narratives, how often they generate safety warnings, etc. We also evaluated the abilities of detection models to detect these articles as LLM-generated. We conclude that LLMs are able to generate convincing news articles that agree with dangerous disinformation narratives."
-              publisher="ACL 2024, Association for Computational Linguistics"
+              publisher="ACL 2024 Main Conference, Association for Computational Linguistics"
               link="https://aclanthology.org/2024.acl-long.793/"
               pdf="https://aclanthology.org/2024.acl-long.793.pdf"
               year="2024"
@@ -97,7 +130,7 @@ export default function Page() {
               title="Multilingual Previously Fact-Checked Claim Retrieval"
               authors={["Matúš Pikuliak", "Ivan Srba", "Robert Moro", "Timo Hromadka", "Timotej Smolen", "Martin Melisek", "Ivan Vykopal", "Jakub Simko", "Juraj Podrouzek", "Maria Bielikova"]}
               abstract="Fact-checkers are often hampered by the sheer amount of online content that needs to be fact-checked. NLP can help them by retrieving already existing fact-checks relevant to the content being investigated. This paper introduces a new multilingual dataset for previously fact-checked claim retrieval. We collected 28k posts in 27 languages from social media, 206k fact-checks in 39 languages written by professional fact-checkers, as well as 31k connections between these two groups. This is the most extensive and the most linguistically diverse dataset of this kind to date. We evaluated how different unsupervised methods fare on this dataset and its various dimensions. We show that evaluating such a diverse dataset has its complexities and proper care needs to be taken before interpreting the results. We also evaluated a supervised fine-tuning approach, improving upon the unsupervised method significantly."
-              publisher="EMNLP 2023, Association for Computational Linguistics"
+              publisher="EMNLP 2023 Main Conference, Association for Computational Linguistics"
               link="https://aclanthology.org/2023.emnlp-main.1027/"
               pdf="https://aclanthology.org/2023.emnlp-main.1027.pdf"
               year="2023"

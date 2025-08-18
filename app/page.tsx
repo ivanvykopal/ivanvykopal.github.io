@@ -61,21 +61,12 @@ export default async function Page() {
       </div>
       <div className="prose prose-neutral dark:prose-invert">
         <p>
-          Multilingual low-resource language processing presents a unique set of challenges and opportunities in the field of natural language processing.
-          As our increasingly connected world brings together people from diverse linguistic backgrounds, the need to support multiple languages, especially
-          those with limited resources, has become paramount. In this context, the use of advanced machine learning techniques, such as cross-lingual transfer
-          learning and multilingual embeddings, has gained prominence. These approaches enable models to leverage knowledge from resource-rich languages to
-          improve the performance of low-resource language processing tasks.
+          Multilingual natural language processing (NLP) plays a critical role in designing models that can handle multiple languages simultaneously or focus on specific languages. While English dominates the field due to the abundance of available data for training powerful models, expanding NLP capabilities to other languages is essential, particularly for low-resource languages. This expansion becomes even more crucial in the context of false information, where NLP techniques can be used to detect and counter false information proliferating on the internet and social media platforms. As online spaces continue to grow as key sources of information, multilingual NLP emerges as a vital tool in the fight against misinformation, ensuring that fact-checking systems and models are equipped to address global and multilingual content effectively.
         </p>
       </div>
       <div className="prose prose-neutral dark:prose-invert">
         <p>
-          Additionally, when working with low-resource languages, we often encounter linguistic diversity and complexity that demand special attention. Each
-          language has its unique features, such as different alphabets, grammar structures, and word forms. Adapting models to these variations is essential
-          for accurate understanding and processing. Moreover, as we strive to support low-resource languages, we must address the issue of limited data
-          resources. To tackle these challenges, researchers are continually exploring innovative algorithmic approaches, data augmentation methods,
-          and collaborative initiatives to expand linguistic resources for underrepresented languages. In this multilingual landscape, the pursuit of
-          effective low-resource language processing solutions remains a vital imperative for research and development.
+          With the recent advancement in large language models (LLM), we identify an opportunity to employ their potential and extensive capabilities in various complex NLP tasks, including fact-checking. Our research aims to evaluate the current capabilities of LLMs for supporting fact-checking and propose new approaches to mitigate the spread of false information in multilingual contexts while assisting fact-checkers in their efforts.
         </p>
       </div>
       <ul className="flex flex-col md:flex-row mt-8 space-x-0 md:space-x-4 space-y-2 md:space-y-0 font-sm text-neutral-600 dark:text-neutral-300">
@@ -124,6 +115,15 @@ export default async function Page() {
           >
             <ArrowIcon size={12} />
             <p className="h-7 ml-2">ORCID</p>
+          </a>
+          <a
+            className="flex items-center hover:text-neutral-800 dark:hover:text-neutral-100 transition-all"
+            rel="noopener noreferrer"
+            target="_blank"
+            href="https://scholar.google.com/citations?user=HgsKgYAAAAAJ"
+          >
+            <ArrowIcon size={12} />
+            <p className="h-7 ml-2">Scholar</p>
           </a>
         </li>
       </ul>
