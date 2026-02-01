@@ -12,6 +12,38 @@ export default function Page() {
           <ul className="list-none list-inline">
             <li>
               <ProjectCard
+                name="Summer & Winter Schools in AI and NLP"
+                description="A repository containing website and list of summer and winter schools focused on AI and NLP."
+                link="https://github.com/ivanvykopal/winter-summer-schools"
+                icon={<AiFillGithub size={30} />}
+              />
+            </li>
+            <li>
+              <ProjectCard
+                name="AISuite Fork - vllm support"
+                description="A fork of AISuite with vllm integration for faster inference, supporting quantization and batch inference."
+                link="https://github.com/ivanvykopal/aisuite"
+                icon={<AiFillGithub size={30} />}
+              />
+            </li>
+            <li>
+              <ProjectCard
+                name="Assessing Web Search Credibility and Response Groundedness in Chat Assistants"
+                description="Repository for the paper 'Assessing Web Search Credibility and Response Groundedness in Chat Assistants'"
+                link="https://github.com/kinit-sk/web-search-analysis"
+                icon={<AiFillGithub size={30} />}
+              />
+            </li>
+            <li>
+              <ProjectCard
+                name="Investigating Language and Retrieval Bias in Multilingual Previously Fact-Checked Claim Detection"
+                description="Repository for the paper 'Investigating Language and Retrieval Bias in Multilingual Previously Fact-Checked Claim Detection'"
+                link="https://github.com/kinit-sk/llms-biases"
+                icon={<AiFillGithub size={30} />}
+              />
+            </li>
+            <li>
+              <ProjectCard
                 name="PEFT Tutorial for NLP Summer School"
                 description="This repository contains the code for the PEFT tutorial for the NLP Summer School 2025. The tutorial covers the basics of PEFT and how to use it in practice."
                 link="https://github.com/ivanvykopal/peft-kinit-2025"

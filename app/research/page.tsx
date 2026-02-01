@@ -8,12 +8,56 @@ export default function Page() {
         <ul className="list-none list-inline">
           <li>
             <ResearchCard
+              title="Assessing Web Search Credibility and Response Groundedness in Chat Assistants"
+              authors={["Ivan Vykopal", "Matúš Pikuliak", "Simon Ostermann", "Marián Šimko"]}
+              abstract="Chat assistants increasingly integrate web search functionality, enabling them to retrieve and cite external sources. While this promises more reliable answers, it also raises the risk of amplifying misinformation from low-credibility sources. In this paper, we introduce a novel methodology for evaluating assistants' web search behavior, focusing on source credibility and the groundedness of responses with respect to cited sources. Using 100 claims across five misinformation-prone topics, we assess GPT-4o, GPT-5, Perplexity, and Qwen Chat. Our findings reveal differences between the assistants, with Perplexity achieving the highest source credibility, whereas GPT-4o exhibits elevated citation of non-credibility sources on sensitive topics. This work provides the first systematic comparison of commonly used chat assistants for fact-checking behavior, offering a foundation for evaluating AI systems in high-stakes information environments."
+              publisher="arXiv preprint, accepted to Main Conference of EACL 2026"
+              link="https://arxiv.org/abs/2510.13749"
+              pdf="https://arxiv.org/pdf/2510.13749"
+              year="2025"
+            />
+          </li>
+          <li>
+            <ResearchCard
+              title="Investigating Language and Retrieval Bias in Multilingual Previously Fact-Checked Claim Detection"
+              authors={["Ivan Vykopal", "Antonia Karamolegkou", "Jaroslav Kopčan", "Qiwei Peng", "Tomáš Javůrek", "Michal Gregor", "Marián Šimko"]}
+              abstract="Multilingual Large Language Models (LLMs) offer powerful capabilities for cross-lingual fact-checking. However, these models often exhibit language bias, performing disproportionately better on high-resource languages such as English than on low-resource counterparts. We also present and inspect a novel concept - retrieval bias, when information retrieval systems tend to favor certain information over others, leaving the retrieval process skewed. In this paper, we study language and retrieval bias in the context of Previously Fact-Checked Claim Detection (PFCD). We evaluate six open-source multilingual LLMs across 20 languages using a fully multilingual prompting strategy, leveraging the AMC-16K dataset. By translating task prompts into each language, we uncover disparities in monolingual and cross-lingual performance and identify key trends based on model family, size, and prompting strategy. Our findings highlight persistent bias in LLM behavior and offer recommendations for improving equity in multilingual fact-checking. To investigate retrieval bias, we employed multilingual embedding models and look into the frequency of retrieved claims. Our analysis reveals that certain claims are retrieved disproportionately across different posts, leading to inflated retrieval performance for popular claims while under-representing less common ones."
+              publisher="arXiv preprint, accepted to Main Conference of EACL 2026"
+              link="https://arxiv.org/abs/2509.25138"
+              pdf="https://arxiv.org/pdf/2509.25138"
+              year="2025"
+            />
+          </li>
+          <li>
+            <ResearchCard
               title="Multilingual Political Views of Large Language Models: Identification and Steering"
               authors={["Daniil Gurgurov", "Katharina Trinley", "Ivan Vykopal", "Josef van Genabith", "Simon Ostermann", "Roberto Zamparelli"]}
-              abstract="Large language models (LLMs) are increasingly used in everyday tools and applications, raising concerns about their potential influence on political views. While prior research has shown that LLMs often exhibit measurable political biases--frequently skewing toward liberal or progressive positions--key gaps remain. Most existing studies evaluate only a narrow set of models and languages, leaving open questions about the generalizability of political biases across architectures, scales, and multilingual settings. Moreover, few works examine whether these biases can be actively controlled. In this work, we address these gaps through a large-scale study of political orientation in modern open-source instruction-tuned LLMs. We evaluate seven models, including LLaMA-3.1, Qwen-3, and Aya-Expanse, across 14 languages using the Political Compass Test with 11 semantically equivalent paraphrases per statement to ensure robust measurement. Our results reveal that larger models consistently shift toward libertarian-left positions, with significant variations across languages and model families. To test the manipulability of political stances, we utilize a simple center-of-mass activation intervention technique and show that it reliably steers model responses toward alternative ideological positions across multiple languages. Our code is publicly available at this https URL."
-              publisher="arXiv preprint"
-              link="https://arxiv.org/abs/2507.22623"
-              pdf="https://arxiv.org/pdf/2507.22623"
+              abstract="Large language models (LLMs) are increasingly used in everyday tools and applications, raising concerns about their potential influence on political views. While prior research has shown that LLMs often exhibit measurable political biases-frequently skewing toward liberal or progressive positions-key gaps remain. Most existing studies evaluate only a narrow set of models and languages, leaving open questions about the generalizability of political biases across architectures, scales, and multilingual settings. Moreover, few works examine whether these biases can be actively controlled.In this work, we address these gaps through a large-scale study of political orientation in modern open-source instruction-tuned LLMs. We evaluate seven models, including LLaMA-3.1, Qwen-3, and Aya-Expanse, across 14 languages using the Political Compass Test with 11 semantically equivalent paraphrases per statement to ensure robust measurement. Our results reveal that larger models consistently shift toward libertarian-left positions, with significant variations across languages and model families. To test the manipulability of political stances, we utilize a simple center-of-mass activation intervention technique and show that it reliably steers model responses toward alternative ideological positions across multiple languages. Our code is publicly available at https://github.com/d-gurgurov/Political-Ideologies-LLMs."
+              publisher="AACL 2025 Findings, Association for Computational Linguistics"
+              link="https://aclanthology.org/2025.findings-ijcnlp.17/"
+              pdf="https://aclanthology.org/2025.findings-ijcnlp.17.pdf"
+              year="2025"
+            />
+          </li>
+          <li>
+            <ResearchCard
+              title="Large Language Models for Multilingual Previously Fact-Checked Claim Detection"
+              authors={["Ivan Vykopal", "Matúš Pikuliak", "Simon Ostermann", "Tatiana Anikina", "Michal Gregor", "Marián Šimko"]}
+              abstract="In our era of widespread false information, human fact-checkers often face the challenge of duplicating efforts when verifying claims that may have already been addressed in other countries or languages. As false information transcends linguistic boundaries, the ability to automatically detect previously fact-checked claims across languages has become an increasingly important task. This paper presents the first comprehensive evaluation of large language models (LLMs) for multilingual previously fact-checked claim detection. We assess seven LLMs across 20 languages in both monolingual and cross-lingual settings. Our results show that while LLMs perform well for high-resource languages, they struggle with low-resource languages. Moreover, translating original texts into English proved to be beneficial for low-resource languages. These findings highlight the potential of LLMs for multilingual previously fact-checked claim detection and provide a foundation for further research on this promising application of LLMs."
+              publisher="EMNLP 2025 Findings, Association for Computational Linguistics"
+              link="https://aclanthology.org/2025.findings-emnlp.852/"
+              pdf="https://aclanthology.org/2025.findings-emnlp.852.pdf"
+              year="2025"
+            />
+          </li>
+          <li>
+            <ResearchCard
+              title="Automatic Fact-checking in English and Telugu"
+              authors={["Ravi Kiran Chikkala", "Tatiana Anikina", "Natalia Skachkova", "Ivan Vykopal", "Rodrigo Agerri", "Josef van Genabith"]}
+              abstract="False information poses a significant global challenge, and manually verifying claims is a time-consuming and resource-intensive process. In this research paper, we experiment with different approaches to investigate the effectiveness of large language models (LLMs) in classifying factual claims by their veracity and generating justifications in English and Telugu. The key contributions of this work include the creation of a bilingual English-Telugu dataset and the benchmarking of different veracity classification approaches based on LLMs."
+              publisher="LowResNLP 2025"
+              link="https://aclanthology.org/2025.lowresnlp-1.15/"
+              pdf="https://aclanthology.org/2025.lowresnlp-1.15.pdf"
               year="2025"
             />
           </li>
@@ -36,17 +80,6 @@ export default function Page() {
               publisher="Preprint server (Accepted to CLEF 2025 CheckThat! Shared Task)"
               link="https://www.dfki.de/fileadmin/user_upload/import/15977_paper_149.pdf"
               pdf="https://www.dfki.de/fileadmin/user_upload/import/15977_paper_149.pdf"
-              year="2025"
-            />
-          </li>
-          <li>
-            <ResearchCard
-              title="Large Language Models for Multilingual Previously Fact-Checked Claim Detection"
-              authors={["Ivan Vykopal", "Matúš Pikuliak", "Simon Ostermann", "Tatiana Anikina", "Michal Gregor", "Marián Šimko"]}
-              abstract="In our era of widespread false information, human fact-checkers often face the challenge of duplicating efforts when verifying claims that may have already been addressed in other countries or languages. As false information transcends linguistic boundaries, the ability to automatically detect previously fact-checked claims across languages has become an increasingly important task. This paper presents the first comprehensive evaluation of large language models (LLMs) for multilingual previously fact-checked claim detection. We assess seven LLMs across 20 languages in both monolingual and cross-lingual settings. Our results show that while LLMs perform well for high-resource languages, they struggle with low-resource languages. Moreover, translating original texts into English proved to be beneficial for low-resource languages. These findings highlight the potential of LLMs for multilingual previously fact-checked claim detection and provide a foundation for further research on this promising application of LLMs."
-              publisher="arXiv preprint"
-              link="https://arxiv.org/abs/2503.02737"
-              pdf="https://arxiv.org/pdf/2503.02737"
               year="2025"
             />
           </li>
