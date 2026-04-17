@@ -1,7 +1,5 @@
 const { withContentlayer } = require('next-contentlayer2');
 
-let envImageUnoptimize = process.env.NODE_ENV !== "production" ? false : true
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // experimental: {
@@ -9,7 +7,7 @@ const nextConfig = {
   // },
   output: 'export',
   images: {
-    unoptimized: envImageUnoptimize,
+    unoptimized: true,
   }
 };
 
