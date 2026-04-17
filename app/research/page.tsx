@@ -11,10 +11,10 @@ export default function Page() {
               title="Assessing Web Search Credibility and Response Groundedness in Chat Assistants"
               authors={["Ivan Vykopal", "Matúš Pikuliak", "Simon Ostermann", "Marián Šimko"]}
               abstract="Chat assistants increasingly integrate web search functionality, enabling them to retrieve and cite external sources. While this promises more reliable answers, it also raises the risk of amplifying misinformation from low-credibility sources. In this paper, we introduce a novel methodology for evaluating assistants' web search behavior, focusing on source credibility and the groundedness of responses with respect to cited sources. Using 100 claims across five misinformation-prone topics, we assess GPT-4o, GPT-5, Perplexity, and Qwen Chat. Our findings reveal differences between the assistants, with Perplexity achieving the highest source credibility, whereas GPT-4o exhibits elevated citation of non-credibility sources on sensitive topics. This work provides the first systematic comparison of commonly used chat assistants for fact-checking behavior, offering a foundation for evaluating AI systems in high-stakes information environments."
-              publisher="arXiv preprint, accepted to Main Conference of EACL 2026"
-              link="https://arxiv.org/abs/2510.13749"
-              pdf="https://arxiv.org/pdf/2510.13749"
-              year="2025"
+              publisher="EACL 2026 Main Conference, Association for Computational Linguistics"
+              link="https://aclanthology.org/2026.eacl-long.115/"
+              pdf="https://aclanthology.org/2026.eacl-long.115.pdf"
+              year="2026"
             />
           </li>
           <li>
@@ -22,10 +22,10 @@ export default function Page() {
               title="Investigating Language and Retrieval Bias in Multilingual Previously Fact-Checked Claim Detection"
               authors={["Ivan Vykopal", "Antonia Karamolegkou", "Jaroslav Kopčan", "Qiwei Peng", "Tomáš Javůrek", "Michal Gregor", "Marián Šimko"]}
               abstract="Multilingual Large Language Models (LLMs) offer powerful capabilities for cross-lingual fact-checking. However, these models often exhibit language bias, performing disproportionately better on high-resource languages such as English than on low-resource counterparts. We also present and inspect a novel concept - retrieval bias, when information retrieval systems tend to favor certain information over others, leaving the retrieval process skewed. In this paper, we study language and retrieval bias in the context of Previously Fact-Checked Claim Detection (PFCD). We evaluate six open-source multilingual LLMs across 20 languages using a fully multilingual prompting strategy, leveraging the AMC-16K dataset. By translating task prompts into each language, we uncover disparities in monolingual and cross-lingual performance and identify key trends based on model family, size, and prompting strategy. Our findings highlight persistent bias in LLM behavior and offer recommendations for improving equity in multilingual fact-checking. To investigate retrieval bias, we employed multilingual embedding models and look into the frequency of retrieved claims. Our analysis reveals that certain claims are retrieved disproportionately across different posts, leading to inflated retrieval performance for popular claims while under-representing less common ones."
-              publisher="arXiv preprint, accepted to Main Conference of EACL 2026"
-              link="https://arxiv.org/abs/2509.25138"
-              pdf="https://arxiv.org/pdf/2509.25138"
-              year="2025"
+              publisher="EACL 2026 Main Conference, Association for Computational Linguistics"
+              link="https://aclanthology.org/2026.eacl-long.240/"
+              pdf="https://aclanthology.org/2026.eacl-long.240.pdf"
+              year="2026"
             />
           </li>
           <li>
