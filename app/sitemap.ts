@@ -1,5 +1,7 @@
 import { allBlogs } from 'contentlayer/generated';
 
+export const dynamic = 'force-static';
+
 export default async function sitemap() {
   const blogs = allBlogs.map((post) => ({
     url: `http://localhost:3000/blog/${post.slug}`,
