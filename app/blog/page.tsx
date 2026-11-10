@@ -1,40 +1,33 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { allBlogs } from 'contentlayer/generated';
+import { DatedRow, PageTitle } from 'app/components/section';
 
 export const metadata: Metadata = {
   title: 'Blog',
-  description: 'Read my thoughts on software development, design, and more.',
+  description: 'Plain-language write-ups of my research on fact-checking, disinformation and large language models.',
 };
 
-export default async function BlogPage() {
+export default function BlogPage() {
+  const posts = [...allBlogs].sort((a, b) => +new Date(b.publishedAt) - +new Date(a.publishedAt));
 
   return (
-    <section>
-      <h1 className="font-bold text-2xl mb-8 tracking-tighter">Blogs</h1>
-      {allBlogs
-        .sort((a, b) => {
-          if (new Date(a.publishedAt) > new Date(b.publishedAt)) {
-            return -1;
-          }
-          return 1;
-        })
-        .map((post) => (
-          <Link
-            key={post.slug}
-            className="flex flex-col space-y-1 mb-4 bg-neutral-900 p-5 rounded-lg"
-            href={`/blog/${post.slug}`}
-          >
-            <div className="w-full flex flex-col">
-              <p className="text-neutral-900 dark:text-neutral-100 tracking-tight">
-                {post.title}
-              </p>
-              <p className="text-neutral-500 dark:text-neutral-400 ">
-                {post.summary}
-              </p>
-            </div>
-          </Link>
+    <>
+      <PageTitle intro={<p>Plain-language write-ups of our papers and what we learned from them.</p>}>Blog</PageTitle>
+      <ol className="space-y-8">
+        {posts.map((post) => (
+          <li key={post.slug}>
+            <DatedRow
+              date={new Date(post.publishedAt).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}
+            >
+              <Link href={`/blog/${post.slug}`} className="group block">
+                <h2 className="font-semibold leading-6 text-ink transition-colors group-hover:text-accent">{post.title}</h2>
+                <p className="mt-1 text-[0.9375rem] text-ink-2">{post.summary}</p>
+              </Link>
+            </DatedRow>
+          </li>
         ))}
-    </section>
+      </ol>
+    </>
   );
 }

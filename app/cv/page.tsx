@@ -1,239 +1,240 @@
-import { ExperienceCard } from "./ExperienceCard"
-import { EducationCard } from "./EducationCard";
-import { SkillsCard } from "./SkillsCard";
+import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
+import { DatedRow, PageTitle, Section } from 'app/components/section';
+import { PrintButton } from './print-button';
 
+export const metadata: Metadata = {
+  title: 'CV',
+  description: 'Curriculum vitae of Ivan Vykopal: research experience, education and skills.',
+};
+
+const Ext = ({ href, children }: { href: string; children: ReactNode }) => (
+  <a href={href} target="_blank" rel="noopener noreferrer" className="link">
+    {children}
+  </a>
+);
+
+const KINIT = { name: 'Kempelen Institute of Intelligent Technologies (KInIT)', url: 'https://kinit.sk/' };
+
+const projectLink = {
+  disaiAmplified: 'https://kinit.sk/project/disai-amplified/',
+  disai: 'https://kinit.sk/project/disai-improving-scientific-excellence-of-kinit/',
+  exu: 'https://kinit.sk/project/exu-ai-models-for-examining-multilingual-disinformation-narratives-and-understanding-their-spread/',
+  veraai: 'https://kinit.sk/project/vera-ai-verification-assisted-by-artificial-intelligence/',
+  cedmo: 'https://kinit.sk/project/cedmo-central-european-digital-media-observatory/',
+};
+
+type Role = {
+  dates: string;
+  title: string;
+  org: { name: string; url: string };
+  meta: string;
+  points: ReactNode[];
+};
+
+const experience: Role[] = [
+  {
+    dates: 'Nov 2026 – now',
+    title: 'Junior Researcher',
+    org: KINIT,
+    meta: 'Bratislava, Slovakia · Full-time',
+    points: [
+      'Research on building, transferring and evaluating multilingual fact-checking systems with large language models: claim detection, previously fact-checked claim retrieval and claim normalization.',
+      'Improving fact-checking for low-resource languages, including Slovak, through cross-lingual transfer and parameter-efficient fine-tuning.',
+      'Evaluating the risks and reliability of LLMs: disinformation generation, and the source credibility and groundedness of web-search chat assistants.',
+      'Publishing at ACL, NAACL, EMNLP and EACL; reviewing for ACL Rolling Review and LowResNLP.',
+    ],
+  },
+  {
+    dates: 'Jun 2023 – Oct 2026',
+    title: 'Research Assistant',
+    org: KINIT,
+    meta: 'Bratislava, Slovakia · Full-time',
+    points: [
+      'Research in multilingual NLP for fact-checking, with a focus on low-resource languages.',
+      'Developed fact-checking methods and analysed how well large language models handle fact-checking tasks.',
+      'Member of the winning team at CLEF 2025 CheckThat! Task 2 (claim normalization), ranking 1st in 13 of 20 languages.',
+      <>
+        Worked on the <Ext href={projectLink.disaiAmplified}>DisAI-AMPLIFIED</Ext>, <Ext href={projectLink.disai}>DisAI</Ext> and{' '}
+        <Ext href={projectLink.exu}>ExU</Ext> projects.
+      </>,
+    ],
+  },
+  {
+    dates: 'Jun – Jul 2024',
+    title: 'Visiting Researcher',
+    org: { name: 'German Research Center for Artificial Intelligence (DFKI)', url: 'https://www.dfki.de/' },
+    meta: 'Saarbrücken, Germany · Research visit',
+    points: [
+      <>
+        Four-week research stay on multilingual NLP, low-resource settings and fact-checking, as part of the{' '}
+        <Ext href={projectLink.disai}>DisAI</Ext> project.
+      </>,
+    ],
+  },
+  {
+    dates: 'Sep 2022 – Jun 2023',
+    title: 'Research Intern',
+    org: KINIT,
+    meta: 'Bratislava, Slovakia · Part-time',
+    points: [
+      'Ran experiments evaluating how large language models can be misused to spread disinformation.',
+      <>
+        Worked on the <Ext href={projectLink.veraai}>veraAI</Ext> and <Ext href={projectLink.cedmo}>CEDMO</Ext> projects.
+      </>,
+    ],
+  },
+  {
+    dates: 'Feb – Aug 2022',
+    title: 'Full Stack Developer',
+    org: { name: 'iteria.io', url: 'https://iteria.app/' },
+    meta: 'Bratislava, Slovakia · Part-time',
+    points: [],
+  },
+];
+
+const education = [
+  {
+    dates: 'Sep 2023 – now',
+    degree: 'PhD in Informatics',
+    school: 'Faculty of Information Technology, Brno University of Technology',
+    url: 'https://www.fit.vut.cz/.en',
+    meta: 'Brno, Czech Republic',
+    note: 'Thesis topic: Multilingual Natural Language Processing for Supporting Fact-Checking.',
+  },
+  {
+    dates: 'Sep 2021 – Jun 2023',
+    degree: 'MSc in Computer Science',
+    school: 'Faculty of Informatics and Information Technologies, Slovak University of Technology',
+    url: 'https://www.fiit.stuba.sk/en',
+    meta: 'Bratislava, Slovakia',
+    note: 'Thesis: deep neural networks for medical image segmentation to support the diagnosis of cardiac transplant rejection.',
+  },
+  {
+    dates: 'Sep 2018 – Jun 2021',
+    degree: 'BSc in Computer Science',
+    school: 'Faculty of Informatics and Information Technologies, Slovak University of Technology',
+    url: 'https://www.fiit.stuba.sk/en',
+    meta: 'Bratislava, Slovakia',
+    note: 'Thesis: Graph coloring in program analysis.',
+  },
+];
+
+const skills: { label: string; items: string }[] = [
+  {
+    label: 'Research',
+    items:
+      'Natural language processing, large language models, fact-checking, low-resource languages, machine learning, deep learning, computer vision, image processing, data analysis and visualization',
+  },
+  { label: 'Programming', items: 'Python, JavaScript, TypeScript, C, C++, Java, R, SQL, Bash, MATLAB, HTML, CSS, XML' },
+  { label: 'ML frameworks', items: 'PyTorch, Hugging Face Transformers, TensorFlow' },
+  { label: 'Web', items: 'React, Next.js, Svelte, Node.js, Express, Flask, Django' },
+  {
+    label: 'Data and tools',
+    items: 'Git, Docker, Kubernetes, Linux, Elasticsearch, PostgreSQL, PostGIS, MongoDB, Neo4j, GraphQL',
+  },
+  { label: 'Languages', items: 'Slovak (native), English (B2)' },
+];
 
 export default function Page() {
   return (
-    <section>
-      <h1 className="font-bold text-2xl mb-8 tracking-tighter">Experience</h1>
-      <div className="prose prose-neutral dark:prose-invert">
-        <ul className="list-none list-inline">
-          <li className="mb-9">
-            <ExperienceCard
-              position="Junior Researcher"
-              company="Kempelen Institute of Intelligent Technologies (KInIT)"
-              location="Bratislava, Slovakia"
-              startDate="Nov 2026"
-              endDate="present"
-              activities={[
-                "Conducting research on building, transferring and evaluating multilingual fact-checking systems with large language models, covering claim detection, previously fact-checked claim retrieval and claim normalization.",
-                "Improving fact-checking for low-resource languages, including Slovak, through cross-lingual transfer learning and parameter-efficient fine-tuning.",
-                "Evaluating LLM risks and reliability: disinformation generation, and the source credibility and groundedness of web-search-enabled chat assistants.",
-                "Publishing at leading NLP venues (ACL, NAACL, EMNLP, EACL) and serving as a reviewer for ACL Rolling Review and LowResNLP.",
-              ]}
-              employmentType="Full-time"
-              url="http://kinit.sk/"
-              logo="https://avatars.githubusercontent.com/u/76482031"
-            />
+    <>
+      <PageTitle
+        intro={
+          <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-3">
+            <p>Junior Researcher at KInIT and PhD student at Brno University of Technology.</p>
+            <PrintButton />
+          </div>
+        }
+      >
+        Curriculum vitae
+      </PageTitle>
+
+      <Section title="Experience">
+        <ol className="space-y-8">
+          {experience.map((r) => (
+            <li key={r.dates + r.title}>
+              <DatedRow wide date={r.dates}>
+                <h3 className="font-semibold leading-6 text-ink">{r.title}</h3>
+                <p className="text-ink-2">
+                  <Ext href={r.org.url}>{r.org.name}</Ext>
+                </p>
+                <p className="text-sm text-muted">{r.meta}</p>
+                {r.points.length ? (
+                  <ul className="mt-3 space-y-1.5 text-[0.9375rem] text-ink-2">
+                    {r.points.map((pt, i) => (
+                      <li key={i} className="relative pl-4 before:absolute before:left-0 before:top-[0.7em] before:h-1 before:w-1 before:rounded-full before:bg-muted">
+                        {pt}
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </DatedRow>
+            </li>
+          ))}
+        </ol>
+      </Section>
+
+      <Section title="Education">
+        <ol className="space-y-7">
+          {education.map((e) => (
+            <li key={e.dates}>
+              <DatedRow wide date={e.dates}>
+                <h3 className="font-semibold leading-6 text-ink">{e.degree}</h3>
+                <p className="text-ink-2">
+                  <Ext href={e.url}>{e.school}</Ext>
+                </p>
+                <p className="text-sm text-muted">{e.meta}</p>
+                <p className="mt-2 text-[0.9375rem] text-ink-2">{e.note}</p>
+              </DatedRow>
+            </li>
+          ))}
+        </ol>
+      </Section>
+
+      <Section title="Awards and service">
+        <ul className="space-y-3">
+          <li>
+            <DatedRow wide date="2025">
+              <p className="text-ink-2">
+                Winning team, CLEF 2025 CheckThat! Task 2 on claim normalization: 1st in 13 of 20 languages, 2nd or 3rd in the
+                rest.
+              </p>
+            </DatedRow>
           </li>
-          <li className="mb-9">
-            <ExperienceCard
-              position="Research Assistant"
-              company="Kempelen Institute of Intelligent Technologies (KInIT)"
-              location="Bratislava, Slovakia"
-              startDate="Jun 2023"
-              endDate="Oct 2026"
-              activities={[
-                "Research in the field of multilingual natural language processing, focusing on low-resource languages, multilinguality and fact-checking.",
-                "Development of methods for fact-checking and analyzing capabilities of large language models for fact-checking tasks.",
-                "One of the winning solutions at CLEF2025 CheckThat! Lab – Task 2 on normalizing claims in the fact-checking domain, placing first in 13 out of 20 languages.",
-                "Participating in [**DisAI-AMPLIFIED**](https://kinit.sk/project/disai-amplified/), [**DisAI**](https://kinit.sk/project/disai-improving-scientific-excellence-of-kinit/) and [**ExU**](https://kinit.sk/project/exu-ai-models-for-examining-multilingual-disinformation-narratives-and-understanding-their-spread/) projects.",
-              ]}
-              employmentType="Full-time"
-              url="http://kinit.sk/"
-              logo="https://avatars.githubusercontent.com/u/76482031"
-            />
+          <li>
+            <DatedRow wide date="Reviewing">
+              <p className="text-ink-2">ACL Rolling Review, LowResNLP workshop.</p>
+            </DatedRow>
           </li>
-          <li className="mb-9">
-            <ExperienceCard
-              position="Visiting Researcher"
-              company="Deutsches Forschungszentrum für Künstliche Intelligenz (DFKI)"
-              location="Saarbrücken, Germany"
-              startDate="Jun 2024"
-              endDate="Jul 2024"
-              activities={[
-                "One month research stay at DFKI, working on multilingual natural language processing, low-resource settings and fact-checking.",
-                "Research stay as part of the [**DisAI**](https://kinit.sk/project/disai-improving-scientific-excellence-of-kinit/) project.",
-              ]}
-              employmentType="Full-time"
-              url="https://www.dfki.de/"
-              logo="https://upload.wikimedia.org/wikipedia/commons/3/31/DFKI_logo_since_2023.png"
-            />
+          <li>
+            <DatedRow wide date="2026">
+              <p className="text-ink-2">Volunteer at EACL 2026.</p>
+            </DatedRow>
           </li>
-          <li className="mb-9">
-            <ExperienceCard
-              position="Research Intern"
-              company="Kempelen Institute of Intelligent Technologies (KInIT)"
-              location="Bratislava, Slovakia"
-              startDate="Sep 2022"
-              endDate="Jun 2023"
-              activities={[
-                "Conductin experiments and evaluation the potential misuses of large language models for spreading disinformation.",
-                "Partcipating in [**veraAI**](https://kinit.sk/project/vera-ai-verification-assisted-by-artificial-intelligence/) and [**CEDMO**](https://kinit.sk/project/cedmo-central-european-digital-media-observatory/) projects.",
-                "Conducting experiments within [**CEDMO**](https://kinit.sk/project/cedmo-central-european-digital-media-observatory/) project."
-              ]}
-              employmentType="Part-time"
-              url="http://kinit.sk/"
-              logo="https://avatars.githubusercontent.com/u/76482031"
-            />
+          <li>
+            <DatedRow wide date="2025">
+              <p className="text-ink-2">Participant, Eastern European Machine Learning Summer School (EEML).</p>
+            </DatedRow>
           </li>
-          <li className="mb-9">
-            <ExperienceCard
-              position="Full Stack Developer"
-              company="iteria.io"
-              location="Bratislava, Slovakia"
-              startDate="Feb 2022"
-              endDate="Aug 2022"
-              activities={[]}
-              employmentType="Part-time"
-              url="https://iteria.app/"
-              logo="https://media.licdn.com/dms/image/v2/C4E0BAQEeLXzQ43ZKwg/company-logo_200_200/company-logo_200_200/0/1668068922952/iteria_io_logo?e=2147483647&v=beta&t=vofULSCGGTG85TCVLdRMuPkH2KKVbkGY6FMqdCpl3mg"
-            />
+          <li>
+            <DatedRow wide date="Press">
+              <p className="text-ink-2">Interviewed by MIT Technology Review Germany on AI-driven disinformation in elections.</p>
+            </DatedRow>
           </li>
         </ul>
-      </div>
-      <h1 className="font-bold text-2xl mb-8 tracking-tighter">Education</h1>
-      <div className="prose prose-neutral dark:prose-invert">
-        <ul className="list-none list-inline">
-          <li className="mb-9">
-            <EducationCard
-              faculty="Faculty of Information Technology"
-              school="Brno University of Technology"
-              location="Brno, Czech Republic"
-              startDate="Sep 2023"
-              endDate="present"
-              description="PhD. in Informatics"
-              url="https://www.fit.vut.cz/.en"
-              logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJo7uBA2tBMbzG50FPG8gFmNdK608vrv-irw&s"
-            />
-          </li>
-          <li className="mb-9">
-            <EducationCard
-              faculty="Faculty of Informatics and Information Technologies"
-              school="Slovak University of Technology"
-              location="Bratislava, Slovakia"
-              startDate="Sep 2021"
-              endDate="Jun 2023"
-              description="MSc. in Computer Science"
-              url="https://www.fiit.stuba.sk/en"
-              logo="https://upload.wikimedia.org/wikipedia/commons/3/3b/Logo_Slovenskej_technickej_univerzity_v_Bratislave.jpg"
-            />
-          </li>
-          <li className="mb-9">
-            <EducationCard
-              faculty="Faculty of Informatics and Information Technologies"
-              school="Slovak University of Technology"
-              location="Bratislava, Slovakia"
-              startDate="Sep 2018"
-              endDate="Jun 2021"
-              description="BSc. in Computer Science"
-              url="https://www.fiit.stuba.sk/en"
-              logo="https://upload.wikimedia.org/wikipedia/commons/3/3b/Logo_Slovenskej_technickej_univerzity_v_Bratislave.jpg"
-            />
-          </li>
-        </ul>
-      </div>
-      <h1 className="font-bold text-2xl mb-8 tracking-tighter">Skills</h1>
-      <div className="prose prose-neutral dark:prose-invert">
-        <ul className="list-none list-inline">
-          <li>
-            <SkillsCard
-              category="Languages"
-              skills={[
-                "Slovak (native)",
-                "English (B2)",
-              ]}
-            />
-          </li>
-          <li>
-            <SkillsCard
-              category="Programming Languages"
-              skills={[
-                "Python",
-                "JavaScript",
-                "TypeScript",
-                "C",
-                "C++",
-                "Java",
-                "R",
-                "SQL",
-                "HTML",
-                "CSS",
-                "Svelte",
-                "MATLAB",
-                "XML",
-                "Bash"
-              ]}
-            />
-          </li>
-          <li>
-            <SkillsCard
-              category="Frameworks"
-              skills={[
-                "PyTorch",
-                "Transformers",
-                "TensorFlow",
-                "React",
-                "Next.js",
-                "Node.js",
-                "Express",
-                "Flask",
-                "Django",
-              ]}
-            />
-          </li>
-          <li>
-            <SkillsCard
-              category="Tools"
-              skills={[
-                "Git",
-                "Docker",
-                "Kubernetes",
-                "Elasticsearch",
-                "Neo4j",
-                "PostGiS",
-                "MongoDB",
-                "PostgreSQL",
-                "GraphQL",
-                "Linux",
-                "Windows",
-              ]}
-            />
-          </li>
-          <li>
-            <SkillsCard
-              category="Other"
-              skills={[
-                "Natural Language Processing",
-                "Large Langage Models",
-                "Fact-Checking",
-                "Low-Resource Languages",
-                "Machine Learning",
-                "Deep Learning",
-                "Computer Vision",
-                "Data Science",
-                "Data Analysis",
-                "Data Visualization",
-                "Software Engineering",
-                "Software Development",
-                "Image Processing",
-              ]}
-            />
-          </li>
-          <li>
-            <SkillsCard
-              category="Interpersonal skills"
-              skills={[
-                "Teamwork",
-                "Time management",
-                "Problem solving",
-                "Organization skills",
-              ]}
-            />
-          </li>
-        </ul>
-      </div>
-    </section >
+      </Section>
+
+      <Section title="Skills">
+        <dl className="space-y-3">
+          {skills.map((s) => (
+            <div key={s.label} className="grid gap-x-6 sm:grid-cols-[9.5rem_1fr]">
+              <dt className="text-sm leading-6 text-muted">{s.label}</dt>
+              <dd className="text-[0.9375rem] text-ink-2">{s.items}</dd>
+            </div>
+          ))}
+        </dl>
+      </Section>
+    </>
   );
 }

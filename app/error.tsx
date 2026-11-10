@@ -1,22 +1,26 @@
 'use client';
 
 import { useEffect } from 'react';
+import { PageTitle } from './components/section';
 
-export default function Error({
-  error,
-  reset,
-}: {
-  error: Error;
-  reset: () => void;
-}) {
+export default function Error({ error, reset }: { error: Error; reset: () => void }) {
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error(error);
   }, [error]);
 
   return (
-    <div>
-      <p>Oh no, something went wrong... maybe refresh?</p>
-    </div>
+    <PageTitle
+      intro={
+        <p>
+          Something went wrong while showing this page.{' '}
+          <button type="button" onClick={reset} className="link">
+            Try again
+          </button>
+          .
+        </p>
+      }
+    >
+      This page didn’t load
+    </PageTitle>
   );
 }

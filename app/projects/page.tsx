@@ -1,178 +1,70 @@
-import { ProjectCard } from "./ProjectCard";
-import { AiFillGithub } from "react-icons/ai";
-import { SiArxiv } from "react-icons/si";
+import type { Metadata } from 'next';
+import { HiArrowUpRight } from 'react-icons/hi2';
+import { PageTitle } from 'app/components/section';
+import { projectGroups, type Project } from 'app/data/projects';
 
+export const metadata: Metadata = {
+  title: 'Projects',
+  description: 'Code, tools and resources by Ivan Vykopal: research repositories, NLP resources for Slovak and Czech, and earlier work.',
+};
+
+function ProjectList({ projects }: { projects: Project[] }) {
+  return (
+    <ul className="divide-y divide-rule border-y border-rule">
+      {projects.map((p) => (
+        <li key={p.url}>
+          <a
+            href={p.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group grid gap-x-6 gap-y-1 py-4 sm:grid-cols-[1fr_auto]"
+          >
+            <span>
+              <span className="font-semibold text-ink transition-colors group-hover:text-accent">{p.name}</span>
+              <span className="mt-1 block text-[0.9375rem] text-ink-2">{p.description}</span>
+            </span>
+            <span className="text-sm text-muted transition-colors group-hover:text-accent sm:pt-0.5">
+              {p.host}
+              <HiArrowUpRight aria-hidden className="ml-0.5 inline h-3 w-3 align-[-0.05em]" />
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 export default function Page() {
   return (
-    <section>
-      <h1 className="font-bold text-2xl mb-8 tracking-tighter">Projects</h1>
-      <div className="prose prose-neutral dark:prose-invert">
-        <div>
-          <ul className="list-none list-inline">
-            <li>
-              <ProjectCard
-                name="Summer & Winter Schools in AI and NLP"
-                description="A repository containing website and list of summer and winter schools focused on AI and NLP."
-                link="https://github.com/ivanvykopal/winter-summer-schools"
-                icon={<AiFillGithub size={30} />}
-              />
-            </li>
-            <li>
-              <ProjectCard
-                name="AISuite Fork - vllm support"
-                description="A fork of AISuite with vllm integration for faster inference, supporting quantization and batch inference."
-                link="https://github.com/ivanvykopal/aisuite"
-                icon={<AiFillGithub size={30} />}
-              />
-            </li>
-            <li>
-              <ProjectCard
-                name="Assessing Web Search Credibility and Response Groundedness in Chat Assistants"
-                description="Repository for the paper 'Assessing Web Search Credibility and Response Groundedness in Chat Assistants'"
-                link="https://github.com/kinit-sk/web-search-analysis"
-                icon={<AiFillGithub size={30} />}
-              />
-            </li>
-            <li>
-              <ProjectCard
-                name="Investigating Language and Retrieval Bias in Multilingual Previously Fact-Checked Claim Detection"
-                description="Repository for the paper 'Investigating Language and Retrieval Bias in Multilingual Previously Fact-Checked Claim Detection'"
-                link="https://github.com/kinit-sk/llms-biases"
-                icon={<AiFillGithub size={30} />}
-              />
-            </li>
-            <li>
-              <ProjectCard
-                name="PEFT Tutorial for NLP Summer School"
-                description="This repository contains the code for the PEFT tutorial for the NLP Summer School 2025. The tutorial covers the basics of PEFT and how to use it in practice."
-                link="https://github.com/ivanvykopal/peft-kinit-2025"
-                icon={<AiFillGithub size={30} />}
-              />
-            </li>
-            <li>
-              <ProjectCard
-                name="Large Language Models for Multilingual Previously Fact-Checked Claim Detection"
-                description="The repository for the paper 'Large Language Models for Multilingual Previously Fact-Checked Claim Detection'"
-                link="https://github.com/kinit-sk/llms-claim-matching"
-                icon={<AiFillGithub size={30} />}
-              />
-            </li>
-            <li>
-              <ProjectCard
-                name="NLP Resources"
-                description="A list of resources for NLP tasks. The list includes datasets and modelsfor Slovak and Czech languages."
-                link="https://github.com/ivanvykopal/nlp-resources"
-                icon={<AiFillGithub size={30} />}
-              />
-            </li>
-            <li>
-              <ProjectCard
-                name="XTranslator"
-                description="Python package for translating text using multiple translation services. The package also include language detection and is available on PyPI."
-                link="https://github.com/ivanvykopal/xtranslator"
-                icon={<AiFillGithub size={30} />}
-              />
-            </li>
-            <li>
-              <ProjectCard
-                name="Soft Language Prompts for Language Transfer"
-                description="This is the source code for the paper Soft Language Prompts for Language Transfer."
-                link="https://github.com/kinit-sk/adapter-prompt-evaluation"
-                icon={<AiFillGithub size={30} />}
-              />
-            </li>
-            <li>
-              <ProjectCard
-                name="Task Templates"
-                description="Templates for the NLP tasks."
-                link="https://github.com/ivanvykopal/tasktemplates"
-                icon={<AiFillGithub size={30} />}
-              />
-            </li>
-            <li>
-              <ProjectCard
-                name="Project for the NLP Lectures"
-                description="Project for NLP Lectures at FIT BUT"
-                link="https://github.com/ivanvykopal/NLP-Project"
-                icon={<AiFillGithub size={30} />}
-              />
-            </li>
-            <li>
-              <ProjectCard
-                name="Disinformation Capabilities of Large Language Models"
-                description="Source code for the paper 'Disinformation Capabilities of Large Language Models'"
-                link="https://github.com/kinit-sk/disinformation-capabilities"
-                icon={<AiFillGithub size={30} />}
-              />
-            </li>
-            <li>
-              <ProjectCard
-                name="ArXiv Viewer"
-                description="Implementation of viewer for ArXiv. The application allows you to search for scientific papers from the last day or the last week and also filter by category. In the application, the user can tag some papers and add them to a favorites list to read them later. The application also retrieves data from the Call for papers (WikiCFP)."
-                link="https://arxiv-viewer.vercel.app"
-                icon={<SiArxiv size={30} />}
-              />
-            </li>
-            <li>
-              <ProjectCard
-                name='Extension of MONAILabel'
-                description="In my Master's thesis, I extended the original MONAILabel. As part of the extension, I added GPU-enabled TensorFlow to the MONAILabel and also custom implementations of 3 models aimed at segmenting higher morpological structures in histological images after cardiac biopsy. Currently, the extension is part of the QuPath tool and is used by doctors and pathologists for histological image analysis."
-                link='https://github.com/ivanvykopal/MONAILabel/tree/development'
-                icon={<AiFillGithub size={30} />}
-              />
-            </li>
-            <li>
-              <ProjectCard
-                name="MONAILabel Documentation"
-                description="Documentation of the extension of MONAILabel with custom implementations of 3 models targeted at segmenting higher morpological structures in histological images after cardiac biopsy."
-                link="https://github.com/ivanvykopal/MONAILabel-docs"
-                icon={<AiFillGithub size={30} />}
-              />
-            </li>
-            <li>
-              <ProjectCard
-                name="Quantitative analysis using neural networks to support cardiac transplant rejection diagnostic"
-                description="Implementation of Master's Thesis: Quantitative analysis using neural networks to support cardiac transplant rejection diagnostic"
-                link="https://github.com/ivanvykopal/Cardiac-transplant-rejection-diagnosis"
-                icon={<AiFillGithub size={30} />}
-              />
-            </li>
-            <li>
-              <ProjectCard
-                name="Error detection system"
-                description="A system designed to identify shortcomings in the optimization of variables in source files in the C programming language. This system is part of a Bachelor's thesis titled Graph coloring in program analysis."
-                link="https://github.com/ivanvykopal/Error-detection-system"
-                icon={<AiFillGithub size={30} />}
-              />
-            </li>
-            <li>
-              <ProjectCard
-                name="React Application"
-                description="The project consist of a list of customers and their orders. The project was implemented using React, GraphQL and Grommet."
-                link="https://github.com/ivanvykopal/React-App"
-                icon={<AiFillGithub size={30} />}
-              />
-            </li>
-            <li>
-              <ProjectCard
-                name="School Project for Information Retrieval"
-                description="Project related to information retrieval from Freebase database using Pylucene and Spark."
-                link="https://github.com/ivanvykopal/VINF"
-                icon={<AiFillGithub size={30} />}
-              />
-            </li>
-            <li>
-              <ProjectCard
-                name="School Project for Application development with multi-layer architecture"
-                description="Project focused on the implementation of a warehouse system in Java."
-                link="https://github.com/ivanvykopal/VAVA-Project"
-                icon={<AiFillGithub size={30} />}
-              />
-            </li>
-          </ul>
-        </div>
+    <>
+      <PageTitle intro={<p>Code released with my papers, tools and resources I maintain, and earlier work.</p>}>
+        Projects
+      </PageTitle>
+      <div className="space-y-14">
+        {projectGroups.map((g) =>
+          g.collapsed ? (
+            <details key={g.title} className="group/more">
+              <summary className="flex cursor-pointer list-none items-baseline gap-2 [&::-webkit-details-marker]:hidden">
+                <h2 className="text-lg font-semibold tracking-tight text-ink">{g.title}</h2>
+                <span className="link text-sm">
+                  <span className="group-open/more:hidden">Show {g.projects.length}</span>
+                  <span className="hidden group-open/more:inline">Hide</span>
+                </span>
+              </summary>
+              {g.intro ? <p className="mb-4 mt-1 text-[0.9375rem] text-muted">{g.intro}</p> : null}
+              <ProjectList projects={g.projects} />
+            </details>
+          ) : (
+            <section key={g.title}>
+              <h2 className="text-lg font-semibold tracking-tight text-ink">{g.title}</h2>
+              {g.intro ? <p className="mt-1 text-[0.9375rem] text-muted">{g.intro}</p> : null}
+              <div className="mt-4">
+                <ProjectList projects={g.projects} />
+              </div>
+            </section>
+          )
+        )}
       </div>
-    </section>
+    </>
   );
 }

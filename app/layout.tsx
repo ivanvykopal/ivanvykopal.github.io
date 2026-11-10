@@ -1,8 +1,10 @@
 import './global.css';
 import clsx from 'clsx';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
-import Sidebar from './components/sidebar';
+import SiteHeader from './components/site-header';
+import SiteFooter from './components/site-footer';
+import { SITE_URL } from './data/profile';
 
 const graphik = localFont({
   src: [
@@ -14,24 +16,27 @@ const graphik = localFont({
     {
       path: '../public/fonts/Graphik-Medium.ttf',
       weight: '600',
-      style: 'bold',
+      style: 'normal',
     },
   ],
   variable: '--font-graphik',
   display: 'swap',
 });
 
+const description =
+  'Ivan Vykopal, PhD student and Junior Researcher at KInIT. Multilingual fact-checking with large language models, with a focus on low-resource languages.';
+
 export const metadata: Metadata = {
-  metadataBase: new URL('http://localhost:3000'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'Ivan Vykopal',
     template: '%s | Ivan Vykopal',
   },
-  description: 'Research Assistant and PhD student at KInIT.',
+  description,
   openGraph: {
     title: 'Ivan Vykopal',
-    description: 'Research Assistant and PhD student at KInIT.',
-    url: 'http://localhost:3000',
+    description,
+    url: SITE_URL,
     siteName: 'Ivan Vykopal',
     locale: 'en_US',
     type: 'website',
@@ -57,24 +62,20 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0e1014' },
+  ],
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={clsx(
-        'text-black bg-white dark:text-white dark:bg-[#111010]',
-        graphik.variable
-      )}
-    >
-      <body className="antialiased max-w-2xl mb-40 flex flex-col md:flex-row mx-4 mt-8 lg:mx-auto">
-        <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
-          <Sidebar />
-          {children}
-        </main>
+    <html lang="en" className={clsx('bg-page text-ink', graphik.variable)}>
+      <body className="mx-auto max-w-page px-5 pb-16 pt-8 font-sans text-base leading-[1.65] antialiased sm:px-10 sm:pt-12">
+        <SiteHeader />
+        <main className="mt-12 sm:mt-16">{children}</main>
+        <SiteFooter />
       </body>
     </html>
   );
