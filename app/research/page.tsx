@@ -8,6 +8,28 @@ export default function Page() {
         <ul className="list-none list-inline">
           <li>
             <ResearchCard
+              title="Can an Agent Debug a Web Corpus? Agentic Auditing of Slovak FineWeb2"
+              authors={["Marek Šuppa", "Ivan Vykopal", "Jaroslav Kopčan"]}
+              abstract="Multilingual pipelines such as FineWeb2 apply one recipe across a thousand languages, leaving the failure modes of individual languages unanticipated. We use an LLM once, as a corpus debugger rather than a classifier: a tool-using agent explores the corpus through a read-only, budgeted API and compiles each finding into an executable test, which a native speaker then validates. On the 26.5M-document Slovak portion of FineWeb2, three runs costing $2.21-$2.84 each found seven findings over four phenomena. The largest is a machine-generated content farm of 1,408,437 documents (5.32%) that passed the pipeline's filters, 86.6% of it passing even stricter thresholds. Blinded labels support 6 of the 7 findings and do not support one. The compiled suite scans the full corpus in 0.7 s of wall-clock time without a GPU, against $12k-$90k per LLM classification pass. We release the framework, Slovak test suite, validation data and agent trajectories."
+              publisher="13th Web-as-Corpus Workshop (WaC-13) @ EMNLP 2026, non-archival poster; also on arXiv"
+              link="https://arxiv.org/abs/2610.31636"
+              pdf="https://arxiv.org/pdf/2610.31636"
+              year="2026"
+            />
+          </li>
+          <li>
+            <ResearchCard
+              title="sk-bench: A Native-First Benchmark for Evaluating Large Language Models in Slovak"
+              authors={["Marek Šuppa", "Ivan Vykopal", "Andrej Ridzik", "Kristián Sopkovič", "Natália Kňažeková", "Jaroslav Kopčan", "Miroslav Blšták", "Viktória Ondrejová", "Daniel Hládek", "Michal Gregor", "Martin Tamajka", "Marián Šimko"]}
+              abstract="Multilingual LLM benchmarks omit Slovak, a morphologically rich West Slavic language of five million speakers, or cover it only by machine translation. We present sk-bench, a native-first Slovak benchmark with 30 datasets (33 scored task variants) across ten skill categories. Eleven resources are introduced or first packaged for generative-LLM evaluation, including IFEval-SK with Slovak-adapted instruction checkers and native Chiby/SKJ1 resources for Slovak grammar and morphology. We evaluate 55 open- and closed-weights models under one harness. The best open model trails proprietary APIs by 12.6 points. Together, these findings suggest four design lessons for other under-resourced languages: use native data where translation fails, plan instruction repair after language adaptation, enable test-time reasoning before scaling up, and avoid overinvesting in target-language prompts."
+              publisher="EMNLP 2026 Main Conference, Association for Computational Linguistics"
+              link="https://aclanthology.org/2026.emnlp-main.2639/"
+              pdf="https://aclanthology.org/2026.emnlp-main.2639.pdf"
+              year="2026"
+            />
+          </li>
+          <li>
+            <ResearchCard
               title="Assessing Web Search Credibility and Response Groundedness in Chat Assistants"
               authors={["Ivan Vykopal", "Matúš Pikuliak", "Simon Ostermann", "Marián Šimko"]}
               abstract="Chat assistants increasingly integrate web search functionality, enabling them to retrieve and cite external sources. While this promises more reliable answers, it also raises the risk of amplifying misinformation from low-credibility sources. In this paper, we introduce a novel methodology for evaluating assistants' web search behavior, focusing on source credibility and the groundedness of responses with respect to cited sources. Using 100 claims across five misinformation-prone topics, we assess GPT-4o, GPT-5, Perplexity, and Qwen Chat. Our findings reveal differences between the assistants, with Perplexity achieving the highest source credibility, whereas GPT-4o exhibits elevated citation of non-credibility sources on sensitive topics. This work provides the first systematic comparison of commonly used chat assistants for fact-checking behavior, offering a foundation for evaluating AI systems in high-stakes information environments."

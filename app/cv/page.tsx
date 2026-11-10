@@ -11,14 +11,33 @@ export default function Page() {
         <ul className="list-none list-inline">
           <li className="mb-9">
             <ExperienceCard
+              position="Junior Researcher"
+              company="Kempelen Institute of Intelligent Technologies (KInIT)"
+              location="Bratislava, Slovakia"
+              startDate="Nov 2026"
+              endDate="present"
+              activities={[
+                "Conducting research on building, transferring and evaluating multilingual fact-checking systems with large language models, covering claim detection, previously fact-checked claim retrieval and claim normalization.",
+                "Improving fact-checking for low-resource languages, including Slovak, through cross-lingual transfer learning and parameter-efficient fine-tuning.",
+                "Evaluating LLM risks and reliability: disinformation generation, and the source credibility and groundedness of web-search-enabled chat assistants.",
+                "Publishing at leading NLP venues (ACL, NAACL, EMNLP, EACL) and serving as a reviewer for ACL Rolling Review and LowResNLP.",
+              ]}
+              employmentType="Full-time"
+              url="http://kinit.sk/"
+              logo="https://avatars.githubusercontent.com/u/76482031"
+            />
+          </li>
+          <li className="mb-9">
+            <ExperienceCard
               position="Research Assistant"
               company="Kempelen Institute of Intelligent Technologies (KInIT)"
               location="Bratislava, Slovakia"
               startDate="Jun 2023"
-              endDate="present"
+              endDate="Oct 2026"
               activities={[
                 "Research in the field of multilingual natural language processing, focusing on low-resource languages, multilinguality and fact-checking.",
                 "Development of methods for fact-checking and analyzing capabilities of large language models for fact-checking tasks.",
+                "One of the winning solutions at CLEF2025 CheckThat! Lab – Task 2 on normalizing claims in the fact-checking domain, placing first in 13 out of 20 languages.",
                 "Participating in [**DisAI-AMPLIFIED**](https://kinit.sk/project/disai-amplified/), [**DisAI**](https://kinit.sk/project/disai-improving-scientific-excellence-of-kinit/) and [**ExU**](https://kinit.sk/project/exu-ai-models-for-examining-multilingual-disinformation-narratives-and-understanding-their-spread/) projects.",
               ]}
               employmentType="Full-time"

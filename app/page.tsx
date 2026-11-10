@@ -15,7 +15,7 @@ export default async function Page() {
       <div className="rounded-lg flex justify-between items-center">
         <div className="flex-1 text-white pr-9">
           <p className="prose prose-neutral dark:prose-invert">
-            {`I'm a Research Assistant and PhD Student at `}
+            {`I'm a Junior Researcher and PhD student at `}
             <span className="not-prose">
               <Badge href="https://kinit.sk/">
                 <Image
@@ -29,10 +29,9 @@ export default async function Page() {
                 <span className='ml-1'>Kempelen Institute of Intelligent Technologies</span>
               </Badge>
             </span>
-            {` and member of the NLP team, focusing on machine learning, deep learning, the analysis of large language models, and computer vision.`}
-          </p>
-          <p className="prose prose-neutral dark:prose-invert">
-
+            {`, where I am a third-year PhD student in the NLP team. I build and evaluate `}
+            <strong>multilingual fact-checking</strong>
+            {` systems with large language models, with a focus on low-resource languages. My work has appeared at ACL, NAACL, EMNLP and EACL, and our team won CLEF 2025 CheckThat! Task 2 (claim normalization).`}
           </p>
         </div>
         <div className="flex-shrink">
@@ -47,11 +46,9 @@ export default async function Page() {
       </div>
       <div className="prose prose-neutral dark:prose-invert flex justify-between">
         <p>
-          I hold a Master's degree in Computer Science from the Faculty of Informatics and Information Technologies at the Slovak University
-          of Technology. During my studies, I focused on artificial intelligence, deep learning, participating in several research projects
-          related to the application of deep learning and computer vision in the field of medicine. My Master's thesis and research delved
-          into deep neural networks in the domain of medical image processing, with a specific focus on the segmentation of higher morphological
-          structures for identifying possible cardiac transplant rejection.
+          Before NLP, I earned my Master's degree in Computer Science at the Faculty of Informatics and Information Technologies, Slovak University
+          of Technology, focusing on AI and deep learning. My thesis used deep neural networks for medical image segmentation, identifying
+          higher-level morphological structures to detect possible cardiac transplant rejection.
         </p>
       </div>
       <div className="prose prose-neutral dark:prose-invert">
@@ -61,13 +58,35 @@ export default async function Page() {
       </div>
       <div className="prose prose-neutral dark:prose-invert">
         <p>
-          Multilingual natural language processing (NLP) plays a critical role in designing models that can handle multiple languages simultaneously or focus on specific languages. While English dominates the field due to the abundance of available data for training powerful models, expanding NLP capabilities to other languages is essential, particularly for low-resource languages. This expansion becomes even more crucial in the context of false information, where NLP techniques can be used to detect and counter false information proliferating on the internet and social media platforms. As online spaces continue to grow as key sources of information, multilingual NLP emerges as a vital tool in the fight against misinformation, ensuring that fact-checking systems and models are equipped to address global and multilingual content effectively.
+          My PhD asks how to build, transfer, and evaluate multilingual fact-checking systems in the era of large language models.
+          Fact-checking resources are overwhelmingly English, yet misinformation spreads in every language, so fact-checkers working in smaller
+          languages get the weakest tools. I study how generative LLMs can support them in monolingual and multilingual settings, across{' '}
+          <strong>claim detection</strong>, <strong>previously fact-checked claim retrieval</strong> and <strong>claim normalization</strong>,
+          and how to close the gap for <strong>low-resource languages</strong> through cross-lingual transfer and parameter-efficient fine-tuning.
         </p>
-      </div>
-      <div className="prose prose-neutral dark:prose-invert">
         <p>
-          With the recent advancement in large language models (LLM), we identify an opportunity to employ their potential and extensive capabilities in various complex NLP tasks, including fact-checking. Our research aims to evaluate the current capabilities of LLMs for supporting fact-checking and propose new approaches to mitigate the spread of false information in multilingual contexts while assisting fact-checkers in their efforts.
+          I also look at the other side: how well LLMs can generate disinformation, and how credible the sources and how grounded the answers
+          of web-search-enabled chat assistants are.
         </p>
+        <h3 className="dark:prose-invert dark:text-white">Highlights</h3>
+        <ul>
+          <li>
+            <strong>Publications:</strong> ACL'24, NAACL'25, EMNLP'25 Findings, EACL'26 (two papers) and ACL'25 SRW, plus EMNLP'23 and
+            IJCNLP-AACL'25 Findings and EMNLP'26 as co-author.
+          </li>
+          <li>
+            <strong>Shared task:</strong> part of the winning team at CLEF 2025 CheckThat! Task 2 (claim normalization), placing 1st in 13 of 20
+            languages and 2nd or 3rd in the rest.
+          </li>
+          <li>
+            <strong>Research visit and press:</strong> four weeks at DFKI, Saarbrücken (June 2024); interviewed by MIT Technology Review Germany
+            on AI-driven disinformation in elections.
+          </li>
+          <li>
+            <strong>Service:</strong> reviewer for ACL Rolling Review and LowResNLP; volunteer at EACL'26; participant at the Eastern European
+            Machine Learning Summer School 2025.
+          </li>
+        </ul>
       </div>
       <ul className="flex flex-col md:flex-row mt-8 space-x-0 md:space-x-4 space-y-2 md:space-y-0 font-sm text-neutral-600 dark:text-neutral-300">
         <li>
