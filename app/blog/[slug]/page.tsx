@@ -1,27 +1,20 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
+import { HiArrowLeft } from 'react-icons/hi2';
 import { notFound } from 'next/navigation';
 import { Mdx } from 'app/components/mdx';
 import { allBlogs } from 'contentlayer/generated';
 import Balancer from 'react-wrap-balancer';
 
-export async function generateMetadata({
-  params,
-}): Promise<Metadata | undefined> {
-  const post = allBlogs.find((post) => post.slug === params.slug);
+export async function generateMetadata({ params }): Promise<Metadata | undefined> {
+  const { slug } = await params;
+  const post = allBlogs.find((p) => p.slug === slug);
   if (!post) {
     return;
   }
 
-  const {
-    title,
-    publishedAt: publishedTime,
-    summary: description,
-    image,
-    slug,
-  } = post;
-  const ogImage = image
-    ? `http://localhost:3000${image}`
-    : `http://localhost:3000/og?title=${title}`;
+  const { title, publishedAt: publishedTime, summary: description, image } = post;
+  const images = image ? [{ url: image }] : undefined;
 
   return {
     title,
@@ -31,84 +24,54 @@ export async function generateMetadata({
       description,
       type: 'article',
       publishedTime,
-      url: `http://localhost:3000/blog/${slug}`,
-      images: [
-        {
-          url: ogImage,
-        },
-      ],
+      url: `/blog/${slug}`,
+      images,
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: [ogImage],
+      images,
     },
   };
 }
 
 export async function generateStaticParams() {
-  // Define the dynamic paths that should be pre-rendered at build time
-  return allBlogs.map((post) => ({
-    slug: post.slug,
-  }))
-}
-
-function formatDate(date: string) {
-  const currentDate = new Date();
-  const targetDate = new Date(date);
-
-  const yearsAgo = currentDate.getFullYear() - targetDate.getFullYear();
-  const monthsAgo = currentDate.getMonth() - targetDate.getMonth();
-  const daysAgo = currentDate.getDate() - targetDate.getDate();
-
-  let formattedDate = '';
-
-  if (yearsAgo > 0) {
-    formattedDate = `${yearsAgo}y ago`;
-  } else if (monthsAgo > 0) {
-    formattedDate = `${monthsAgo}mo ago`;
-  } else if (daysAgo > 0) {
-    formattedDate = `${daysAgo}d ago`;
-  } else {
-    formattedDate = 'Today';
-  }
-
-  const fullDate = targetDate.toLocaleString('en-us', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  });
-
-  return `${fullDate} (${formattedDate})`;
+  return allBlogs.map((post) => ({ slug: post.slug }));
 }
 
 export default async function Blog({ params }) {
-  const post = allBlogs.find((post) => post.slug === params.slug);
+  const { slug } = await params;
+  const post = allBlogs.find((p) => p.slug === slug);
 
   if (!post) {
     notFound();
   }
 
+  const date = new Date(post.publishedAt).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+
   return (
-    <section>
+    <article>
       <script
         type="application/ld+json"
         suppressHydrationWarning
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(post.structuredData),
-        }}
-      ></script>
-      <h1 className="font-bold text-2xl tracking-tighter max-w-[650px]">
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(post.structuredData).replace(/</g, '\\u003c') }}
+      />
+      <Link href="/blog" className="no-print inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-accent">
+        <HiArrowLeft aria-hidden className="h-3.5 w-3.5" />
+        All posts
+      </Link>
+      <h1 className="mt-4 max-w-[38rem] text-[1.75rem] font-semibold leading-tight tracking-tight text-ink">
         <Balancer>{post.title}</Balancer>
       </h1>
-      <div className="flex justify-between items-center mt-2 mb-8 text-sm max-w-[650px]">
-        <p className="text-sm text-neutral-600 dark:text-neutral-400">
-          {formatDate(post.publishedAt)}
-        </p>
-        {/* I also want an error boundary here */}
-      </div>
+      <p className="tabular mt-3 text-sm text-muted">
+        <time dateTime={post.publishedAt}>{date}</time>
+      </p>
       <Mdx code={post.body.code} />
-    </section>
+    </article>
   );
 }

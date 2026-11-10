@@ -23,12 +23,12 @@ const CustomLink = (props) => {
 };
 
 function RoundedImage(props) {
-  return <Image alt={props.alt} className="rounded-lg" {...props} />;
+  return <Image alt={props.alt} className="rounded" {...props} />;
 }
 
 function Callout(props) {
   return (
-    <div className="px-4 py-3 border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 rounded p-1 text-sm flex items-center text-neutral-900 dark:text-neutral-100 mb-8">
+    <div className="mb-8 flex items-center rounded border border-rule bg-subtle px-4 py-3 text-sm text-ink">
       <div className="flex items-center w-4 mr-4">{props.emoji}</div>
       <div className="w-full callout">{props.children}</div>
     </div>
@@ -37,7 +37,7 @@ function Callout(props) {
 
 function ProsCard({ title, pros }) {
   return (
-    <div className="border border-emerald-200 dark:border-emerald-900 bg-neutral-50 dark:bg-neutral-900 rounded-xl p-6 my-4 w-full">
+    <div className="my-4 w-full rounded border border-rule bg-subtle p-6">
       <span>{`You might use ${title} if...`}</span>
       <div className="mt-4">
         {pros.map((pro) => (
@@ -66,7 +66,7 @@ function ProsCard({ title, pros }) {
 
 function ConsCard({ title, cons }) {
   return (
-    <div className="border border-red-200 dark:border-red-900 bg-neutral-50 dark:bg-neutral-900 rounded-xl p-6 my-6 w-full">
+    <div className="my-6 w-full rounded border border-rule bg-subtle p-6">
       <span>{`You might not use ${title} if...`}</span>
       <div className="mt-4">
         {cons.map((con) => (
@@ -102,8 +102,8 @@ export function Mdx({ code }: { code: string }) {
   const Component = useMDXComponent(code);
 
   return (
-    <article className="prose prose-quoteless prose-neutral dark:prose-invert">
+    <div className="prose mt-10 max-w-[40rem] prose-headings:tracking-tight prose-h2:mt-12 prose-h2:text-xl">
       <Component components={components} />
-    </article>
+    </div>
   );
 }
