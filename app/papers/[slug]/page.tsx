@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ME } from 'app/data/publications';
 import { getPaper, papers } from 'app/data/papers';
+import { PaperActions } from 'app/components/paper/paper-actions';
 import {
   CiteBlock,
   ComingSoon,
@@ -32,14 +33,6 @@ export default async function PaperPage({ params }: { params: Promise<Params> })
   if (!paper) notFound();
 
   const { pub } = paper;
-  const links = [
-    { label: 'Paper', href: pub.url },
-    pub.pdf && pub.pdf !== pub.url ? { label: 'PDF', href: pub.pdf } : null,
-    pub.code ? { label: 'Code', href: pub.code } : null,
-    pub.post ? { label: 'Blog post', href: pub.post, internal: true } : null,
-    paper.bibtex ? { label: 'Cite', href: '#cite', internal: true } : null,
-  ].filter(Boolean) as { label: string; href: string; internal?: boolean }[];
-
   const hasContent = Boolean(
     paper.tldr || paper.stats?.length || paper.overview?.length || paper.approach ||
       paper.findings?.length || paper.tables?.length || paper.figures?.length || paper.bibtex
@@ -89,19 +82,7 @@ export default async function PaperPage({ params }: { params: Promise<Params> })
           </ol>
         ) : null}
         {paper.equalContribution?.length ? <p className="mt-1 text-sm text-muted">* Equal contribution</p> : null}
-        <p className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-[0.9375rem]">
-          {links.map(({ label, href, internal }) =>
-            internal ? (
-              <Link key={label} href={href} className="link">
-                {label}
-              </Link>
-            ) : (
-              <a key={label} href={href} target="_blank" rel="noopener noreferrer" className="link">
-                {label}
-              </a>
-            )
-          )}
-        </p>
+        <PaperActions pub={pub} hasBibtex={Boolean(paper.bibtex)} />
       </header>
 
       {paper.tldr ? (
