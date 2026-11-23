@@ -23,13 +23,15 @@
   --viz-idle-ink: 75 85 99;
   --viz-warn: 245 166 35;
   --viz-warn-ink: 66 38 0;
-  /* Question series Q1 to Q6 and the second series of two-series charts, after the paper's figures. */
+  /* Series Q1 to Q8 and the second series of two-series charts, after the paper's figures. */
   --viz-q1: 0 128 0;
   --viz-q2: 106 200 16;
   --viz-q3: 31 119 180;
   --viz-q4: 228 30 38;
   --viz-q5: 92 178 222;
   --viz-q6: 240 150 0;
+  --viz-q7: 148 103 189;
+  --viz-q8: 140 86 75;
   --viz-alt: 255 127 14;
   color-scheme: light;
 }
@@ -61,6 +63,8 @@
     --viz-q4: 255 98 98;
     --viz-q5: 146 208 242;
     --viz-q6: 255 182 56;
+    --viz-q7: 186 152 232;
+    --viz-q8: 200 146 132;
     --viz-alt: 255 152 66;
     color-scheme: dark;
   }

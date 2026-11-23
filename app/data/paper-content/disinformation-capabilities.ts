@@ -128,58 +128,60 @@ export const disinformationCapabilities: PaperPage = {
     'Producing disinformation at scale is one of the most cited risks of language models, but the evidence was mostly anecdotal, so we ran a controlled test. We took 20 narratives that professional fact-checkers had debunked, such as "vaccines cause autism", "the Bucha massacre was staged" or "Ivermectin cures COVID-19", and asked each model to write a news article supporting them.',
     'Annotators from our team then scored each article on whether it looked like news, whether it agreed with the narrative, and whether it added new arguments for or against. We also checked for refusals and disclaimers, tested GPT-4 as an automatic grader, and measured whether existing detectors recognize the articles as machine-generated.',
   ],
-  approach: {
-    type: 'pipeline',
-    title: 'How the study works',
-    steps: [
-      {
-        title: 'Narratives',
-        metric: { value: '20', label: 'debunked disinformation narratives' },
-        detail:
-          'We took four narratives per category from professional fact-checkers (Snopes, AFP, EDMO). Each has a short title and an abstract with context and facts.',
-        chips: ['COVID-19', 'Russia-Ukraine', 'Health', 'US elections', 'Regional'],
-      },
-      {
-        title: 'Generate',
-        metric: { value: '1,200', label: 'news articles written by 10 models' },
-        detail:
-          'Each model wrote three articles per narrative with a title-only prompt and three with a title-plus-abstract prompt. Open models ran on 4 A100 GPUs, about 12 GPU hours in total.',
-        chips: [
-          'GPT-3 Babbage',
-          'GPT-3 Curie',
-          'GPT-3 Davinci',
-          'ChatGPT',
-          'Falcon',
-          'OPT-IML-Max',
-          'Vicuna',
-          'GPT-4',
-          'Llama-2',
-          'Mistral',
-        ],
-      },
-      {
-        title: 'Human rating',
-        metric: { value: '840', label: 'articles from 7 models, two annotators each' },
-        detail:
-          'Annotators scored every article on six questions and noted any refusal or disclaimer. The three models added later were not rated by humans.',
-        chips: ['Well-formed', 'News-like', 'Agrees', 'Disagrees', 'Arguments for', 'Arguments against'],
-      },
-      {
-        title: 'GPT-4 rating',
-        metric: { value: '3', label: 'models rated by GPT-4 only' },
-        detail:
-          'GPT-4 answers the same questions. We checked its answers against the human ratings and then used it to rate the three models added later.',
-        chips: ['GPT-4', 'Llama-2', 'Mistral'],
-      },
-      {
-        title: 'Detection',
-        metric: { value: '13', label: 'detectors tried' },
-        detail:
-          'Each detector gets the 1,200 generated articles plus 73 human-written fake news articles and must say whether each text is machine-written.',
-        chips: ['1,200 machine-written', '73 human-written'],
-      },
-    ],
-  },
+  approach: [
+    {
+      type: 'pipeline',
+      title: 'How the study works',
+      steps: [
+        {
+          title: 'Narratives',
+          metric: { value: '20', label: 'debunked disinformation narratives' },
+          detail:
+            'We took four narratives per category from professional fact-checkers (Snopes, AFP, EDMO). Each has a short title and an abstract with context and facts.',
+          chips: ['COVID-19', 'Russia-Ukraine', 'Health', 'US elections', 'Regional'],
+        },
+        {
+          title: 'Generate',
+          metric: { value: '1,200', label: 'news articles written by 10 models' },
+          detail:
+            'Each model wrote three articles per narrative with a title-only prompt and three with a title-plus-abstract prompt. Open models ran on 4 A100 GPUs, about 12 GPU hours in total.',
+          chips: [
+            'GPT-3 Babbage',
+            'GPT-3 Curie',
+            'GPT-3 Davinci',
+            'ChatGPT',
+            'Falcon',
+            'OPT-IML-Max',
+            'Vicuna',
+            'GPT-4',
+            'Llama-2',
+            'Mistral',
+          ],
+        },
+        {
+          title: 'Human rating',
+          metric: { value: '840', label: 'articles from 7 models, two annotators each' },
+          detail:
+            'Annotators scored every article on six questions and noted any refusal or disclaimer. The three models added later were not rated by humans.',
+          chips: ['Well-formed', 'News-like', 'Agrees', 'Disagrees', 'Arguments for', 'Arguments against'],
+        },
+        {
+          title: 'GPT-4 rating',
+          metric: { value: '3', label: 'models rated by GPT-4 only' },
+          detail:
+            'GPT-4 answers the same questions. We checked its answers against the human ratings and then used it to rate the three models added later.',
+          chips: ['GPT-4', 'Llama-2', 'Mistral'],
+        },
+        {
+          title: 'Detection',
+          metric: { value: '13', label: 'detectors tried' },
+          detail:
+            'Each detector gets the 1,200 generated articles plus 73 human-written fake news articles and must say whether each text is machine-written.',
+          chips: ['1,200 machine-written', '73 human-written'],
+        },
+      ],
+    },
+  ],
   findings: [
     {
       title: 'Most models write disinformation on request',

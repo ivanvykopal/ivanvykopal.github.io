@@ -1,12 +1,18 @@
 import { publications, type Publication } from 'app/data/publications';
 import type {
+  ArchConfig,
   BarItem,
   BarTone,
   ChipGroup,
   DotSeries,
   DotView,
   DumbbellMetric,
+  GroupedScale,
   GroupedSeries,
+  HeatAxis,
+  HeatClass,
+  HeatScale,
+  HeatView,
   LineBand,
   LineDataset,
   MatrixClass,
@@ -28,6 +34,7 @@ import type {
 } from 'app/components/paper/viz';
 import { disinformationCapabilities } from './paper-content/disinformation-capabilities';
 import { multiclaim } from './paper-content/multiclaim';
+import { softLanguagePrompts } from './paper-content/soft-language-prompts';
 
 export type PaperFigure = {
   /** Path under /public, e.g. "/images/papers/<slug>/fig1.png". */
@@ -57,8 +64,26 @@ export type PaperViz =
       minWidth?: number;
       caption?: string;
     }
-  | { type: 'grouped'; title: string; categories: string[]; categoryDescriptions?: string[]; series: GroupedSeries[]; caption?: string }
-  | { type: 'dumbbell'; title: string; rows: string[]; rowDescriptions?: string[]; series: [string, string]; metrics: DumbbellMetric[]; caption?: string }
+  | {
+      type: 'grouped';
+      title: string;
+      categories: string[];
+      categoryDescriptions?: string[];
+      series: GroupedSeries[];
+      scale?: GroupedScale;
+      caption?: string;
+    }
+  | {
+      type: 'dumbbell';
+      title: string;
+      rows: string[];
+      rowDescriptions?: string[];
+      series: [string, string];
+      tones?: [string, string];
+      metrics: DumbbellMetric[];
+      switchLabel?: string;
+      caption?: string;
+    }
   | {
       type: 'matrix';
       title: string;
@@ -83,7 +108,31 @@ export type PaperViz =
     }
   | { type: 'scatter'; title: string; families: ScatterFamily[]; views: ScatterView[]; switchLabel?: string; caption?: string }
   | { type: 'paired'; title: string; left: PairedSide; right: PairedSide; rows: PairedRow[]; caption?: string }
-  | { type: 'scores'; title: string; columns: ScoreColumn[]; variants?: ScoreVariant[]; groups: ScoreGroup[]; caption?: string };
+  | { type: 'scores'; title: string; columns: ScoreColumn[]; variants?: ScoreVariant[]; groups: ScoreGroup[]; caption?: string }
+  | {
+      type: 'heatmap';
+      title: string;
+      rows: HeatAxis[];
+      columns: HeatAxis[];
+      rowAxis: string;
+      columnAxis: string;
+      views: HeatView[];
+      classes?: HeatClass[];
+      scale?: HeatScale;
+      decimals?: number;
+      signed?: boolean;
+      switchLabel?: string;
+      caption?: string;
+    }
+  | {
+      type: 'architecture';
+      title: string;
+      configs: ArchConfig[];
+      languageTone: string;
+      taskTone: string;
+      example: { source: string; target: string };
+      caption?: string;
+    };
 
 export type PaperFinding = {
   title: string;
@@ -128,8 +177,8 @@ export type PaperPage = {
   lead?: PaperViz;
   /** Plain-language background: question and approach. */
   overview?: string[];
-  /** Interactive diagram of how the approach works, shown right after the overview. */
-  approach?: PaperViz;
+  /** Interactive diagrams of how the approach works, shown in order right after the overview. */
+  approach?: PaperViz[];
   findings?: PaperFinding[];
   tables?: PaperTable[];
   /** Further figures not tied to a specific finding. */
@@ -137,7 +186,7 @@ export type PaperPage = {
   bibtex?: string;
 };
 
-export const papers: PaperPage[] = [disinformationCapabilities, multiclaim];
+export const papers: PaperPage[] = [disinformationCapabilities, multiclaim, softLanguagePrompts];
 
 export type ResolvedPaper = PaperPage & { pub: Publication };
 

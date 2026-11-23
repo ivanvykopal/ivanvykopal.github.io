@@ -35,7 +35,7 @@ export default async function PaperPage({ params }: { params: Promise<Params> })
 
   const { pub } = paper;
   const hasContent = Boolean(
-    paper.tldr || paper.stats?.length || paper.lead || paper.overview?.length || paper.approach ||
+    paper.tldr || paper.stats?.length || paper.lead || paper.overview?.length || paper.approach?.length ||
       paper.findings?.length || paper.tables?.length || paper.figures?.length || paper.bibtex
   );
 
@@ -99,7 +99,7 @@ export default async function PaperPage({ params }: { params: Promise<Params> })
       ) : null}
 
       <div>
-        {paper.overview?.length || paper.approach ? <Overview paragraphs={paper.overview} approach={paper.approach} /> : null}
+        {paper.overview?.length || paper.approach?.length ? <Overview paragraphs={paper.overview} approach={paper.approach} /> : null}
         {paper.findings?.length ? <Findings findings={paper.findings} /> : null}
         {paper.tables?.length ? <Tables tables={paper.tables} /> : null}
         {paper.figures?.length ? <FigureGallery figures={paper.figures} /> : null}

@@ -168,7 +168,7 @@ export function DotPlot({
           <span className="text-right text-xs text-muted">{axisLabel}</span>
           <span className="tabular relative mx-2 block h-5 text-xs text-muted">
             {ticks.map((t) => (
-              <span key={t} className="absolute top-1 -translate-x-1/2" style={{ left: `${pct(t)}%` }}>
+              <span key={t} className={clsx('absolute top-1', pct(t) >= 100 ? '-translate-x-full' : '-translate-x-1/2')} style={{ left: `${pct(t)}%` }}>
                 {t}
               </span>
             ))}
@@ -223,7 +223,8 @@ function RowTooltip({
                 {s.label}
               </span>
               <span className="whitespace-nowrap">
-                {fmt(v[0])} <span className="text-muted">± {fmt(v[1])}</span>
+                {fmt(v[0])}
+                {v[1] ? <span className="text-muted"> ± {fmt(v[1])}</span> : null}
               </span>
             </li>
           ))}

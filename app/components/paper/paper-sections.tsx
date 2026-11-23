@@ -1,11 +1,13 @@
 import type { ReactNode } from 'react';
 import type { PaperFigure, PaperFinding, PaperStat, PaperTable, PaperViz } from 'app/data/papers';
 import {
+  Architecture,
   BarChart,
   DotPlot,
   Dumbbell,
   GroupedBars,
   GroupList,
+  Heatmap,
   LineChart,
   PairedBars,
   Pipeline,
@@ -67,6 +69,10 @@ export function Viz({ viz }: { viz: PaperViz }) {
       return <PairedBars {...viz} />;
     case 'scores':
       return <ScoreTable {...viz} />;
+    case 'heatmap':
+      return <Heatmap {...viz} />;
+    case 'architecture':
+      return <Architecture {...viz} />;
   }
 }
 
@@ -84,7 +90,7 @@ export function StatStrip({ stats }: { stats: PaperStat[] }) {
   );
 }
 
-export function Overview({ paragraphs, approach }: { paragraphs?: string[]; approach?: PaperViz }) {
+export function Overview({ paragraphs, approach }: { paragraphs?: string[]; approach?: PaperViz[] }) {
   return (
     <PaperSection title="Overview" id="overview">
       {paragraphs?.length ? (
@@ -94,11 +100,11 @@ export function Overview({ paragraphs, approach }: { paragraphs?: string[]; appr
           ))}
         </div>
       ) : null}
-      {approach ? (
-        <div className="mt-10">
-          <Viz viz={approach} />
+      {approach?.map((viz) => (
+        <div key={viz.title} className="mt-10">
+          <Viz viz={viz} />
         </div>
-      ) : null}
+      ))}
     </PaperSection>
   );
 }
@@ -171,12 +177,16 @@ export function Tables({ tables }: { tables: PaperTable[] }) {
         {tables.map((t) => (
           <div key={t.title}>
             <h3 className="font-semibold text-ink">{t.title}</h3>
-            <div className="mt-3 overflow-x-auto">
-              <table className="tabular w-full border-collapse text-left text-sm">
+            {/*
+              The global table rule in global.css makes tables a nowrap scroll box; paper tables override it so
+              cells wrap and a wide table never brings in scrollbars.
+            */}
+            <div className="mt-3">
+              <table className="tabular table w-full max-w-none overflow-visible whitespace-normal break-words border-collapse text-left text-[0.8125rem] sm:text-sm">
                 <thead>
                   <tr className="border-b border-rule text-muted">
                     {t.columns.map((c) => (
-                      <th key={c} className="py-2 pr-6 font-normal">
+                      <th key={c} className="py-2 pr-3 align-bottom font-normal last:pr-0 sm:pr-6 sm:last:pr-0">
                         {c}
                       </th>
                     ))}
@@ -186,7 +196,7 @@ export function Tables({ tables }: { tables: PaperTable[] }) {
                   {t.rows.map((r, i) => (
                     <tr key={i} className="border-b border-rule text-ink-2">
                       {r.map((cell, j) => (
-                        <td key={j} className={j === 0 ? 'py-2 pr-6 text-ink' : 'py-2 pr-6'}>
+                        <td key={j} className={`py-2 pr-3 align-top last:pr-0 sm:pr-6 sm:last:pr-0${j === 0 ? ' text-ink' : ''}`}>
                           {cell}
                         </td>
                       ))}

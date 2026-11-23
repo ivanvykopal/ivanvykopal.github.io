@@ -79,47 +79,49 @@ export const multiclaim: PaperPage = {
     'Fact-checkers often run into claims that someone has already checked, sometimes in another country and another language. Finding that earlier fact-check saves them from doing the work again. The task is called previously fact-checked claim retrieval: given a social media post, rank a collection of fact-checks so that the ones addressing the claim in the post come first. Before this work it had been studied in English and a handful of other languages, and only with the post and the fact-check in the same language.',
     'We built MultiClaim from fact-checks listed in Google Fact Check Explorer and other large sources such as Snopes, and from the Facebook, Instagram and Twitter posts those fact-checks were attached to. Professional fact-checkers made every pair. We translated all texts into English, then measured how often BM25 and 20 text embedding models put the matching fact-check among their top 10 results, on the original texts and on the translations.',
   ],
-  approach: {
-    type: 'pipeline',
-    title: 'How the dataset was built and tested',
-    steps: [
-      {
-        title: 'Fact-checks',
-        metric: { value: '205,751', label: 'fact-checks from 142 organizations' },
-        detail:
-          'We collected most fact-checks listed in Google Fact Check Explorer and added large sources it was missing. For each one we keep the checked claim, the title, the date and the URL, but not the article itself. The claim is usually a one-sentence summary of what was checked.',
-        chips: ['Google Fact Check Explorer', 'Snopes', 'AFP', '39 languages'],
-      },
-      {
-        title: 'Posts',
-        metric: { value: '28,092', label: 'social media posts in 27 languages' },
-        detail:
-          'Posts come from two places. Some fact-checks list the posts they review in their ClaimReview markup. Others link to Facebook or Instagram posts in their text, and those platforms attach warnings to the posts that point back to fact-checks.',
-        chips: ['Facebook', 'Instagram', 'Twitter'],
-      },
-      {
-        title: 'Pairs',
-        metric: { value: '31,305', label: 'pairs made by fact-checkers' },
-        detail:
-          'Every post has at least one fact-check. In 4,212 pairs the post and the fact-check are in different languages. We checked 100 random pairs by hand and 87 were correct. In the other 13 the claim was only in an image or a video.',
-        chips: ['Monolingual pairs', 'Crosslingual pairs', '87 of 100 valid'],
-      },
-      {
-        title: 'Translate',
-        metric: { value: '2', label: 'versions: original and English' },
-        detail:
-          'We ran OCR on images attached to the posts, detected the language of every text and machine-translated everything into English. The dataset ships both versions.',
-        chips: ['Google Vision OCR', 'Google Translate', 'Language identification'],
-      },
-      {
-        title: 'Rank',
-        metric: { value: '21', label: 'retrieval methods compared' },
-        detail:
-          'Each method ranks the fact-checks for each post. We report success at 10 (S@10): the share of pairs whose fact-check lands in the top 10, with 95% confidence intervals.',
-        chips: ['15 English embedding models', '5 multilingual embedding models', 'BM25'],
-      },
-    ],
-  },
+  approach: [
+    {
+      type: 'pipeline',
+      title: 'How the dataset was built and tested',
+      steps: [
+        {
+          title: 'Fact-checks',
+          metric: { value: '205,751', label: 'fact-checks from 142 organizations' },
+          detail:
+            'We collected most fact-checks listed in Google Fact Check Explorer and added large sources it was missing. For each one we keep the checked claim, the title, the date and the URL, but not the article itself. The claim is usually a one-sentence summary of what was checked.',
+          chips: ['Google Fact Check Explorer', 'Snopes', 'AFP', '39 languages'],
+        },
+        {
+          title: 'Posts',
+          metric: { value: '28,092', label: 'social media posts in 27 languages' },
+          detail:
+            'Posts come from two places. Some fact-checks list the posts they review in their ClaimReview markup. Others link to Facebook or Instagram posts in their text, and those platforms attach warnings to the posts that point back to fact-checks.',
+          chips: ['Facebook', 'Instagram', 'Twitter'],
+        },
+        {
+          title: 'Pairs',
+          metric: { value: '31,305', label: 'pairs made by fact-checkers' },
+          detail:
+            'Every post has at least one fact-check. In 4,212 pairs the post and the fact-check are in different languages. We checked 100 random pairs by hand and 87 were correct. In the other 13 the claim was only in an image or a video.',
+          chips: ['Monolingual pairs', 'Crosslingual pairs', '87 of 100 valid'],
+        },
+        {
+          title: 'Translate',
+          metric: { value: '2', label: 'versions: original and English' },
+          detail:
+            'We ran OCR on images attached to the posts, detected the language of every text and machine-translated everything into English. The dataset ships both versions.',
+          chips: ['Google Vision OCR', 'Google Translate', 'Language identification'],
+        },
+        {
+          title: 'Rank',
+          metric: { value: '21', label: 'retrieval methods compared' },
+          detail:
+            'Each method ranks the fact-checks for each post. We report success at 10 (S@10): the share of pairs whose fact-check lands in the top 10, with 95% confidence intervals.',
+          chips: ['15 English embedding models', '5 multilingual embedding models', 'BM25'],
+        },
+      ],
+    },
+  ],
   findings: [
     {
       title: 'Translating into English beats multilingual models',
