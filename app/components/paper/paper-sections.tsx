@@ -8,6 +8,7 @@ import {
   LineChart,
   Pipeline,
   PromptTabs,
+  ShareTable,
   StackedBars,
   UnitMatrix,
 } from './viz';
@@ -50,6 +51,8 @@ export function Viz({ viz }: { viz: PaperViz }) {
       return <GroupedBars {...viz} />;
     case 'dumbbell':
       return <Dumbbell {...viz} />;
+    case 'shares':
+      return <ShareTable {...viz} />;
     case 'matrix':
       return <UnitMatrix {...viz} />;
   }

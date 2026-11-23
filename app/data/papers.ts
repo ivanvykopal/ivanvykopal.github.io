@@ -13,6 +13,7 @@ import type {
   MatrixRowGroup,
   PipelineStep,
   PromptTab,
+  ShareGroup,
   StackedSegment,
   StackedView,
 } from 'app/components/paper/viz';
@@ -34,6 +35,7 @@ export type PaperViz =
   | { type: 'stacked'; title: string; segments: StackedSegment[]; views: StackedView[]; switchLabel?: string; caption?: string }
   | { type: 'prompts'; title: string; tabs: PromptTab[] }
   | { type: 'groups'; title: string; groups: ChipGroup[] }
+  | { type: 'shares'; title: string; groups: ShareGroup[]; segments: StackedSegment[]; rankBy: number; rankLabel: string; caption?: string }
   | {
       type: 'lines';
       title: string;

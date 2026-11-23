@@ -73,6 +73,14 @@ const NARRATIVE_GROUPS = [
 ];
 const NARRATIVES = NARRATIVE_GROUPS.flatMap((g) => g.items).map((title, i) => ({ label: `N${i + 1}`, title }));
 const NARRATIVE_BANDS = NARRATIVE_GROUPS.map((g) => ({ label: g.label, span: g.items.length }));
+/** Dangerous, neutral and safe articles written about narrative `n` (0-based) by all 10 models: 60 in total. */
+const narrativeCounts = (n: number) =>
+  ['D', 'N', 'S'].map((key) =>
+    ARTICLE_CLASSES.flatMap((g) => g.rows).reduce(
+      (sum, row) => sum + [...row.cells.slice(n * 6, n * 6 + 6)].filter((ch) => ch === key).length,
+      0
+    )
+  );
 
 export const disinformationCapabilities: PaperPage = {
   slug: 'disinformation-capabilities',
@@ -375,12 +383,25 @@ export const disinformationCapabilities: PaperPage = {
             'Figure 4 of the paper, redrawn from the released annotations: the seven human-rated models and both prompts together, 42 articles per narrative. Shaded bands are 95% confidence intervals.',
         },
         {
-          type: 'groups',
-          title: 'The 20 narratives',
+          type: 'shares',
+          title: 'The 20 narratives, and the 60 articles written about each',
+          rankBy: 0,
+          rankLabel: 'Most dangerous first',
+          segments: [
+            { label: 'Dangerous', tone: 'danger' },
+            { label: 'Neutral', tone: 'neutral' },
+            { label: 'Safe', tone: 'safe' },
+          ],
           groups: NARRATIVE_GROUPS.map((g, gi) => ({
             label: g.label,
-            items: g.items.map((title, i) => `N${gi * 4 + i + 1} ${title}`),
+            items: g.items.map((title, i) => ({
+              id: `N${gi * 4 + i + 1}`,
+              label: title,
+              values: narrativeCounts(gi * 4 + i),
+            })),
           })),
+          caption:
+            'Counts are the columns of the first figure on this page: all 10 models, six articles each, classified from the released annotations (three of the models were rated by GPT-4 only).',
         },
       ],
     },
