@@ -1,5 +1,5 @@
 import { publications, type Publication } from 'app/data/publications';
-import type { BarItem, ChipGroup, PipelineStep, PromptTab, StackedRow, StackedSegment } from 'app/components/paper/viz';
+import type { BarItem, ChipGroup, LineDataset, PipelineStep, PromptTab, StackedRow, StackedSegment } from 'app/components/paper/viz';
 import { disinformationCapabilities } from './paper-content/disinformation-capabilities';
 
 export type PaperFigure = {
@@ -17,7 +17,8 @@ export type PaperViz =
   | { type: 'pipeline'; title: string; steps: PipelineStep[] }
   | { type: 'stacked'; title: string; segments: StackedSegment[]; rows: StackedRow[]; note?: string }
   | { type: 'prompts'; title: string; tabs: PromptTab[] }
-  | { type: 'groups'; title: string; groups: ChipGroup[] };
+  | { type: 'groups'; title: string; groups: ChipGroup[] }
+  | { type: 'lines'; title: string; categories: string[]; datasets: LineDataset[] };
 
 export type PaperFinding = {
   title: string;

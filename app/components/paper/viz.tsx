@@ -453,3 +453,220 @@ export function GroupExplorer({ title, groups }: { title: string; groups: ChipGr
     </div>
   );
 }
+
+export type LineSeries = {
+  id: string;
+  label: string;
+  color: string;
+  /** SVG stroke-dasharray; omit for a solid line. */
+  dash?: string;
+  /** One [mean, ci half-width] per category; null where there is no rating. */
+  values: ([number, number] | null)[];
+};
+export type LineDataset = { label: string; note?: string; series: LineSeries[] };
+
+const SCALE_LABELS = ['Does not apply', 'Few parts', 'Some parts', 'Most parts', 'Completely applies'];
+const CHART = { w: 760, h: 360, l: 124, r: 16, t: 14, b: 44 };
+
+/**
+ * Multi-line chart over categories with confidence bands, a dataset switch, legend toggles and a hover
+ * tooltip. Scores run 1 to 5. Lines reveal left to right when the chart scrolls into view.
+ */
+export function LineChart({
+  title,
+  categories: allCategories,
+  datasets,
+}: {
+  title: string;
+  categories: string[];
+  datasets: LineDataset[];
+}) {
+  const [ref, seen] = useInView<HTMLDivElement>();
+  const [di, setDi] = useState(0);
+  const [hidden, setHidden] = useState<string[]>([]);
+  const [hover, setHover] = useState<number | null>(null);
+  const [shown, setShown] = useState(false);
+  const ds = datasets[di];
+  // Drop trailing categories nobody rated (e.g. the three models only GPT-4 scored).
+  const lastRated = Math.max(...ds.series.map((s) => s.values.reduce((n, v, i) => (v ? i : n), -1)));
+  const categories = allCategories.slice(0, lastRated + 1);
+
+  // Replay the reveal whenever the dataset changes.
+  useEffect(() => {
+    setShown(false);
+    if (!seen) return;
+    const id = requestAnimationFrame(() => requestAnimationFrame(() => setShown(true)));
+    return () => cancelAnimationFrame(id);
+  }, [seen, di]);
+
+  const { w, h, l, r, t, b } = CHART;
+  const plotW = w - l - r;
+  const plotH = h - t - b;
+  const x = (i: number) => l + ((i + 0.5) * plotW) / categories.length;
+  const y = (v: number) => t + ((5 - Math.min(Math.max(v, 1), 5)) / 4) * plotH;
+  const visible = ds.series.filter((s) => !hidden.includes(s.id));
+  const clipId = `clip-${di}`;
+
+  return (
+    <div ref={ref} className="my-6 rounded border border-rule bg-subtle p-4">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
+        <p className="text-sm font-semibold text-ink">{title}</p>
+        <div role="tablist" className="flex gap-1">
+          {datasets.map((d, i) => (
+            <button
+              key={d.label}
+              role="tab"
+              type="button"
+              aria-selected={di === i}
+              onClick={() => {
+                setDi(i);
+                setHover(null);
+              }}
+              className={clsx(
+                'rounded-full border px-3 py-1 text-sm transition-colors motion-reduce:transition-none',
+                di === i ? 'border-accent bg-accent/10 text-ink' : 'border-rule text-muted hover:text-ink'
+              )}
+            >
+              {d.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <ul className="mt-3 flex flex-wrap gap-2" aria-label="Questions">
+        {ds.series.map((s) => {
+          const off = hidden.includes(s.id);
+          return (
+            <li key={s.id}>
+              <button
+                type="button"
+                aria-pressed={!off}
+                onClick={() => setHidden((cur) => (cur.includes(s.id) ? cur.filter((id) => id !== s.id) : [...cur, s.id]))}
+                className={clsx(
+                  'inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs transition-opacity motion-reduce:transition-none',
+                  off ? 'border-rule text-muted opacity-50' : 'border-rule text-ink-2'
+                )}
+              >
+                <svg width="22" height="8" aria-hidden>
+                  <line x1="0" y1="4" x2="22" y2="4" stroke={s.color} strokeWidth="2.5" strokeDasharray={s.dash} />
+                </svg>
+                {s.label}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+
+      <div className="relative mt-4 overflow-x-auto">
+        <div className="relative min-w-[640px]">
+          <svg viewBox={`0 0 ${w} ${h}`} className="block w-full" role="img" aria-label={`${title}, ${ds.label}`}>
+            <defs>
+              <clipPath id={clipId}>
+                <rect
+                  x={0}
+                  y={0}
+                  width={w}
+                  height={h}
+                  className="transition-transform duration-[2200ms] ease-in-out motion-reduce:transition-none"
+                  style={{ transformBox: 'fill-box', transformOrigin: 'left', transform: `scaleX(${shown ? 1 : 0})` }}
+                />
+              </clipPath>
+            </defs>
+
+            {[1, 2, 3, 4, 5].map((v) => (
+              <g key={v}>
+                <line x1={l} x2={w - r} y1={y(v)} y2={y(v)} stroke="rgb(var(--rule))" />
+                <text x={l - 10} y={y(v)} textAnchor="end" dominantBaseline="middle" fontSize="12" fill="rgb(var(--muted))">
+                  {SCALE_LABELS[v - 1]}
+                </text>
+              </g>
+            ))}
+
+            {hover !== null ? (
+              <line x1={x(hover)} x2={x(hover)} y1={t} y2={t + plotH} stroke="rgb(var(--muted))" strokeDasharray="3 3" />
+            ) : null}
+
+            <g clipPath={`url(#${clipId})`}>
+              {visible.map((s) => {
+                const pts = s.values.flatMap((v, i) => (v ? [{ i, m: v[0], c: v[1] }] : []));
+                if (pts.length === 0) return null;
+                const line = pts.map((p, k) => `${k ? 'L' : 'M'}${x(p.i)},${y(p.m)}`).join(' ');
+                const upper = pts.map((p, k) => `${k ? 'L' : 'M'}${x(p.i)},${y(p.m + p.c)}`).join(' ');
+                const lower = [...pts].reverse().map((p) => `L${x(p.i)},${y(p.m - p.c)}`).join(' ');
+                return (
+                  <g key={s.id}>
+                    <path d={`${upper} ${lower} Z`} fill={s.color} fillOpacity={0.14} />
+                    <path d={line} fill="none" stroke={s.color} strokeWidth={2.5} strokeDasharray={s.dash} strokeLinejoin="round" />
+                    {pts.map((p) => (
+                      <circle key={p.i} cx={x(p.i)} cy={y(p.m)} r={hover === p.i ? 5.5 : 3.5} fill={s.color} />
+                    ))}
+                  </g>
+                );
+              })}
+            </g>
+
+            {categories.map((c, i) => (
+              <text
+                key={c}
+                x={x(i)}
+                y={h - b + 20}
+                textAnchor="middle"
+                fontSize="12"
+                fill={hover === i ? 'rgb(var(--ink))' : 'rgb(var(--muted))'}
+              >
+                {c}
+              </text>
+            ))}
+
+            {categories.map((c, i) => (
+              <rect
+                key={c}
+                x={x(i) - plotW / categories.length / 2}
+                y={t}
+                width={plotW / categories.length}
+                height={plotH + b}
+                fill="transparent"
+                tabIndex={0}
+                aria-label={`${c}: ${visible
+                  .map((s) => (s.values[i] ? `${s.label} ${s.values[i]![0].toFixed(2)}` : null))
+                  .filter(Boolean)
+                  .join(', ')}`}
+                onMouseEnter={() => setHover(i)}
+                onMouseLeave={() => setHover(null)}
+                onFocus={() => setHover(i)}
+                onBlur={() => setHover(null)}
+              />
+            ))}
+          </svg>
+
+          {hover !== null ? (
+            <div
+              className="pointer-events-none absolute top-2 z-10 rounded border border-rule bg-page px-3 py-2 text-xs shadow-sm"
+              style={{
+                left: `${(x(hover) / w) * 100}%`,
+                transform: `translateX(${hover > categories.length / 2 ? 'calc(-100% - 12px)' : '12px'})`,
+              }}
+            >
+              <p className="mb-1 font-semibold text-ink">{categories[hover]}</p>
+              <ul className="space-y-0.5">
+                {visible.map((s) => (
+                  <li key={s.id} className="tabular flex items-center justify-between gap-4 text-ink-2">
+                    <span className="flex items-center gap-1.5">
+                      <span className="inline-block h-2 w-2 rounded-full" style={{ background: s.color }} />
+                      {s.label}
+                    </span>
+                    <span>{s.values[hover] ? `${s.values[hover]![0].toFixed(2)} ± ${s.values[hover]![1].toFixed(2)}` : 'not rated'}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+        </div>
+      </div>
+      <p className="mt-2 text-xs text-muted">
+        Mean score per question, shaded band = 95% confidence interval. Hover a model for exact values; click a question to hide it.
+        {ds.note ? ` ${ds.note}` : ''}
+      </p>
+    </div>
+  );
+}

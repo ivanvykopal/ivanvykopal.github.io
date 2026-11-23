@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import type { PaperFigure, PaperFinding, PaperStat, PaperTable, PaperViz } from 'app/data/papers';
 import { Section } from '../section';
-import { BarChart, CountUp, GroupExplorer, Pipeline, PromptTabs, Reveal, StackedBars } from './viz';
+import { BarChart, CountUp, GroupExplorer, LineChart, Pipeline, PromptTabs, Reveal, StackedBars } from './viz';
 
 export function PaperFigureBlock({ figure }: { figure: PaperFigure }) {
   return (
@@ -32,6 +32,8 @@ function Viz({ viz }: { viz: PaperViz }) {
       return <PromptTabs title={viz.title} tabs={viz.tabs} />;
     case 'groups':
       return <GroupExplorer title={viz.title} groups={viz.groups} />;
+    case 'lines':
+      return <LineChart title={viz.title} categories={viz.categories} datasets={viz.datasets} />;
   }
 }
 

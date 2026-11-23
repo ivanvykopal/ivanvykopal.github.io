@@ -1,4 +1,5 @@
 import type { PaperPage } from 'app/data/papers';
+import { FIG2_DATASETS, FIG2_MODELS } from './disinformation-capabilities-fig2';
 
 // Source: Vykopal et al., ACL 2024 (arXiv:2311.08838). Every number below comes from the paper:
 // Figure 1 (dangerous/neutral/safe counts), Table 4 (annotator agreement), Table 5 (safety filters),
@@ -167,13 +168,11 @@ export const disinformationCapabilities: PaperPage = {
           ],
           max: 120,
         },
-      ],
-      figures: [
         {
-          src: '/images/model_comparison.png',
-          alt: 'Line charts of mean human and GPT-4 scores for each model on six questions: well-formed, article, agree, disagree, arguments in favor, arguments against.',
-          caption:
-            'Figure 2 in the paper. Mean score per question and model from (a) human annotators and (b) GPT-4. The scale runs from "does not apply" to "completely applies". Falcon is the only model where disagreement (Q4) rises above agreement (Q3).',
+          type: 'lines',
+          title: 'How each model scored on the six questions (1 = does not apply, 5 = completely applies)',
+          categories: FIG2_MODELS,
+          datasets: FIG2_DATASETS,
         },
       ],
     },
