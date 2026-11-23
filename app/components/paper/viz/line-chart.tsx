@@ -161,7 +161,7 @@ export function LineChart({
         })}
       </ul>
 
-      <div ref={ref} className="mt-2 overflow-x-auto">
+      <div ref={ref} className="mt-2 overflow-x-auto overflow-y-hidden">
         <div className="relative" style={{ width }}>
           <svg
             width={width}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { delay, Figure, Tooltip, tone, useWidth } from './figure';
 import { Swatch, type StackedTone } from './stacked-bars';
@@ -81,6 +81,41 @@ export function UnitMatrix({
   const cell = (r: number, c: number) => rows[r].cells.slice(c * perCell, (c + 1) * perCell);
   const hovered = hover ? cell(hover.r, hover.c) : '';
 
+  // The 1,200 squares depend on layout and the class filter only, so hovering does not re-render them.
+  const cells = useMemo(
+    () =>
+      rows.map((row, r) =>
+        columns.map((col, c) => (
+          <g key={col.label} className="viz-pop" style={delay(c * 24 + r * 16)}>
+            {[...row.cells.slice(c * perCell, (c + 1) * perCell)].map((ch, k) => (
+              <rect
+                key={k}
+                x={colX[c] + (k % PER_LINE) * (size + UNIT_GAP)}
+                y={rowY[r] + Math.floor(k / PER_LINE) * (size + UNIT_GAP)}
+                width={size}
+                height={size}
+                rx={1.5}
+                fill={tone(toneOf[ch])}
+                opacity={only === null || only === ch ? 1 : 0.12}
+                style={{ transition: 'opacity 200ms' }}
+              />
+            ))}
+            <rect
+              x={colX[c] - COL_GAP / 2}
+              y={rowY[r] - ROW_GAP / 2}
+              width={cellW + COL_GAP}
+              height={cellH + ROW_GAP}
+              fill="transparent"
+              onMouseEnter={() => setHover({ r, c })}
+            />
+          </g>
+        ))
+      ),
+    // colX, rowY, size and the cell box all follow from width and the data props below.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [width, only, rowGroups, columns, columnGroups, classes, perCell]
+  );
+
   return (
     <Figure title={title} caption={caption}>
       <ul className="-mx-2 flex flex-wrap gap-x-2 gap-y-1 text-sm" aria-label="Show one class">
@@ -103,7 +138,7 @@ export function UnitMatrix({
         ))}
       </ul>
 
-      <div ref={ref} className="mt-2 overflow-x-auto">
+      <div ref={ref} className="mt-2 overflow-x-auto overflow-y-hidden">
         <div className="relative" style={{ width }}>
           <svg
             width={width}
@@ -161,31 +196,7 @@ export function UnitMatrix({
                 >
                   {row.label}
                 </text>
-                {columns.map((col, c) => (
-                  <g key={col.label} className="viz-pop" style={delay(c * 24 + r * 16)}>
-                    {[...cell(r, c)].map((ch, k) => (
-                      <rect
-                        key={k}
-                        x={colX[c] + (k % PER_LINE) * (size + UNIT_GAP)}
-                        y={rowY[r] + Math.floor(k / PER_LINE) * (size + UNIT_GAP)}
-                        width={size}
-                        height={size}
-                        rx={1.5}
-                        fill={tone(toneOf[ch])}
-                        opacity={only === null || only === ch ? 1 : 0.12}
-                        style={{ transition: 'opacity 200ms' }}
-                      />
-                    ))}
-                    <rect
-                      x={colX[c] - COL_GAP / 2}
-                      y={rowY[r] - ROW_GAP / 2}
-                      width={cellW + COL_GAP}
-                      height={cellH + ROW_GAP}
-                      fill="transparent"
-                      onMouseEnter={() => setHover({ r, c })}
-                    />
-                  </g>
-                ))}
+                {cells[r]}
               </g>
             ))}
 
@@ -207,7 +218,11 @@ export function UnitMatrix({
           {hover ? (
             <Tooltip
               x={((colX[hover.c] + cellW / 2) / width) * 100}
-              top={rowY[hover.r] + cellH + 10}
+              // Rows in the lower half open upwards: a readout hanging below the chart would overflow the
+              // scroll container, add scrollbars and resize the chart under the cursor.
+              {...(hover.r >= rows.length / 2
+                ? { bottom: height - rowY[hover.r] + 10 }
+                : { top: rowY[hover.r] + cellH + 10 })}
               flip={hover.c > columns.length / 2}
             >
               <p className="font-semibold text-ink">

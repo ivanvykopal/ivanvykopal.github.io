@@ -113,22 +113,31 @@ export function Switch({
   );
 }
 
-/** Floating readout for the hovered mark. `x` is a percentage of the positioned parent. */
+/**
+ * Floating readout for the hovered mark. `x` is a percentage of the positioned parent. Pass `bottom` instead
+ * of `top` for marks near the lower edge, so the readout opens upwards and stays inside the chart.
+ */
 export function Tooltip({
   x,
   top = 0,
+  bottom,
   flip,
   children,
 }: {
   x: number;
   top?: number;
+  bottom?: number;
   flip: boolean;
   children: ReactNode;
 }) {
   return (
     <div
       className="pointer-events-none absolute z-10 w-max max-w-[16rem] rounded border border-rule bg-page px-3 py-2 text-xs leading-snug text-ink-2"
-      style={{ left: `${x}%`, top, transform: `translateX(${flip ? 'calc(-100% - 12px)' : '12px'})` }}
+      style={{
+        left: `${x}%`,
+        ...(bottom === undefined ? { top } : { bottom }),
+        transform: `translateX(${flip ? 'calc(-100% - 12px)' : '12px'})`,
+      }}
     >
       {children}
     </div>
