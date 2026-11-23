@@ -57,11 +57,11 @@ export default async function PaperPage({ params }: { params: Promise<Params> })
         <p className="text-sm text-muted">
           {pub.venue} · {pub.venueNote}
         </p>
-        <h1 className="mt-2 max-w-[42rem] text-[1.75rem] font-semibold leading-tight tracking-tight text-ink">
+        <h1 className="mt-2 text-[1.75rem] font-semibold leading-tight tracking-tight text-ink">
           {pub.title}
         </h1>
-        {paper.tagline ? <p className="mt-3 max-w-[40rem] text-ink-2">{paper.tagline}</p> : null}
-        <p className="mt-4 max-w-[42rem] text-[0.9375rem] leading-relaxed text-ink-2">
+        {paper.tagline ? <p className="mt-3 text-ink-2">{paper.tagline}</p> : null}
+        <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-2">
           {pub.authors.map((name, i) => (
             <span key={name}>
               {name === ME ? <span className="font-semibold text-ink">{name}</span> : name}
@@ -70,7 +70,7 @@ export default async function PaperPage({ params }: { params: Promise<Params> })
           ))}
         </p>
         {paper.affiliations?.length ? (
-          <p className="mt-1 max-w-[42rem] text-sm text-muted">{paper.affiliations.join(' · ')}</p>
+          <p className="mt-1 text-sm text-muted">{paper.affiliations.join(' · ')}</p>
         ) : null}
         <p className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-[0.9375rem]">
           {links.map(({ label, href, internal }) =>
@@ -88,7 +88,7 @@ export default async function PaperPage({ params }: { params: Promise<Params> })
       </header>
 
       {paper.tldr ? (
-        <p className="mt-10 max-w-[40rem] border-l-2 border-accent pl-4 text-[1.0625rem] leading-relaxed text-ink">
+        <p className="mt-10 border-l-2 border-accent pl-4 text-[1.0625rem] leading-relaxed text-ink">
           {paper.tldr}
         </p>
       ) : null}

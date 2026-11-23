@@ -54,7 +54,7 @@ export function Overview({ paragraphs, approach }: { paragraphs?: string[]; appr
   return (
     <Section title="Overview" id="overview">
       {paragraphs?.length ? (
-        <div className="max-w-[40rem] space-y-4 text-ink-2">
+        <div className="space-y-4 text-ink-2">
           {paragraphs.map((p, i) => (
             <p key={i}>{p}</p>
           ))}
@@ -75,9 +75,9 @@ export function Findings({ findings }: { findings: PaperFinding[] }) {
             <div className="min-w-0">
               <Reveal>
                 <h3 className="text-[1.0625rem] font-semibold leading-7 tracking-tight text-ink">{f.title}</h3>
-                <p className="mt-1 max-w-[40rem] font-medium text-ink-2">{f.summary}</p>
+                <p className="mt-1 font-medium text-ink-2">{f.summary}</p>
                 {f.body?.length ? (
-                  <div className="mt-3 max-w-[40rem] space-y-3 text-ink-2">
+                  <div className="mt-3 space-y-3 text-ink-2">
                     {f.body.map((p, j) => (
                       <p key={j}>{p}</p>
                     ))}

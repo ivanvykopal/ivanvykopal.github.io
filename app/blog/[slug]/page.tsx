@@ -65,7 +65,7 @@ export default async function Blog({ params }) {
         <HiArrowLeft aria-hidden className="h-3.5 w-3.5" />
         All posts
       </Link>
-      <h1 className="mt-4 max-w-[38rem] text-[1.75rem] font-semibold leading-tight tracking-tight text-ink">
+      <h1 className="mt-4 text-[1.75rem] font-semibold leading-tight tracking-tight text-ink">
         <Balancer>{post.title}</Balancer>
       </h1>
       <p className="tabular mt-3 text-sm text-muted">

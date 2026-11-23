@@ -102,7 +102,7 @@ export function Mdx({ code }: { code: string }) {
   const Component = useMDXComponent(code);
 
   return (
-    <div className="prose mt-10 max-w-[40rem] prose-headings:tracking-tight prose-h2:mt-12 prose-h2:text-xl">
+    <div className="prose mt-10 max-w-none prose-headings:tracking-tight prose-h2:mt-12 prose-h2:text-xl">
       <Component components={components} />
     </div>
   );
