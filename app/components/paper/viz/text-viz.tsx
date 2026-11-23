@@ -16,7 +16,7 @@ export function PromptTabs({ title, tabs }: { title: string; tabs: PromptTab[] }
       title={title}
       controls={<Switch label="Prompt" options={tabs.map((t) => t.label)} value={i} onChange={setI} />}
     >
-      <p key={i} className="max-w-[44rem] border-l border-rule pl-4 leading-relaxed text-ink">
+      <p key={i} className="border-l border-rule pl-4 leading-relaxed text-ink">
         {tabs[i].text.split(/(\{\+.*?\+\})/).map((part, k) => {
           const added = /^\{\+.*\+\}$/.test(part);
           const body = (added ? part.slice(2, -2) : part).split(/(\[[A-Z ]+\])/).map((piece, n) =>

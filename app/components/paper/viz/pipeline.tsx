@@ -128,7 +128,7 @@ export function Pipeline({ title, steps }: { title: string; steps: PipelineStep[
         ) : (
           <div />
         )}
-        <div className="min-w-0 max-w-[40rem] animate-[pipeline-in_500ms_cubic-bezier(0.16,1,0.3,1)_80ms_both] motion-reduce:animate-none">
+        <div className="min-w-0 animate-[pipeline-in_500ms_cubic-bezier(0.16,1,0.3,1)_80ms_both] motion-reduce:animate-none">
           <p className="leading-relaxed text-ink-2">{step.detail}</p>
           {step.chips?.length ? (
             <ul className="mt-3 flex flex-wrap gap-x-1.5 gap-y-1.5">

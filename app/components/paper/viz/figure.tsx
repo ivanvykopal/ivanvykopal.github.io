@@ -70,12 +70,12 @@ export function Figure({
   return (
     <figure ref={ref} data-viz data-seen={seen ? 'true' : undefined} className="my-8 first:mt-0">
       <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1.5">
-        <p className="max-w-[40rem] text-[0.9375rem] font-semibold leading-snug text-ink">{title}</p>
+        <p className="text-[0.9375rem] font-semibold leading-snug text-ink">{title}</p>
         {controls}
       </div>
       <div className="mt-4">{children}</div>
       {caption ? (
-        <figcaption className="mt-3 max-w-[44rem] text-sm leading-relaxed text-muted">{caption}</figcaption>
+        <figcaption className="mt-3 text-sm leading-relaxed text-muted">{caption}</figcaption>
       ) : null}
     </figure>
   );

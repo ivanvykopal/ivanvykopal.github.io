@@ -27,7 +27,7 @@ export function PaperFigureBlock({ figure }: { figure: PaperFigure }) {
     <figure className="my-8">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={figure.src} alt={figure.alt} className="w-full rounded border border-rule bg-white" loading="lazy" />
-      <figcaption className="mt-3 max-w-[44rem] text-sm leading-relaxed text-muted">{figure.caption}</figcaption>
+      <figcaption className="mt-3 text-sm leading-relaxed text-muted">{figure.caption}</figcaption>
     </figure>
   );
 }
@@ -58,7 +58,7 @@ export function Viz({ viz }: { viz: PaperViz }) {
 /** The study in numbers, set as one quiet row rather than a banner. */
 export function StatStrip({ stats }: { stats: PaperStat[] }) {
   return (
-    <dl className="mt-8 grid max-w-[44rem] grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-4">
+    <dl className="mt-8 grid grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-4">
       {stats.map((s) => (
         <div key={s.label} className="flex flex-col-reverse justify-end">
           <dt className="mt-0.5 text-sm leading-snug text-muted">{s.label}</dt>
@@ -73,7 +73,7 @@ export function Overview({ paragraphs, approach }: { paragraphs?: string[]; appr
   return (
     <PaperSection title="Overview" id="overview">
       {paragraphs?.length ? (
-        <div className="max-w-[44rem] space-y-4 text-ink-2">
+        <div className="space-y-4 text-ink-2">
           {paragraphs.map((p, i) => (
             <p key={i}>{p}</p>
           ))}
@@ -99,7 +99,7 @@ export function Findings({ findings }: { findings: PaperFinding[] }) {
             </span>
             <div className="min-w-0">
               <h3 className="text-balance text-[1.1875rem] font-semibold leading-7 tracking-tight text-ink">{f.title}</h3>
-              <div className="max-w-[44rem]">
+              <div>
                 <p className="mt-2 text-ink">{f.summary}</p>
                 {f.body?.length ? (
                   <div className="mt-3 space-y-3 text-ink-2">
@@ -154,7 +154,7 @@ export function Tables({ tables }: { tables: PaperTable[] }) {
                 </tbody>
               </table>
             </div>
-            {t.caption ? <p className="mt-3 max-w-[44rem] text-sm leading-relaxed text-muted">{t.caption}</p> : null}
+            {t.caption ? <p className="mt-3 text-sm leading-relaxed text-muted">{t.caption}</p> : null}
           </div>
         ))}
       </div>

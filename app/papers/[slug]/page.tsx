@@ -51,10 +51,10 @@ export default async function PaperPage({ params }: { params: Promise<Params> })
         <p className="text-sm text-muted">
           {pub.venue} · {pub.venueNote}
         </p>
-        <h1 className="mt-2 max-w-[46rem] text-balance text-[1.75rem] font-semibold leading-[1.15] tracking-tight text-ink sm:text-[2.25rem]">
+        <h1 className="mt-2 text-balance text-[1.75rem] font-semibold leading-[1.15] tracking-tight text-ink sm:text-[2.25rem]">
           {pub.title}
         </h1>
-        {paper.tagline ? <p className="mt-4 max-w-[44rem] text-ink-2">{paper.tagline}</p> : null}
+        {paper.tagline ? <p className="mt-4 text-ink-2">{paper.tagline}</p> : null}
         <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-[1rem] leading-snug text-ink-2">
           {pub.authors.map((name) => {
             const marks = paper.authorAffiliations?.[name]?.join(',');
@@ -87,7 +87,7 @@ export default async function PaperPage({ params }: { params: Promise<Params> })
       </header>
 
       {paper.tldr ? (
-        <p className="mt-12 max-w-[44rem] text-pretty text-[1.3125rem] leading-[1.45] tracking-tight text-ink">
+        <p className="mt-12 text-pretty text-[1.3125rem] leading-[1.45] tracking-tight text-ink">
           {paper.tldr}
         </p>
       ) : null}
