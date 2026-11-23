@@ -1,5 +1,5 @@
 import { allBlogs } from 'contentlayer/generated';
-import { papers } from './data/papers';
+import { sitePapers } from './data/papers';
 import { SITE_URL } from './data/profile';
 
 export const dynamic = 'force-static';
@@ -14,7 +14,7 @@ export default async function sitemap() {
     '',
     '/research',
     '/papers',
-    ...papers.map((p) => `/papers/${p.slug}`),
+    ...sitePapers.map((p) => `/papers/${p.slug}`),
     '/cv',
     '/projects',
     '/study-materials',

@@ -35,6 +35,7 @@ import type {
 import { disinformationCapabilities } from './paper-content/disinformation-capabilities';
 import { multiclaim } from './paper-content/multiclaim';
 import { softLanguagePrompts } from './paper-content/soft-language-prompts';
+import { skBench } from './paper-content/sk-bench';
 
 export type PaperFigure = {
   /** Path under /public, e.g. "/images/papers/<slug>/fig1.png". */
@@ -166,6 +167,11 @@ export type PaperPage = {
   publicationTitle: string;
   /** One or two sentences for the list page and the page header. */
   tagline?: string;
+  /**
+   * Absolute URL of a page for this paper hosted elsewhere. The papers list and the publication's
+   * "Paper summary" link go there, and no /papers/<slug> page is built.
+   */
+  external?: string;
   /** Short plain-language answer to "what did you find?". */
   tldr?: string;
   /** Affiliations in display order; authors refer to them by 1-based number. */
@@ -189,7 +195,7 @@ export type PaperPage = {
   bibtex?: string;
 };
 
-export const papers: PaperPage[] = [disinformationCapabilities, multiclaim, softLanguagePrompts];
+export const papers: PaperPage[] = [disinformationCapabilities, multiclaim, softLanguagePrompts, skBench];
 
 export type ResolvedPaper = PaperPage & { pub: Publication };
 
@@ -199,12 +205,18 @@ export function resolvePaper(page: PaperPage): ResolvedPaper {
   return { ...page, pub };
 }
 
+/** Paper pages built on this site; papers with an external page are left out. */
+export const sitePapers = papers.filter((p) => !p.external);
+
 export const getPaper = (slug: string) => {
-  const page = papers.find((p) => p.slug === slug);
+  const page = sitePapers.find((p) => p.slug === slug);
   return page ? resolvePaper(page) : undefined;
 };
 
+/** Where a paper's page lives: its external URL, or /papers/<slug> on this site. */
+export const paperHref = (page: PaperPage) => page.external ?? `/papers/${page.slug}`;
+
 export const paperPathFor = (title: string) => {
   const page = papers.find((p) => p.publicationTitle === title);
-  return page ? `/papers/${page.slug}` : undefined;
+  return page ? paperHref(page) : undefined;
 };

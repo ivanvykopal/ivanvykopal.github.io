@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ME } from 'app/data/publications';
-import { getPaper, papers } from 'app/data/papers';
+import { getPaper, sitePapers } from 'app/data/papers';
 import { PaperActions } from 'app/components/paper/paper-actions';
 import {
   CiteBlock,
@@ -20,7 +20,7 @@ type Params = { slug: string };
 export const dynamicParams = false;
 
 export function generateStaticParams(): Params[] {
-  return papers.map((p) => ({ slug: p.slug }));
+  return sitePapers.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
