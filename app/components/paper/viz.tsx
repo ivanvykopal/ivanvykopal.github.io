@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import clsx from 'clsx';
+import { HiOutlineArrowPath } from 'react-icons/hi2';
 
 /** True once the element has scrolled into view (immediately when reduced motion is requested). */
 function useInView<T extends Element>() {
@@ -139,66 +140,153 @@ export function BarChart({
   );
 }
 
-export type PipelineStep = { title: string; detail: string };
+export type PipelineStep = {
+  title: string;
+  detail: string;
+  /** Headline number for the stage, counted up when the stage becomes active. */
+  metric?: { value: string; label: string };
+  /** Short tags shown under the detail, e.g. the models or questions involved. */
+  chips?: string[];
+};
 
-/** Step-by-step diagram of an approach. Steps light up in sequence on view; click one to pin it. */
+/** Slow enough to read: how long each stage stays active during autoplay. */
+const STAGE_MS = 4200;
+
+/**
+ * Flow diagram of an approach. Stages are joined by connectors that fill as the walkthrough advances.
+ * It autoplays once when scrolled into view; clicking a stage takes over, Replay starts again.
+ */
 export function Pipeline({ title, steps }: { title: string; steps: PipelineStep[] }) {
   const [ref, seen] = useInView<HTMLDivElement>();
-  const [pinned, setPinned] = useState<number | null>(null);
-  const [lit, setLit] = useState(-1);
+  const [current, setCurrent] = useState(0);
+  const [playing, setPlaying] = useState(true);
+  const [reduced, setReduced] = useState(false);
+  const last = steps.length - 1;
 
   useEffect(() => {
-    if (!seen) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setLit(steps.length - 1);
+    setReduced(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }, []);
+
+  useEffect(() => {
+    if (!seen || !playing || reduced) return;
+    if (current >= last) {
+      setPlaying(false);
       return;
     }
-    const timers = steps.map((_, i) => window.setTimeout(() => setLit(i), 350 * (i + 1)));
-    return () => timers.forEach(clearTimeout);
-  }, [seen, steps]);
+    const t = window.setTimeout(() => setCurrent((c) => c + 1), STAGE_MS);
+    return () => window.clearTimeout(t);
+  }, [seen, playing, reduced, current, last]);
 
-  const current = pinned ?? Math.max(lit, 0);
+  const step = steps[current];
 
   return (
-    <div ref={ref} className="my-6 rounded border border-rule bg-subtle p-4">
-      <p className="mb-4 text-sm font-semibold text-ink">{title}</p>
-      <ol className="flex flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-0">
-        {steps.map((s, i) => (
-          <li key={s.title} className="flex min-w-0 flex-1 items-center sm:flex-col sm:items-stretch">
-            <button
-              type="button"
-              onClick={() => setPinned(pinned === i ? null : i)}
-              aria-pressed={pinned === i}
-              className={clsx(
-                'w-full rounded border px-3 py-2 text-left text-sm transition-colors duration-500 motion-reduce:transition-none',
-                i <= lit ? 'border-accent text-ink' : 'border-rule text-muted',
-                current === i && 'bg-accent/10'
-              )}
-            >
-              <span className="tabular mr-2 text-muted">{i + 1}</span>
-              {s.title}
-            </button>
-            {i < steps.length - 1 ? (
-              <span
-                aria-hidden
-                className={clsx(
-                  'mx-2 h-px w-4 shrink-0 self-center transition-colors duration-500 sm:mx-0 sm:hidden',
-                  i < lit ? 'bg-accent' : 'bg-rule'
-                )}
-              />
-            ) : null}
-          </li>
-        ))}
-      </ol>
-      <div className="mt-3 h-1 overflow-hidden rounded bg-rule/60" aria-hidden>
-        <div
-          className="h-full bg-accent transition-[width] duration-500 motion-reduce:transition-none"
-          style={{ width: `${((lit + 1) / steps.length) * 100}%` }}
-        />
+    <div ref={ref} className="my-6 rounded border border-rule bg-subtle p-4 sm:p-6">
+      <div className="flex items-baseline justify-between gap-4">
+        <p className="text-sm font-semibold text-ink">{title}</p>
+        <button
+          type="button"
+          onClick={() => {
+            setCurrent(0);
+            setPlaying(true);
+          }}
+          className="no-print inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-accent motion-reduce:transition-none"
+        >
+          <HiOutlineArrowPath aria-hidden className="h-3.5 w-3.5" />
+          Replay
+        </button>
       </div>
-      <p className="mt-3 min-h-[3rem] text-sm leading-relaxed text-ink-2" aria-live="polite">
-        {steps[current].detail}
-      </p>
+
+      <ol className="mt-6 flex">
+        {steps.map((s, i) => {
+          const done = i < current;
+          const active = i === current;
+          return (
+            <li key={s.title} className="relative min-w-0 flex-1">
+              {i < last ? (
+                <span aria-hidden className="absolute left-1/2 top-[15px] h-0.5 w-full bg-rule">
+                  <span
+                    className="block h-full origin-left bg-accent transition-transform duration-[1600ms] ease-in-out motion-reduce:transition-none"
+                    style={{ transform: `scaleX(${done ? 1 : 0})` }}
+                  />
+                </span>
+              ) : null}
+              <button
+                type="button"
+                onClick={() => {
+                  setCurrent(i);
+                  setPlaying(false);
+                }}
+                aria-current={active ? 'step' : undefined}
+                className="group relative z-10 flex w-full flex-col items-center gap-2 px-1"
+              >
+                <span className="relative flex h-8 w-8 items-center justify-center">
+                  {active ? (
+                    <span
+                      aria-hidden
+                      className="absolute inset-0 animate-ping rounded-full bg-accent/30 [animation-duration:2.6s] motion-reduce:hidden"
+                    />
+                  ) : null}
+                  <span
+                    className={clsx(
+                      'tabular relative flex h-8 w-8 items-center justify-center rounded-full border-2 text-sm font-semibold transition-all duration-700 motion-reduce:transition-none',
+                      done && 'border-accent bg-accent text-page',
+                      active && 'scale-110 border-accent bg-page text-accent',
+                      !done && !active && 'border-rule bg-page text-muted group-hover:border-accent/60'
+                    )}
+                  >
+                    {i + 1}
+                  </span>
+                </span>
+                <span
+                  className={clsx(
+                    'text-center text-xs leading-tight transition-colors duration-700 motion-reduce:transition-none sm:text-sm',
+                    active ? 'font-semibold text-ink' : done ? 'text-ink-2' : 'text-muted'
+                  )}
+                >
+                  {s.title}
+                </span>
+              </button>
+            </li>
+          );
+        })}
+      </ol>
+
+      <div
+        key={current}
+        className="mt-6 grid min-h-[15rem] animate-[fadein_900ms_ease-out_both] content-start gap-x-8 gap-y-4 rounded border border-rule bg-page p-4 motion-reduce:animate-none sm:grid-cols-[11rem_1fr] sm:p-5"
+        aria-live="polite"
+      >
+        <div>
+          {step.metric ? (
+            <>
+              <p className="tabular text-4xl font-semibold tracking-tight text-accent">
+                <CountUp value={step.metric.value} />
+              </p>
+              <p className="mt-1 text-sm leading-snug text-muted">{step.metric.label}</p>
+            </>
+          ) : null}
+        </div>
+        <div className="min-w-0">
+          <p className="font-semibold text-ink">
+            <span className="tabular mr-2 text-muted">{current + 1}/{steps.length}</span>
+            {step.title}
+          </p>
+          <p className="mt-2 leading-relaxed text-ink-2">{step.detail}</p>
+          {step.chips?.length ? (
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {step.chips.map((chip, k) => (
+                <li
+                  key={chip}
+                  className="animate-[fadein_800ms_ease-out_both] rounded-full border border-rule bg-subtle px-3 py-1 text-sm text-ink-2 motion-reduce:animate-none"
+                  style={{ animationDelay: `${500 + k * 180}ms` }}
+                >
+                  {chip}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
+      </div>
     </div>
   );
 }

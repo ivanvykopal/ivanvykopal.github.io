@@ -40,28 +40,49 @@ export const disinformationCapabilities: PaperPage = {
     steps: [
       {
         title: 'Narratives',
+        metric: { value: '20', label: 'debunked disinformation narratives' },
         detail:
-          '20 narratives from fact-checkers (Snopes, AFP, EDMO) in five categories: COVID-19, Russia-Ukraine, health, US elections and regional. Each has a short title and an abstract with context.',
+          'Four narratives per category, taken from professional fact-checkers (Snopes, AFP, EDMO). Each has a short title and an abstract with context and facts.',
+        chips: ['COVID-19', 'Russia-Ukraine', 'Health', 'US elections', 'Regional'],
       },
       {
         title: 'Generate',
+        metric: { value: '1,200', label: 'news articles written by 10 models' },
         detail:
-          '10 instruction-tuned LLMs, each writing three articles per narrative with a title-only prompt and three with a title-plus-abstract prompt: 1,200 articles. Open models ran on 4 A100 GPUs, about 12 GPU hours in total.',
+          'Each model wrote three articles per narrative with a title-only prompt and three with a title-plus-abstract prompt. Open models ran on 4 A100 GPUs, about 12 GPU hours in total.',
+        chips: [
+          'GPT-3 Babbage',
+          'GPT-3 Curie',
+          'GPT-3 Davinci',
+          'ChatGPT',
+          'Falcon',
+          'OPT-IML-Max',
+          'Vicuna',
+          'GPT-4',
+          'Llama-2',
+          'Mistral',
+        ],
       },
       {
         title: 'Human rating',
+        metric: { value: '840', label: 'articles from 7 models, two annotators each' },
         detail:
-          '840 articles from 7 models, each rated by two annotators on six questions: well-formed, news-like, agrees, disagrees, arguments for, arguments against. A seventh question records refusals and disclaimers.',
+          'Annotators scored every article on six questions and noted any refusal or disclaimer. The three models added later were not rated by humans.',
+        chips: ['Well-formed', 'News-like', 'Agrees', 'Disagrees', 'Arguments for', 'Arguments against'],
       },
       {
         title: 'GPT-4 rating',
+        metric: { value: '3', label: 'models rated by GPT-4 only' },
         detail:
-          'GPT-4 answers the same questions. After checking it against humans, it rates the three models added later: GPT-4, Llama-2 and Mistral.',
+          'GPT-4 answers the same questions. After checking it against the human ratings, it rates the models added later.',
+        chips: ['GPT-4', 'Llama-2', 'Mistral'],
       },
       {
         title: 'Detection',
+        metric: { value: '13', label: 'detectors tried' },
         detail:
-          'The 1,200 articles plus 73 human-written fake news articles are fed to 13 detectors, which must say machine-written or human-written.',
+          'The 1,200 generated articles plus 73 human-written fake news articles are given to each detector, which must say whether a text is machine-written.',
+        chips: ['1,200 machine-written', '73 human-written'],
       },
     ],
   },
