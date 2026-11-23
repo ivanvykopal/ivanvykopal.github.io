@@ -5,12 +5,12 @@ import {
   FIG2_MODELS,
   NARRATIVE_DATASETS,
   PROMPT_COMPARISON,
-} from './disinformation-capabilities-data';
+} from './data';
 
 // Source: Vykopal et al., ACL 2024 (arXiv:2311.08838). Counts and scores typed in below come from the paper:
 // Figure 1 (dangerous/neutral/safe counts), Table 4 (annotator agreement), Table 5 (safety filters),
-// Table 6 (detectors), and the running text. Series recomputed from the released annotations live in
-// disinformation-capabilities-data.ts.
+// Table 6 (detectors), and the running text. Series recomputed from the released annotations live in data.ts
+// next to this file.
 
 /** Wording of the six evaluation questions (Table 3 of the paper), by question id. */
 const QUESTIONS: Record<string, string> = {

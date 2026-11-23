@@ -155,6 +155,9 @@ export type PaperTable = {
 /**
  * Content of one paper page. Everything except `slug` and `publicationTitle` is optional:
  * the template skips any section that is empty, so a new paper can start as a bare hero.
+ *
+ * Each paper lives in its own directory, app/data/paper-content/<slug>/: index.ts exports the page and
+ * data.ts holds the numbers its charts read. Register the page in `papers` below.
  */
 export type PaperPage = {
   /** URL segment: /papers/<slug>. */

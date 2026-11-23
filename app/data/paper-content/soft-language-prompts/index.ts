@@ -1,9 +1,9 @@
 import type { PaperPage } from 'app/data/papers';
 import type { BarItem, DotRow, DotSeries, HeatCell, HeatView } from 'app/components/paper/viz';
-import { AVERAGE, CONFIGS, CWCD, NER, NLI, QA, SEEDS, SOURCES, TARGETS, type ResultTable } from './soft-language-prompts-data';
+import { AVERAGE, CONFIGS, CWCD, NER, NLI, QA, SEEDS, SOURCES, TARGETS, type ResultTable } from './data';
 
 // Source: Vykopal, Ostermann and Šimko, NAACL 2025 (aclanthology.org/2025.naacl-long.517). Charts read the
-// appendix tables in soft-language-prompts-data.ts; counts of wins and the per-target shares are computed here
+// appendix tables in data.ts next to this file; counts of wins and the per-target shares are computed here
 // from those tables. Running-text numbers come from Sections 3 to 6 and Appendices A, C, D and F.
 
 /** Column index of the average over target languages in every table row. */

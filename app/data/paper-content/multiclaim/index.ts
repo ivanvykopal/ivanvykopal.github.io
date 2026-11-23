@@ -1,10 +1,10 @@
 import type { PaperPage } from 'app/data/papers';
 import type { DotSeries, ScatterFamily, ScatterPoint } from 'app/components/paper/viz';
-import { CROSSLINGUAL_ROWS, LANGUAGES, METHODS, MONOLINGUAL_ROWS } from './multiclaim-data';
+import { CROSSLINGUAL_ROWS, LANGUAGES, METHODS, MONOLINGUAL_ROWS } from './data';
 
 // Source: Pikuliak et al., EMNLP 2023 (aclanthology.org/2023.emnlp-main.1027). Numbers typed in below come from
 // Table 1 (dataset comparison), Table 3 (data splits), Table 4 (supervised and annotated results) and the running
-// text. Per-language and per-method series live in multiclaim-data.ts.
+// text. Per-language and per-method series live in data.ts next to this file.
 
 /** The four methods the paper follows through Sections 4 to 6, in the order of the data rows. */
 const FOUR_METHODS: DotSeries[] = [
