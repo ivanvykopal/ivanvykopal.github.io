@@ -2,12 +2,16 @@ import type { ReactNode } from 'react';
 import type { PaperFigure, PaperFinding, PaperStat, PaperTable, PaperViz } from 'app/data/papers';
 import {
   BarChart,
+  DotPlot,
   Dumbbell,
   GroupedBars,
   GroupList,
   LineChart,
+  PairedBars,
   Pipeline,
   PromptTabs,
+  Scatter,
+  ScoreTable,
   ShareTable,
   StackedBars,
   UnitMatrix,
@@ -55,6 +59,14 @@ export function Viz({ viz }: { viz: PaperViz }) {
       return <ShareTable {...viz} />;
     case 'matrix':
       return <UnitMatrix {...viz} />;
+    case 'dots':
+      return <DotPlot {...viz} />;
+    case 'scatter':
+      return <Scatter {...viz} />;
+    case 'paired':
+      return <PairedBars {...viz} />;
+    case 'scores':
+      return <ScoreTable {...viz} />;
   }
 }
 

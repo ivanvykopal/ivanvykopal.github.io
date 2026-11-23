@@ -133,24 +133,30 @@ export function Hint({ children, align = 'left' }: { children: ReactNode; align?
 
 /**
  * Floating readout for the hovered mark. `x` is a percentage of the positioned parent. Pass `bottom` instead
- * of `top` for marks near the lower edge, so the readout opens upwards and stays inside the chart.
+ * of `top` for marks near the lower edge, so the readout opens upwards and stays inside the chart. `wide`
+ * lifts the width cap for readouts whose rows should not wrap.
  */
 export function Tooltip({
   x,
   top = 0,
   bottom,
   flip,
+  wide,
   children,
 }: {
   x: number;
   top?: number;
   bottom?: number;
   flip: boolean;
+  wide?: boolean;
   children: ReactNode;
 }) {
   return (
     <div
-      className="pointer-events-none absolute z-10 w-max max-w-[16rem] rounded border border-rule bg-page px-3 py-2 text-xs leading-snug text-ink-2"
+      className={clsx(
+        'pointer-events-none absolute z-10 w-max rounded border border-rule bg-page px-3 py-2 text-xs leading-snug text-ink-2',
+        wide ? 'max-w-[24rem]' : 'max-w-[16rem]'
+      )}
       style={{
         left: `${x}%`,
         ...(bottom === undefined ? { top } : { bottom }),

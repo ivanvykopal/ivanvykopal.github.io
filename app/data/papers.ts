@@ -3,6 +3,8 @@ import type {
   BarItem,
   BarTone,
   ChipGroup,
+  DotSeries,
+  DotView,
   DumbbellMetric,
   GroupedSeries,
   LineBand,
@@ -11,13 +13,21 @@ import type {
   MatrixColumn,
   MatrixColumnGroup,
   MatrixRowGroup,
+  PairedRow,
+  PairedSide,
   PipelineStep,
   PromptTab,
+  ScatterFamily,
+  ScatterView,
+  ScoreColumn,
+  ScoreGroup,
+  ScoreVariant,
   ShareGroup,
   StackedSegment,
   StackedView,
 } from 'app/components/paper/viz';
 import { disinformationCapabilities } from './paper-content/disinformation-capabilities';
+import { multiclaim } from './paper-content/multiclaim';
 
 export type PaperFigure = {
   /** Path under /public, e.g. "/images/papers/<slug>/fig1.png". */
@@ -59,7 +69,21 @@ export type PaperViz =
       perCell: number;
       unit: string;
       caption?: string;
-    };
+    }
+  | {
+      type: 'dots';
+      title: string;
+      series: DotSeries[];
+      views: DotView[];
+      domain?: [number, number];
+      ticks?: number[];
+      axisLabel?: string;
+      switchLabel?: string;
+      caption?: string;
+    }
+  | { type: 'scatter'; title: string; families: ScatterFamily[]; views: ScatterView[]; switchLabel?: string; caption?: string }
+  | { type: 'paired'; title: string; left: PairedSide; right: PairedSide; rows: PairedRow[]; caption?: string }
+  | { type: 'scores'; title: string; columns: ScoreColumn[]; variants?: ScoreVariant[]; groups: ScoreGroup[]; caption?: string };
 
 export type PaperFinding = {
   title: string;
@@ -113,7 +137,7 @@ export type PaperPage = {
   bibtex?: string;
 };
 
-export const papers: PaperPage[] = [disinformationCapabilities];
+export const papers: PaperPage[] = [disinformationCapabilities, multiclaim];
 
 export type ResolvedPaper = PaperPage & { pub: Publication };
 
