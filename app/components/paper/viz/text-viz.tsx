@@ -31,7 +31,7 @@ export function PromptTabs({ title, tabs }: { title: string; tabs: PromptTab[] }
           return added ? (
             <ins
               key={k}
-              className="animate-[viz-in_500ms_ease-out_both] bg-viz-neutral/70 box-decoration-clone px-0.5 no-underline motion-reduce:animate-none"
+              className="animate-[viz-in_500ms_ease-out_both] viz-fill-added box-decoration-clone px-0.5 no-underline motion-reduce:animate-none"
             >
               {body}
             </ins>

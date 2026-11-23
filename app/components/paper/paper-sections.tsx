@@ -88,27 +88,53 @@ export function Overview({ paragraphs, approach }: { paragraphs?: string[]; appr
   );
 }
 
+/**
+ * Numbered findings. Each one opens with a hairline and a numbered marker (the same ring as the stages of
+ * the approach diagram), so the list reads as separate claims; an index above links to each of them.
+ */
 export function Findings({ findings }: { findings: PaperFinding[] }) {
   return (
     <PaperSection title="Findings" id="findings">
-      <ol className="space-y-16">
+      <nav aria-label="Findings">
+        <ol className="gap-x-10 space-y-1.5 text-[0.9375rem] sm:columns-2">
+          {findings.map((f, i) => (
+            <li key={f.title} className="break-inside-avoid">
+              <a
+                href={`#finding-${i + 1}`}
+                className="group grid grid-cols-[1.5rem_1fr] rounded text-ink-2 transition-colors duration-150 hover:text-accent"
+              >
+                <span className="tabular text-muted transition-colors duration-150 group-hover:text-accent">{i + 1}</span>
+                {f.title}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+
+      <ol className="mt-12">
         {findings.map((f, i) => (
-          <li key={f.title} id={`finding-${i + 1}`} className="grid scroll-mt-8 gap-x-5 sm:grid-cols-[1.75rem_1fr]">
-            <span aria-hidden className="tabular text-[1.1875rem] font-semibold leading-7 text-muted">
-              {i + 1}
-            </span>
-            <div className="min-w-0">
-              <h3 className="text-balance text-[1.1875rem] font-semibold leading-7 tracking-tight text-ink">{f.title}</h3>
-              <div>
-                <p className="mt-2 text-ink">{f.summary}</p>
-                {f.body?.length ? (
-                  <div className="mt-3 space-y-3 text-ink-2">
-                    {f.body.map((p, j) => (
-                      <p key={j}>{p}</p>
-                    ))}
-                  </div>
-                ) : null}
-              </div>
+          <li key={f.title} id={`finding-${i + 1}`} className="scroll-mt-6 border-t border-rule py-12 last:pb-0">
+            <div className="grid grid-cols-[2.75rem_1fr] items-start">
+              <span
+                aria-hidden
+                className="tabular flex h-8 w-8 items-center justify-center rounded-full border border-ink text-sm font-semibold text-ink"
+              >
+                {i + 1}
+              </span>
+              <h3 className="text-balance text-[1.3125rem] font-semibold leading-8 tracking-tight text-ink">
+                <span className="sr-only">Finding {i + 1}: </span>
+                {f.title}
+              </h3>
+            </div>
+            <div className="min-w-0 sm:pl-[2.75rem]">
+              <p className="mt-3 text-[1.0625rem] leading-relaxed text-ink">{f.summary}</p>
+              {f.body?.length ? (
+                <div className="mt-4 space-y-3 text-ink-2">
+                  {f.body.map((p, j) => (
+                    <p key={j}>{p}</p>
+                  ))}
+                </div>
+              ) : null}
               {f.viz?.length || f.figures?.length ? (
                 <div className="mt-8">
                   {f.viz?.map((v, j) => <Viz key={j} viz={v} />)}

@@ -10,12 +10,13 @@ export type StackedRow = { label: string; values: number[] };
 export type StackedGroup = { label?: string; rows: StackedRow[] };
 export type StackedView = { label: string; groups: StackedGroup[] };
 
+/** Fill plus matching text colour; plain classes from global.css. */
 export const TONE_FILL: Record<StackedTone, string> = {
-  danger: 'bg-viz-danger text-viz-danger-ink',
-  neutral: 'bg-viz-neutral text-viz-neutral-ink',
-  safe: 'bg-viz-safe text-viz-safe-ink',
-  idle: 'bg-viz-idle text-viz-idle-ink',
-  warn: 'bg-viz-warn text-viz-warn-ink',
+  danger: 'viz-fill-danger',
+  neutral: 'viz-fill-neutral',
+  safe: 'viz-fill-safe',
+  idle: 'viz-fill-idle',
+  warn: 'viz-fill-warn',
 };
 
 export function Swatch({ tone }: { tone: StackedTone }) {

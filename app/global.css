@@ -316,6 +316,43 @@ table {
   }
 }
 
+/*
+ * Fills for HTML marks. Plain classes rather than Tailwind colour utilities: the dev server was seen to drop
+ * the generated bg-viz-* utilities after hot reloads, which left the bars without colour.
+ */
+.viz-fill-danger {
+  background-color: rgb(var(--viz-danger));
+  color: rgb(var(--viz-danger-ink));
+}
+.viz-fill-danger-soft {
+  background-color: rgb(var(--viz-danger) / 0.4);
+}
+.viz-fill-neutral {
+  background-color: rgb(var(--viz-neutral));
+  color: rgb(var(--viz-neutral-ink));
+}
+.viz-fill-safe {
+  background-color: rgb(var(--viz-safe));
+  color: rgb(var(--viz-safe-ink));
+}
+.viz-fill-idle {
+  background-color: rgb(var(--viz-idle));
+  color: rgb(var(--viz-idle-ink));
+}
+.viz-fill-warn {
+  background-color: rgb(var(--viz-warn));
+  color: rgb(var(--viz-warn-ink));
+}
+.viz-fill-series {
+  background-color: rgb(var(--viz-q3));
+}
+.viz-fill-series-soft {
+  background-color: rgb(var(--viz-q3) / 0.4);
+}
+.viz-fill-added {
+  background-color: rgb(var(--viz-neutral) / 0.7);
+}
+
 /* The count inside a stacked-bar segment shows only when the segment is wide enough to hold it. */
 .viz-seg {
   container-type: inline-size;

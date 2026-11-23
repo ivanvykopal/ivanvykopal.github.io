@@ -7,8 +7,8 @@ export type BarItem = { label: string; value: number; highlight?: boolean };
 export type BarTone = 'series' | 'danger';
 
 const FILL: Record<BarTone, { strong: string; soft: string }> = {
-  series: { strong: 'bg-viz-q3', soft: 'bg-viz-q3/40' },
-  danger: { strong: 'bg-viz-danger', soft: 'bg-viz-danger/40' },
+  series: { strong: 'viz-fill-series', soft: 'viz-fill-series-soft' },
+  danger: { strong: 'viz-fill-danger', soft: 'viz-fill-danger-soft' },
 };
 
 /**
