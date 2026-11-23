@@ -12,6 +12,7 @@ import {
   Overview,
   StatStrip,
   Tables,
+  Viz,
 } from 'app/components/paper/paper-sections';
 
 type Params = { slug: string };
@@ -34,7 +35,7 @@ export default async function PaperPage({ params }: { params: Promise<Params> })
 
   const { pub } = paper;
   const hasContent = Boolean(
-    paper.tldr || paper.stats?.length || paper.overview?.length || paper.approach ||
+    paper.tldr || paper.stats?.length || paper.lead || paper.overview?.length || paper.approach ||
       paper.findings?.length || paper.tables?.length || paper.figures?.length || paper.bibtex
   );
 
@@ -50,10 +51,10 @@ export default async function PaperPage({ params }: { params: Promise<Params> })
         <p className="text-sm text-muted">
           {pub.venue} · {pub.venueNote}
         </p>
-        <h1 className="mt-2 text-[1.75rem] font-semibold leading-tight tracking-tight text-ink">
+        <h1 className="mt-2 max-w-[46rem] text-balance text-[1.75rem] font-semibold leading-[1.15] tracking-tight text-ink sm:text-[2.25rem]">
           {pub.title}
         </h1>
-        {paper.tagline ? <p className="mt-3 text-ink-2">{paper.tagline}</p> : null}
+        {paper.tagline ? <p className="mt-4 max-w-[44rem] text-ink-2">{paper.tagline}</p> : null}
         <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-[1rem] leading-snug text-ink-2">
           {pub.authors.map((name) => {
             const marks = paper.authorAffiliations?.[name]?.join(',');
@@ -86,13 +87,18 @@ export default async function PaperPage({ params }: { params: Promise<Params> })
       </header>
 
       {paper.tldr ? (
-        <p className="mt-10 border-l-2 border-accent pl-4 text-[1.0625rem] leading-relaxed text-ink">
+        <p className="mt-12 max-w-[44rem] text-pretty text-[1.3125rem] leading-[1.45] tracking-tight text-ink">
           {paper.tldr}
         </p>
       ) : null}
       {paper.stats?.length ? <StatStrip stats={paper.stats} /> : null}
+      {paper.lead ? (
+        <div className="mt-12">
+          <Viz viz={paper.lead} />
+        </div>
+      ) : null}
 
-      <div className="mt-16">
+      <div>
         {paper.overview?.length || paper.approach ? <Overview paragraphs={paper.overview} approach={paper.approach} /> : null}
         {paper.findings?.length ? <Findings findings={paper.findings} /> : null}
         {paper.tables?.length ? <Tables tables={paper.tables} /> : null}

@@ -1,5 +1,21 @@
 import { publications, type Publication } from 'app/data/publications';
-import type { BarItem, ChipGroup, LineDataset, PipelineStep, PromptTab, StackedRow, StackedSegment } from 'app/components/paper/viz';
+import type {
+  BarItem,
+  BarTone,
+  ChipGroup,
+  DumbbellMetric,
+  GroupedSeries,
+  LineBand,
+  LineDataset,
+  MatrixClass,
+  MatrixColumn,
+  MatrixColumnGroup,
+  MatrixRowGroup,
+  PipelineStep,
+  PromptTab,
+  StackedSegment,
+  StackedView,
+} from 'app/components/paper/viz';
 import { disinformationCapabilities } from './paper-content/disinformation-capabilities';
 
 export type PaperFigure = {
@@ -11,14 +27,36 @@ export type PaperFigure = {
 
 export type PaperStat = { value: string; label: string };
 
-/** Animated, interactive visual described as data; rendered by components/paper/viz.tsx. */
+/** Animated, interactive visual described as data; rendered by components/paper/viz. */
 export type PaperViz =
-  | { type: 'bars'; title: string; items: BarItem[]; max?: number; unit?: string }
+  | { type: 'bars'; title: string; items: BarItem[]; max?: number; unit?: string; tone?: BarTone; legend?: [string, string]; caption?: string }
   | { type: 'pipeline'; title: string; steps: PipelineStep[] }
-  | { type: 'stacked'; title: string; segments: StackedSegment[]; rows: StackedRow[]; note?: string }
+  | { type: 'stacked'; title: string; segments: StackedSegment[]; views: StackedView[]; switchLabel?: string; caption?: string }
   | { type: 'prompts'; title: string; tabs: PromptTab[] }
   | { type: 'groups'; title: string; groups: ChipGroup[] }
-  | { type: 'lines'; title: string; categories: string[]; datasets: LineDataset[] };
+  | {
+      type: 'lines';
+      title: string;
+      categories: string[];
+      categoryTitles?: string[];
+      bands?: LineBand[];
+      datasets: LineDataset[];
+      minWidth?: number;
+      caption?: string;
+    }
+  | { type: 'grouped'; title: string; categories: string[]; series: GroupedSeries[]; caption?: string }
+  | { type: 'dumbbell'; title: string; rows: string[]; series: [string, string]; metrics: DumbbellMetric[]; caption?: string }
+  | {
+      type: 'matrix';
+      title: string;
+      classes: MatrixClass[];
+      columns: MatrixColumn[];
+      columnGroups: MatrixColumnGroup[];
+      rowGroups: MatrixRowGroup[];
+      perCell: number;
+      unit: string;
+      caption?: string;
+    };
 
 export type PaperFinding = {
   title: string;
@@ -57,8 +95,10 @@ export type PaperPage = {
   authorAffiliations?: Record<string, number[]>;
   /** Authors marked with * as having contributed equally. */
   equalContribution?: string[];
-  /** Headline numbers shown as a counting strip under the header. */
+  /** Headline numbers shown as a row under the header. */
   stats?: PaperStat[];
+  /** The one figure that carries the main result, shown before the overview. */
+  lead?: PaperViz;
   /** Plain-language background: question and approach. */
   overview?: string[];
   /** Interactive diagram of how the approach works, shown right after the overview. */

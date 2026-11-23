@@ -1,51 +1,68 @@
 import type { ReactNode } from 'react';
 import type { PaperFigure, PaperFinding, PaperStat, PaperTable, PaperViz } from 'app/data/papers';
-import { Section } from '../section';
-import { BarChart, CountUp, GroupExplorer, LineChart, Pipeline, PromptTabs, Reveal, StackedBars } from './viz';
+import {
+  BarChart,
+  Dumbbell,
+  GroupedBars,
+  GroupList,
+  LineChart,
+  Pipeline,
+  PromptTabs,
+  StackedBars,
+  UnitMatrix,
+} from './viz';
 
-export function PaperFigureBlock({ figure }: { figure: PaperFigure }) {
+/** Major section of a paper page: a hairline, then a heading one step above the site's section headings. */
+function PaperSection({ title, id, children }: { title: string; id: string; children: ReactNode }) {
   return (
-    <Reveal>
-      <figure className="my-6">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={figure.src}
-          alt={figure.alt}
-          className="w-full rounded border border-rule bg-white"
-          loading="lazy"
-        />
-        <figcaption className="mt-2 text-sm leading-relaxed text-muted">{figure.caption}</figcaption>
-      </figure>
-    </Reveal>
+    <section id={id} className="mt-16 scroll-mt-8 border-t border-rule pt-10">
+      <h2 className="mb-6 text-[1.375rem] font-semibold leading-tight tracking-tight text-ink">{title}</h2>
+      {children}
+    </section>
   );
 }
 
-function Viz({ viz }: { viz: PaperViz }) {
+export function PaperFigureBlock({ figure }: { figure: PaperFigure }) {
+  return (
+    <figure className="my-8">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={figure.src} alt={figure.alt} className="w-full rounded border border-rule bg-white" loading="lazy" />
+      <figcaption className="mt-3 max-w-[44rem] text-sm leading-relaxed text-muted">{figure.caption}</figcaption>
+    </figure>
+  );
+}
+
+export function Viz({ viz }: { viz: PaperViz }) {
   switch (viz.type) {
     case 'bars':
-      return <BarChart title={viz.title} items={viz.items} max={viz.max} unit={viz.unit} />;
+      return <BarChart {...viz} />;
     case 'pipeline':
-      return <Pipeline title={viz.title} steps={viz.steps} />;
+      return <Pipeline {...viz} />;
     case 'stacked':
-      return <StackedBars title={viz.title} segments={viz.segments} rows={viz.rows} note={viz.note} />;
+      return <StackedBars {...viz} />;
     case 'prompts':
-      return <PromptTabs title={viz.title} tabs={viz.tabs} />;
+      return <PromptTabs {...viz} />;
     case 'groups':
-      return <GroupExplorer title={viz.title} groups={viz.groups} />;
+      return <GroupList {...viz} />;
     case 'lines':
-      return <LineChart title={viz.title} categories={viz.categories} datasets={viz.datasets} />;
+      return <LineChart {...viz} />;
+    case 'grouped':
+      return <GroupedBars {...viz} />;
+    case 'dumbbell':
+      return <Dumbbell {...viz} />;
+    case 'matrix':
+      return <UnitMatrix {...viz} />;
   }
 }
 
+/** The study in numbers, set as one quiet row rather than a banner. */
 export function StatStrip({ stats }: { stats: PaperStat[] }) {
   return (
-    <dl className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded border border-rule bg-rule sm:grid-cols-4">
+    <dl className="mt-8 grid max-w-[44rem] grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-4">
       {stats.map((s) => (
-        <div key={s.label} className="flex flex-col-reverse justify-end bg-page px-4 py-4">
-          <dt className="mt-1 text-sm leading-snug text-muted">{s.label}</dt>
-          <dd className="tabular text-2xl font-semibold tracking-tight text-ink">
-            <CountUp value={s.value} />
-          </dd>
+        <div key={s.label} className="flex flex-col-reverse justify-end">
+          <dt className="mt-0.5 text-sm leading-snug text-muted">{s.label}</dt>
+          <dd className="tabular text-xl font-semibold tracking-tight text-ink">{s.value}</dd>
         </div>
       ))}
     </dl>
@@ -54,30 +71,36 @@ export function StatStrip({ stats }: { stats: PaperStat[] }) {
 
 export function Overview({ paragraphs, approach }: { paragraphs?: string[]; approach?: PaperViz }) {
   return (
-    <Section title="Overview" id="overview">
+    <PaperSection title="Overview" id="overview">
       {paragraphs?.length ? (
-        <div className="space-y-4 text-ink-2">
+        <div className="max-w-[44rem] space-y-4 text-ink-2">
           {paragraphs.map((p, i) => (
             <p key={i}>{p}</p>
           ))}
         </div>
       ) : null}
-      {approach ? <Viz viz={approach} /> : null}
-    </Section>
+      {approach ? (
+        <div className="mt-10">
+          <Viz viz={approach} />
+        </div>
+      ) : null}
+    </PaperSection>
   );
 }
 
 export function Findings({ findings }: { findings: PaperFinding[] }) {
   return (
-    <Section title="Findings" id="findings">
-      <ol className="space-y-14">
+    <PaperSection title="Findings" id="findings">
+      <ol className="space-y-16">
         {findings.map((f, i) => (
-          <li key={f.title} className="grid gap-x-6 sm:grid-cols-[2rem_1fr]">
-            <span className="tabular text-sm font-semibold leading-7 text-muted">{i + 1}</span>
+          <li key={f.title} id={`finding-${i + 1}`} className="grid scroll-mt-8 gap-x-5 sm:grid-cols-[1.75rem_1fr]">
+            <span aria-hidden className="tabular text-[1.1875rem] font-semibold leading-7 text-muted">
+              {i + 1}
+            </span>
             <div className="min-w-0">
-              <Reveal>
-                <h3 className="text-[1.0625rem] font-semibold leading-7 tracking-tight text-ink">{f.title}</h3>
-                <p className="mt-1 font-medium text-ink-2">{f.summary}</p>
+              <h3 className="text-balance text-[1.1875rem] font-semibold leading-7 tracking-tight text-ink">{f.title}</h3>
+              <div className="max-w-[44rem]">
+                <p className="mt-2 text-ink">{f.summary}</p>
                 {f.body?.length ? (
                   <div className="mt-3 space-y-3 text-ink-2">
                     {f.body.map((p, j) => (
@@ -85,20 +108,24 @@ export function Findings({ findings }: { findings: PaperFinding[] }) {
                     ))}
                   </div>
                 ) : null}
-              </Reveal>
-              {f.viz?.map((v, j) => <Viz key={j} viz={v} />)}
-              {f.figures?.map((fig) => <PaperFigureBlock key={fig.src} figure={fig} />)}
+              </div>
+              {f.viz?.length || f.figures?.length ? (
+                <div className="mt-8">
+                  {f.viz?.map((v, j) => <Viz key={j} viz={v} />)}
+                  {f.figures?.map((fig) => <PaperFigureBlock key={fig.src} figure={fig} />)}
+                </div>
+              ) : null}
             </div>
           </li>
         ))}
       </ol>
-    </Section>
+    </PaperSection>
   );
 }
 
 export function Tables({ tables }: { tables: PaperTable[] }) {
   return (
-    <Section title="Results" id="results">
+    <PaperSection title="Results" id="results">
       <div className="space-y-10">
         {tables.map((t) => (
           <div key={t.title}>
@@ -108,7 +135,7 @@ export function Tables({ tables }: { tables: PaperTable[] }) {
                 <thead>
                   <tr className="border-b border-rule text-muted">
                     {t.columns.map((c) => (
-                      <th key={c} className="py-2 pr-4 font-medium">
+                      <th key={c} className="py-2 pr-6 font-normal">
                         {c}
                       </th>
                     ))}
@@ -118,7 +145,7 @@ export function Tables({ tables }: { tables: PaperTable[] }) {
                   {t.rows.map((r, i) => (
                     <tr key={i} className="border-b border-rule text-ink-2">
                       {r.map((cell, j) => (
-                        <td key={j} className="py-2 pr-4">
+                        <td key={j} className={j === 0 ? 'py-2 pr-6 text-ink' : 'py-2 pr-6'}>
                           {cell}
                         </td>
                       ))}
@@ -127,31 +154,31 @@ export function Tables({ tables }: { tables: PaperTable[] }) {
                 </tbody>
               </table>
             </div>
-            {t.caption ? <p className="mt-2 text-sm text-muted">{t.caption}</p> : null}
+            {t.caption ? <p className="mt-3 max-w-[44rem] text-sm leading-relaxed text-muted">{t.caption}</p> : null}
           </div>
         ))}
       </div>
-    </Section>
+    </PaperSection>
   );
 }
 
 export function FigureGallery({ figures }: { figures: PaperFigure[] }) {
   return (
-    <Section title="Figures" id="figures">
+    <PaperSection title="Figures" id="figures">
       {figures.map((fig) => (
         <PaperFigureBlock key={fig.src} figure={fig} />
       ))}
-    </Section>
+    </PaperSection>
   );
 }
 
 export function CiteBlock({ bibtex }: { bibtex: string }) {
   return (
-    <Section title="Cite" id="cite">
+    <PaperSection title="Cite" id="cite">
       <pre className="overflow-x-auto rounded border border-rule bg-subtle p-4 text-[0.8125rem] leading-relaxed text-ink-2">
         {bibtex}
       </pre>
-    </Section>
+    </PaperSection>
   );
 }
 

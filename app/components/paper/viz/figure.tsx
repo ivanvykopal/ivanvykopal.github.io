@@ -1,0 +1,136 @@
+'use client';
+
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import clsx from 'clsx';
+
+/** CSS colour of a data token from global.css, e.g. tone('q3') or tone('danger'). */
+export const tone = (name: string, alpha = 1) => `rgb(var(--viz-${name}) / ${alpha})`;
+
+/** Entrance delay in milliseconds for a mark with a viz-* animation class. */
+export const delay = (ms: number) => ({ '--i': ms }) as CSSProperties;
+
+/** True once the element has scrolled into view. */
+export function useInView<T extends Element>(threshold = 0.3) {
+  const ref = useRef<T>(null);
+  const [seen, setSeen] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (!('IntersectionObserver' in window)) {
+      setSeen(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setSeen(true);
+          io.disconnect();
+        }
+      },
+      // The bottom 15% of the viewport does not count, so a figure starts once it is clearly on screen.
+      { threshold: [threshold], rootMargin: '0px 0px -15% 0px' }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [threshold]);
+  return [ref, seen] as const;
+}
+
+/** Width of the element in CSS pixels, so SVG charts can lay out at real size and keep text readable. */
+export function useWidth<T extends HTMLElement>(fallback: number) {
+  const ref = useRef<T>(null);
+  const [width, setWidth] = useState(fallback);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => setWidth(Math.round(entry.contentRect.width)));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  return [ref, width] as const;
+}
+
+/**
+ * Frame shared by every chart: title, optional controls, the chart, a caption. No box around it; the chart
+ * sits on the page like a figure in a paper. Sets data-seen when scrolled into view, which starts the
+ * entrance animations of the marks inside (see global.css).
+ */
+export function Figure({
+  title,
+  controls,
+  caption,
+  children,
+}: {
+  title: string;
+  controls?: ReactNode;
+  caption?: ReactNode;
+  children: ReactNode;
+}) {
+  const [ref, seen] = useInView<HTMLElement>(0.2);
+  return (
+    <figure ref={ref} data-viz data-seen={seen ? 'true' : undefined} className="my-8 first:mt-0">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1.5">
+        <p className="max-w-[40rem] text-[0.9375rem] font-semibold leading-snug text-ink">{title}</p>
+        {controls}
+      </div>
+      <div className="mt-4">{children}</div>
+      {caption ? (
+        <figcaption className="mt-3 max-w-[44rem] text-sm leading-relaxed text-muted">{caption}</figcaption>
+      ) : null}
+    </figure>
+  );
+}
+
+/** Two or three mutually exclusive views of one chart, styled like the site navigation. */
+export function Switch({
+  label,
+  options,
+  value,
+  onChange,
+}: {
+  label: string;
+  options: string[];
+  value: number;
+  onChange: (index: number) => void;
+}) {
+  return (
+    <div role="group" aria-label={label} className="no-print -mx-2 flex flex-wrap">
+      {options.map((option, i) => (
+        <button
+          key={option}
+          type="button"
+          aria-pressed={value === i}
+          onClick={() => onChange(i)}
+          className={clsx(
+            'rounded px-2 py-1 text-sm underline-offset-[0.45em] transition-colors duration-150',
+            value === i ? 'text-ink underline decoration-ink/40' : 'text-muted hover:text-ink'
+          )}
+        >
+          {option}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/** Floating readout for the hovered mark. `x` is a percentage of the positioned parent. */
+export function Tooltip({
+  x,
+  top = 0,
+  flip,
+  children,
+}: {
+  x: number;
+  top?: number;
+  flip: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <div
+      className="pointer-events-none absolute z-10 w-max max-w-[16rem] rounded border border-rule bg-page px-3 py-2 text-xs leading-snug text-ink-2"
+      style={{ left: `${x}%`, top, transform: `translateX(${flip ? 'calc(-100% - 12px)' : '12px'})` }}
+    >
+      {children}
+    </div>
+  );
+}
