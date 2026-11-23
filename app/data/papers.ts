@@ -50,7 +50,12 @@ export type PaperPage = {
   tagline?: string;
   /** Short plain-language answer to "what did you find?". */
   tldr?: string;
+  /** Affiliations in display order; authors refer to them by 1-based number. */
   affiliations?: string[];
+  /** Author name (as in publications.ts) to affiliation numbers. Authors not listed get no marker. */
+  authorAffiliations?: Record<string, number[]>;
+  /** Authors marked with * as having contributed equally. */
+  equalContribution?: string[];
   /** Headline numbers shown as a counting strip under the header. */
   stats?: PaperStat[];
   /** Plain-language background: question and approach. */

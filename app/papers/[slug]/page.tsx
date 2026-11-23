@@ -61,17 +61,34 @@ export default async function PaperPage({ params }: { params: Promise<Params> })
           {pub.title}
         </h1>
         {paper.tagline ? <p className="mt-3 text-ink-2">{paper.tagline}</p> : null}
-        <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-2">
-          {pub.authors.map((name, i) => (
-            <span key={name}>
-              {name === ME ? <span className="font-semibold text-ink">{name}</span> : name}
-              {i < pub.authors.length - 1 ? ', ' : ''}
-            </span>
-          ))}
-        </p>
+        <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-[1rem] leading-snug text-ink-2">
+          {pub.authors.map((name) => {
+            const marks = paper.authorAffiliations?.[name]?.join(',');
+            const equal = paper.equalContribution?.includes(name);
+            return (
+              <li key={name}>
+                <span className={name === ME ? 'font-semibold text-ink' : undefined}>{name}</span>
+                {marks || equal ? (
+                  <sup className="ml-0.5 text-xs text-muted">
+                    {marks}
+                    {equal ? '*' : ''}
+                  </sup>
+                ) : null}
+              </li>
+            );
+          })}
+        </ul>
         {paper.affiliations?.length ? (
-          <p className="mt-1 text-sm text-muted">{paper.affiliations.join(' · ')}</p>
+          <ol className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm text-muted">
+            {paper.affiliations.map((a, i) => (
+              <li key={a}>
+                <sup className="mr-1">{i + 1}</sup>
+                {a}
+              </li>
+            ))}
+          </ol>
         ) : null}
+        {paper.equalContribution?.length ? <p className="mt-1 text-sm text-muted">* Equal contribution</p> : null}
         <p className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-[0.9375rem]">
           {links.map(({ label, href, internal }) =>
             internal ? (

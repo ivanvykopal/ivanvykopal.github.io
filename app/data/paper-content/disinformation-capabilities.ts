@@ -11,6 +11,15 @@ export const disinformationCapabilities: PaperPage = {
     'Kempelen Institute of Intelligent Technologies, Bratislava',
     'Brno University of Technology',
   ],
+  authorAffiliations: {
+    'Ivan Vykopal': [1, 2],
+    'Matúš Pikuliak': [1],
+    'Ivan Srba': [1],
+    'Robert Moro': [1],
+    'Dominik Macko': [1],
+    'Maria Bielikova': [1],
+  },
+  equalContribution: ['Ivan Vykopal', 'Matúš Pikuliak'],
   tagline:
     'We asked 10 language models to write fake news articles for 20 real disinformation narratives, then measured how often they complied, how convincing the articles were and whether detectors could spot them.',
   tldr:
