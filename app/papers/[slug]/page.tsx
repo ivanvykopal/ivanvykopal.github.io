@@ -82,7 +82,7 @@ export default async function PaperPage({ params }: { params: Promise<Params> })
           </ol>
         ) : null}
         {paper.equalContribution?.length ? <p className="mt-1 text-sm text-muted">* Equal contribution</p> : null}
-        <PaperActions pub={pub} hasBibtex={Boolean(paper.bibtex)} />
+        <PaperActions pub={pub} bibtex={paper.bibtex} />
       </header>
 
       {paper.tldr ? (
