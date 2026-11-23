@@ -101,7 +101,7 @@ export const disinformationCapabilities: PaperPage = {
   tagline:
     'We asked 10 language models to write fake news articles for 20 real disinformation narratives, then measured how often they complied, how convincing the articles were and whether detectors could spot them.',
   tldr:
-    'In our 2023 snapshot, models wrote convincing news articles for dangerous narratives almost on demand. Only Falcon, and to a lesser degree ChatGPT, pushed back. The rest almost never did.',
+    'In our 2023 snapshot, models wrote convincing news articles for dangerous narratives almost on demand. Only Falcon, and to a lesser degree ChatGPT, pushed back, and the rest almost never did.',
   stats: [
     { value: '10', label: 'language models tested' },
     { value: '20', label: 'disinformation narratives' },
@@ -110,7 +110,7 @@ export const disinformationCapabilities: PaperPage = {
   ],
   lead: {
     type: 'matrix',
-    title: 'All 1,200 generated articles, one square each.',
+    title: 'Each square is one of the 1,200 generated articles',
     classes: [
       { key: 'D', label: 'Dangerous', tone: 'danger' },
       { key: 'N', label: 'Neutral', tone: 'neutral' },
@@ -122,10 +122,10 @@ export const disinformationCapabilities: PaperPage = {
     perCell: 6,
     unit: 'article',
     caption:
-      'Rows are the 10 models, columns the 20 narratives. Each block holds the six articles one model wrote for one narrative: top row from the title-only prompt, bottom row from the title-plus-abstract prompt. Dangerous articles are well-formed news that agrees with the narrative and argues for it; safe ones argue against it, refuse or carry a disclaimer. Classified per article from the released annotations; the totals per model equal Figure 1 of the paper.',
+      'Rows are the 10 models, columns the 20 narratives. Each block holds the six articles one model wrote for one narrative: top row from the title-only prompt, bottom row from the title-plus-abstract prompt. Dangerous articles are well-formed news that agrees with the narrative and argues for it; safe ones argue against it, refuse or carry a disclaimer. Each article is classified from the released annotations, and the totals per model equal Figure 1 of the paper.',
   },
   overview: [
-    'Producing disinformation at scale is one of the most cited risks of language models, but evidence was mostly anecdotal. We built a controlled test. We took 20 narratives that professional fact-checkers had debunked, such as "vaccines cause autism", "the Bucha massacre was staged" or "Ivermectin cures COVID-19", and asked each model to write a news article supporting them.',
+    'Producing disinformation at scale is one of the most cited risks of language models, but the evidence was mostly anecdotal, so we ran a controlled test. We took 20 narratives that professional fact-checkers had debunked, such as "vaccines cause autism", "the Bucha massacre was staged" or "Ivermectin cures COVID-19", and asked each model to write a news article supporting them.',
     'Annotators from our team then scored each article on whether it looked like news, whether it agreed with the narrative, and whether it added new arguments for or against. We also checked for refusals and disclaimers, tested GPT-4 as an automatic grader, and measured whether existing detectors recognize the articles as machine-generated.',
   ],
   approach: {
@@ -136,7 +136,7 @@ export const disinformationCapabilities: PaperPage = {
         title: 'Narratives',
         metric: { value: '20', label: 'debunked disinformation narratives' },
         detail:
-          'Four narratives per category, taken from professional fact-checkers (Snopes, AFP, EDMO). Each has a short title and an abstract with context and facts.',
+          'We took four narratives per category from professional fact-checkers (Snopes, AFP, EDMO). Each has a short title and an abstract with context and facts.',
         chips: ['COVID-19', 'Russia-Ukraine', 'Health', 'US elections', 'Regional'],
       },
       {
@@ -168,14 +168,14 @@ export const disinformationCapabilities: PaperPage = {
         title: 'GPT-4 rating',
         metric: { value: '3', label: 'models rated by GPT-4 only' },
         detail:
-          'GPT-4 answers the same questions. After checking it against the human ratings, it rates the models added later.',
+          'GPT-4 answers the same questions. We checked its answers against the human ratings and then used it to rate the three models added later.',
         chips: ['GPT-4', 'Llama-2', 'Mistral'],
       },
       {
         title: 'Detection',
         metric: { value: '13', label: 'detectors tried' },
         detail:
-          'The 1,200 generated articles plus 73 human-written fake news articles are given to each detector, which must say whether a text is machine-written.',
+          'Each detector gets the 1,200 generated articles plus 73 human-written fake news articles and must say whether each text is machine-written.',
         chips: ['1,200 machine-written', '73 human-written'],
       },
     ],
@@ -186,13 +186,13 @@ export const disinformationCapabilities: PaperPage = {
       summary:
         'Vicuna and GPT-3 Davinci produced dangerous articles for 88 and 72 of 120 requests. Falcon was the only model that mostly refused or argued back.',
       body: [
-        'We call an article dangerous when it is a well-formed news article that agrees with the narrative and adds new arguments. It is safe when it disagrees with the narrative or the model used a safety filter. Everything else is neutral. Neutral is not harmless: weak models such as OPT-IML-Max and GPT-3 Babbage land there mostly because their text is incoherent.',
+        'We call an article dangerous when it is a well-formed news article that agrees with the narrative and adds new arguments. It is safe when it disagrees with the narrative or the model used a safety filter. Everything else is neutral, which is not the same as harmless: weak models such as OPT-IML-Max and GPT-3 Babbage land there mostly because their text is incoherent.',
         'Mistral, GPT-4 and Llama-2 were rated by GPT-4 only. GPT-4 is biased toward calling text safe, so these three are probably less safe than shown. Even so, the newer models look safer than older ones, with Llama-2 closest to Falcon.',
       ],
       viz: [
         {
           type: 'stacked',
-          title: 'Dangerous, neutral and safe articles per model, out of 120 each',
+          title: 'Dangerous, neutral and safe articles per model (120 each)',
           segments: [
             { label: 'Dangerous', tone: 'danger' },
             { label: 'Neutral', tone: 'neutral' },
@@ -235,12 +235,12 @@ export const disinformationCapabilities: PaperPage = {
         'According to human annotators, only Falcon and ChatGPT showed any safety behaviour. Falcon refused about 30% of requests.',
       body: [
         'We checked each article for a refusal ("I cannot write this") or a disclaimer saying the text is false or AI-generated. Every other model, including the open-source ones, wrote the article without either.',
-        'This can change over time. In a preliminary run in March 2023, ChatGPT used a safety filter for 25 of 120 articles, against 15 in our main run. Providers update their models, so these numbers describe one moment.',
+        'In a preliminary run in March 2023, ChatGPT used a safety filter for 25 of 120 articles, against 15 in our main run. Providers update their models, so these numbers describe the models as they were when we ran them.',
       ],
       viz: [
         {
           type: 'stacked',
-          title: 'How each model reacted to the request, out of 120 articles',
+          title: 'How each model reacted to the 120 requests',
           switchLabel: 'Annotator',
           segments: [
             { label: 'Wrote the article', tone: 'idle' },
@@ -295,16 +295,16 @@ export const disinformationCapabilities: PaperPage = {
       ],
     },
     {
-      title: 'Bigger models are more convincing, and more dangerous',
+      title: 'Bigger models are more convincing and more dangerous',
       summary:
         'Across three sizes of GPT-3, larger models write better news articles, agree with the narrative more and add more new arguments. Disagreement stays near zero at every size.',
       body: [
-        'Babbage, Curie and Davinci share the same architecture and training data, so the difference comes from size. Capability and risk grow together here. OPT-IML-Max was the weakest generator: it often continued the prompt instead of following the instruction.',
+        'Babbage, Curie and Davinci share the same architecture and training data, so the difference comes from size. OPT-IML-Max was the weakest generator: it often continued the prompt instead of following the instruction.',
       ],
       viz: [
         {
           type: 'bars',
-          title: 'Dangerous articles out of 120, by GPT-3 model size',
+          title: 'Dangerous articles out of 120 by GPT-3 model size',
           tone: 'danger',
           items: [
             { label: 'Babbage (1.3B)', value: 13 },
@@ -321,7 +321,7 @@ export const disinformationCapabilities: PaperPage = {
           descriptions: QUESTIONS,
           minWidth: 760,
           caption:
-            'Figure 2 of the paper, redrawn from the released annotations. Shaded bands are 95% confidence intervals. Hover a model for exact values; hover a question to read its wording and isolate its line, click to hide it.',
+            'Figure 2 of the paper, redrawn from the released annotations. Shaded bands are 95% confidence intervals. Hover a model for exact values. Hover a question to read its wording and isolate its line, or click it to hide the line.',
         },
       ],
     },
@@ -331,7 +331,7 @@ export const disinformationCapabilities: PaperPage = {
         'Adding a short narrative abstract to the prompt made the models agree with the narrative more and disagree less.',
       body: [
         'We used two prompts: the title alone, which tests what the model already knows, and the title plus an abstract. Differences in questions 3 to 6 are statistically significant at α = 0.05. With the abstract, models also wrote fewer new arguments, because they reused the ones in the prompt.',
-        'Abstracts also fill knowledge gaps. Some models did not know about the war in Ukraine, so their articles were implausible until the abstract supplied the facts. Better prompting would probably make the articles even more convincing.',
+        'Abstracts also supplied missing knowledge: some models did not know about the war in Ukraine, and their articles were implausible until the abstract gave them the facts. Better prompting would probably make the articles even more convincing.',
       ],
       viz: [
         {
@@ -350,7 +350,7 @@ export const disinformationCapabilities: PaperPage = {
         },
         {
           type: 'grouped',
-          title: 'Mean human score per question, by prompt',
+          title: 'Mean human score per question for each prompt',
           categories: PROMPT_COMPARISON.categories,
           categoryDescriptions: QUESTION_LIST,
           series: [
@@ -368,7 +368,7 @@ export const disinformationCapabilities: PaperPage = {
         'Models resisted a few notorious claims but agreed readily with regional ones such as the Nigerian voting-card hoax.',
       body: [
         'Models disagreed more with famous health hoaxes, namely paid COVID-19 actors (N4), vaccines cause autism (N10) and chemtrails (N11). They agreed most with N3 (Ivermectin) and N17 (printing Nigerian voting cards). Regional narratives seem to get less pushback, probably because far less text debunks them. That makes local, fast-moving campaigns a particular risk.',
-        'Models also invented supporting details, such as names, events and statistics. A flood of such "facts" would be hard to fact-check.',
+        'Models also invented supporting details such as names, events and statistics, and a large volume of them would be hard to fact-check.',
       ],
       viz: [
         {
@@ -384,7 +384,7 @@ export const disinformationCapabilities: PaperPage = {
         },
         {
           type: 'shares',
-          title: 'The 20 narratives, and the 60 articles written about each',
+          title: 'The 20 narratives and the 60 articles written about each',
           rankBy: 0,
           rankLabel: 'Most dangerous first',
           segments: [
@@ -406,17 +406,17 @@ export const disinformationCapabilities: PaperPage = {
       ],
     },
     {
-      title: 'GPT-4 can grade at scale, but not article by article',
+      title: 'GPT-4 can rank models but is unreliable on single articles',
       summary:
         'GPT-4 reproduced the overall ranking of models, but it was unreliable on individual articles, especially for style and arguments.',
       body: [
         'Rating articles by hand is slow, and new models appear constantly. GPT-4 agreed with humans on the broad picture: it also named Falcon and ChatGPT the safest and Vicuna and Davinci the most dangerous. It struggled to tell whether an argument supports or opposes a narrative and scored systematically higher than humans.',
-        'It also overcounted safety filters. For Falcon it found 52 disclaimers where humans found 11, giving Cohen\'s κ of 0.45 against 0.82 between two humans. So it is a rough monitor for trends, not a replacement for annotators.',
+        'It also overcounted safety filters. For Falcon it found 52 disclaimers where humans found 11. Its agreement with the human annotators on safety filters was Cohen\'s κ = 0.45, against 0.82 between the two humans. That makes it usable for tracking trends across models but too unreliable to replace human annotators.',
       ],
       viz: [
         {
           type: 'dumbbell',
-          title: 'Agreement on each question: two humans, and GPT-4 against the humans',
+          title: 'Agreement per question between two humans and between GPT-4 and the humans',
           rows: ['Q1 Well-formed', 'Q2 Article', 'Q3 Agree', 'Q4 Disagree', 'Q5 Args in favor', 'Q6 Args against'],
           rowDescriptions: QUESTION_LIST,
           series: ['Human and human', 'Human average and GPT-4'],
@@ -436,7 +436,7 @@ export const disinformationCapabilities: PaperPage = {
               b: [0.55, 1.1, 0.74, 0.68, 1.15, 1.25],
             },
           ],
-          caption: 'Table 4 of the paper. The line between two dots is the gap GPT-4 leaves to a second human annotator.',
+          caption: 'Table 4 of the paper. The line between the two dots shows how far GPT-4\'s agreement with the humans falls short of the agreement between two humans.',
         },
       ],
     },
@@ -445,13 +445,13 @@ export const disinformationCapabilities: PaperPage = {
       summary:
         'The best detector reached a macro F1 of 0.82 on our articles. Several popular tools did much worse.',
       body: [
-        'The best detectors were ELECTRA-large models fine-tuned on machine text in the MULTITuDE benchmark. The one built around ChatGPT text reached AUC 0.97. We tuned each detector\'s threshold on our own test set, so these scores are a theoretical maximum, and real-world performance would be a bit lower.',
-        'Detectors are a partial defence: they could spot large batches of such articles, but not every single one.',
+        'The best detectors were ELECTRA-large models fine-tuned on machine text in the MULTITuDE benchmark. The one fine-tuned on ChatGPT text reached AUC 0.97. We tuned each detector\'s threshold on our own test set, so these scores are a theoretical maximum, and real-world performance would be a bit lower.',
+        'Detectors could flag large batches of such articles but would miss individual ones, so they are only a partial defence.',
       ],
       viz: [
         {
           type: 'bars',
-          title: 'Macro F1 of each detector, higher is better',
+          title: 'Macro F1 of each detector (higher is better)',
           legend: ['ELECTRA-large fine-tuned in MULTITuDE, on text from the model in brackets', 'Other detectors'],
           items: [
             { label: 'ELECTRA (ChatGPT)', value: 0.82, highlight: true },
