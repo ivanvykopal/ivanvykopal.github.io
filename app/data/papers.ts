@@ -1,5 +1,6 @@
 import { publications, type Publication } from 'app/data/publications';
-import type { BarItem, PipelineStep } from 'app/components/paper/viz';
+import type { BarItem, ChipGroup, PipelineStep, PromptTab, StackedRow, StackedSegment } from 'app/components/paper/viz';
+import { disinformationCapabilities } from './paper-content/disinformation-capabilities';
 
 export type PaperFigure = {
   /** Path under /public, e.g. "/images/papers/<slug>/fig1.png". */
@@ -13,7 +14,10 @@ export type PaperStat = { value: string; label: string };
 /** Animated, interactive visual described as data; rendered by components/paper/viz.tsx. */
 export type PaperViz =
   | { type: 'bars'; title: string; items: BarItem[]; max?: number; unit?: string }
-  | { type: 'pipeline'; title: string; steps: PipelineStep[] };
+  | { type: 'pipeline'; title: string; steps: PipelineStep[] }
+  | { type: 'stacked'; title: string; segments: StackedSegment[]; rows: StackedRow[]; note?: string }
+  | { type: 'prompts'; title: string; tabs: PromptTab[] }
+  | { type: 'groups'; title: string; groups: ChipGroup[] };
 
 export type PaperFinding = {
   title: string;
@@ -60,12 +64,7 @@ export type PaperPage = {
   bibtex?: string;
 };
 
-export const papers: PaperPage[] = [
-  {
-    slug: 'disinformation-capabilities',
-    publicationTitle: 'Disinformation Capabilities of Large Language Models',
-  },
-];
+export const papers: PaperPage[] = [disinformationCapabilities];
 
 export type ResolvedPaper = PaperPage & { pub: Publication };
 

@@ -182,3 +182,12 @@ table {
     margin: 0 !important;
   }
 }
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

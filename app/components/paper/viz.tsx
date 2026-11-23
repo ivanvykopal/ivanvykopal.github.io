@@ -115,7 +115,7 @@ export function BarChart({
             onMouseLeave={() => setActive(null)}
             onFocus={() => setActive(i)}
             onBlur={() => setActive(null)}
-            className="grid grid-cols-[minmax(6rem,10rem)_1fr_3.5rem] items-center gap-3 text-sm"
+            className="grid grid-cols-[minmax(6rem,13rem)_1fr_3.5rem] items-center gap-3 text-sm"
           >
             <span className={clsx('truncate', active === i ? 'text-ink' : 'text-ink-2')}>{item.label}</span>
             <span className="h-3 rounded-sm bg-rule/60">
@@ -199,6 +199,169 @@ export function Pipeline({ title, steps }: { title: string; steps: PipelineStep[
       <p className="mt-3 min-h-[3rem] text-sm leading-relaxed text-ink-2" aria-live="polite">
         {steps[current].detail}
       </p>
+    </div>
+  );
+}
+
+export type StackedRow = { label: string; values: number[] };
+export type StackedSegment = { label: string; tone: 'muted' | 'accent' | 'danger' | 'safe' };
+
+const TONE_STYLES: Record<StackedSegment['tone'], string> = {
+  muted: 'bg-ink/20',
+  accent: 'bg-accent',
+  danger: 'bg-red-500',
+  safe: 'bg-emerald-500',
+};
+
+/** Stacked horizontal bars (parts of a whole per row) that grow in when visible. Hover a row for the exact counts. */
+export function StackedBars({
+  title,
+  segments,
+  rows,
+  note,
+}: {
+  title: string;
+  segments: StackedSegment[];
+  rows: StackedRow[];
+  note?: string;
+}) {
+  const [ref, seen] = useInView<HTMLDivElement>();
+  const [active, setActive] = useState<number | null>(null);
+
+  return (
+    <div ref={ref} className="my-6 rounded border border-rule bg-subtle p-4">
+      <p className="text-sm font-semibold text-ink">{title}</p>
+      <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted" aria-label="Legend">
+        {segments.map((s) => (
+          <li key={s.label} className="flex items-center gap-1.5">
+            <span className={clsx('inline-block h-2.5 w-2.5 rounded-sm', TONE_STYLES[s.tone])} />
+            {s.label}
+          </li>
+        ))}
+      </ul>
+      <ul className="mt-4 space-y-2">
+        {rows.map((row, r) => {
+          const total = row.values.reduce((a, b) => a + b, 0);
+          return (
+            <li
+              key={row.label}
+              tabIndex={0}
+              onMouseEnter={() => setActive(r)}
+              onMouseLeave={() => setActive(null)}
+              onFocus={() => setActive(r)}
+              onBlur={() => setActive(null)}
+              className="grid grid-cols-[minmax(5rem,9rem)_1fr] items-center gap-3 text-sm sm:grid-cols-[minmax(5rem,9rem)_1fr_9rem]"
+            >
+              <span className={clsx('truncate', active === r ? 'text-ink' : 'text-ink-2')}>{row.label}</span>
+              <span className="flex h-3 overflow-hidden rounded-sm bg-rule/40">
+                {row.values.map((v, i) => (
+                  <span
+                    key={i}
+                    className={clsx(
+                      'block h-full transition-[width] duration-1000 ease-out motion-reduce:transition-none',
+                      TONE_STYLES[segments[i].tone]
+                    )}
+                    style={{ width: seen ? `${(v / total) * 100}%` : '0%', transitionDelay: `${r * 60}ms` }}
+                  />
+                ))}
+              </span>
+              <span className="tabular hidden text-right text-xs text-muted sm:block">
+                {row.values.join(' / ')}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+      <p className="mt-3 text-xs text-muted">
+        Counts per row: {segments.map((s) => s.label).join(' / ')}.{note ? ` ${note}` : ''}
+      </p>
+    </div>
+  );
+}
+
+export type PromptTab = { label: string; text: string };
+
+/** Switchable prompt viewer. Bracketed [PLACEHOLDERS] are highlighted. */
+export function PromptTabs({ title, tabs }: { title: string; tabs: PromptTab[] }) {
+  const [i, setI] = useState(0);
+  return (
+    <div className="my-6 rounded border border-rule bg-subtle p-4">
+      <p className="mb-3 text-sm font-semibold text-ink">{title}</p>
+      <div role="tablist" className="flex gap-1 border-b border-rule">
+        {tabs.map((t, idx) => (
+          <button
+            key={t.label}
+            role="tab"
+            type="button"
+            aria-selected={i === idx}
+            onClick={() => setI(idx)}
+            className={clsx(
+              '-mb-px border-b-2 px-3 py-1.5 text-sm transition-colors motion-reduce:transition-none',
+              i === idx ? 'border-accent text-ink' : 'border-transparent text-muted hover:text-ink'
+            )}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+      <p
+        key={i}
+        role="tabpanel"
+        className="mt-4 animate-[fadein_300ms_ease-out] whitespace-pre-wrap rounded border border-rule bg-page p-3 font-mono text-[0.8125rem] leading-relaxed text-ink-2 motion-reduce:animate-none"
+      >
+        {tabs[i].text.split(/(\[[A-Z ]+\])/).map((part, k) =>
+          /^\[[A-Z ]+\]$/.test(part) ? (
+            <span key={k} className="rounded bg-accent/15 px-1 text-accent">
+              {part}
+            </span>
+          ) : (
+            part
+          )
+        )}
+      </p>
+    </div>
+  );
+}
+
+export type ChipGroup = { label: string; items: string[] };
+
+/** Grouped list with category filter: pick a category to focus its items and dim the rest. */
+export function GroupExplorer({ title, groups }: { title: string; groups: ChipGroup[] }) {
+  const [sel, setSel] = useState<number | null>(null);
+  return (
+    <div className="my-6 rounded border border-rule bg-subtle p-4">
+      <p className="mb-3 text-sm font-semibold text-ink">{title}</p>
+      <div className="flex flex-wrap gap-2">
+        {groups.map((g, i) => (
+          <button
+            key={g.label}
+            type="button"
+            aria-pressed={sel === i}
+            onClick={() => setSel(sel === i ? null : i)}
+            className={clsx(
+              'rounded-full border px-3 py-1 text-sm transition-colors motion-reduce:transition-none',
+              sel === i ? 'border-accent bg-accent/10 text-ink' : 'border-rule text-muted hover:text-ink'
+            )}
+          >
+            {g.label}
+          </button>
+        ))}
+      </div>
+      <ul className="mt-4 grid gap-x-6 gap-y-1.5 text-sm sm:grid-cols-2">
+        {groups.flatMap((g, gi) =>
+          g.items.map((item) => (
+            <li
+              key={item}
+              className={clsx(
+                'transition-opacity duration-300 motion-reduce:transition-none',
+                sel === null || sel === gi ? 'text-ink-2 opacity-100' : 'text-muted opacity-30'
+              )}
+            >
+              {item}
+            </li>
+          ))
+        )}
+      </ul>
     </div>
   );
 }
