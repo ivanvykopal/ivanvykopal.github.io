@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { Figure, Switch, Tooltip, tone, useWidth } from './figure';
+import { Figure, Hint, Switch, Tooltip, tone, useWidth } from './figure';
 
 type Point = [mean: number, ci: number] | null;
 
@@ -44,6 +44,7 @@ export function LineChart({
   categoryTitles,
   bands,
   datasets,
+  descriptions,
   minWidth = 640,
   caption,
 }: {
@@ -53,6 +54,8 @@ export function LineChart({
   categoryTitles?: string[];
   bands?: LineBand[];
   datasets: LineDataset[];
+  /** Full wording behind a series label, by series id; shown when its legend entry is hovered. */
+  descriptions?: Record<string, string>;
   minWidth?: number;
   caption?: string;
 }) {
@@ -133,7 +136,7 @@ export function LineChart({
         {ds.series.map((s) => {
           const off = hidden.includes(s.id);
           return (
-            <li key={s.id}>
+            <li key={s.id} className="group relative">
               <button
                 type="button"
                 aria-pressed={!off}
@@ -156,6 +159,7 @@ export function LineChart({
                 </svg>
                 {s.label}
               </button>
+              {descriptions?.[s.id] ? <Hint>{descriptions[s.id]}</Hint> : null}
             </li>
           );
         })}

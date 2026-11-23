@@ -114,6 +114,24 @@ export function Switch({
 }
 
 /**
+ * Explanation that appears under its parent on hover or keyboard focus, e.g. the full wording of a question
+ * behind a short legend label. The parent needs the classes `group relative`.
+ */
+export function Hint({ children, align = 'left' }: { children: ReactNode; align?: 'left' | 'right' }) {
+  return (
+    <span
+      role="tooltip"
+      className={clsx(
+        'pointer-events-none absolute top-full z-20 mt-1 hidden w-max max-w-[18rem] rounded border border-rule bg-page px-3 py-2 text-left text-xs font-normal leading-snug text-ink-2 group-focus-within:block group-hover:block',
+        align === 'left' ? 'left-0' : 'right-0'
+      )}
+    >
+      {children}
+    </span>
+  );
+}
+
+/**
  * Floating readout for the hovered mark. `x` is a percentage of the positioned parent. Pass `bottom` instead
  * of `top` for marks near the lower edge, so the readout opens upwards and stays inside the chart.
  */

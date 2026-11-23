@@ -1,6 +1,7 @@
 'use client';
 
-import { delay, Figure, tone, useWidth } from './figure';
+import { useState } from 'react';
+import { delay, Figure, Tooltip, tone, useWidth } from './figure';
 
 export type GroupedSeries = {
   label: string;
@@ -21,15 +22,19 @@ const HEIGHT = 330;
 export function GroupedBars({
   title,
   categories,
+  categoryDescriptions,
   series,
   caption,
 }: {
   title: string;
   categories: string[];
+  /** Full wording behind each category label, shown when the label or its bars are hovered. */
+  categoryDescriptions?: string[];
   series: GroupedSeries[];
   caption?: string;
 }) {
   const [ref, measured] = useWidth<HTMLDivElement>(856);
+  const [hover, setHover] = useState<number | null>(null);
   const width = Math.max(measured, 600);
   const plotW = width - M.l - M.r;
   const plotH = HEIGHT - M.t - M.b;
@@ -48,7 +53,8 @@ export function GroupedBars({
           </li>
         ))}
       </ul>
-      <div ref={ref} className="mt-2 overflow-x-auto">
+      <div ref={ref} className="mt-2 overflow-x-auto overflow-y-hidden">
+        <div className="relative" style={{ width }}>
         <svg
           width={width}
           height={HEIGHT}
@@ -111,17 +117,41 @@ export function GroupedBars({
                     </g>
                   );
                 })}
-                <text x={cx} y={base + 18} textAnchor="middle" fontSize="12" fill="rgb(var(--ink-2))">
+                <text x={cx} y={base + 18} textAnchor="middle" fontSize="12" fill={hover === i ? 'rgb(var(--ink))' : 'rgb(var(--ink-2))'}>
                   {id}
                 </text>
-                <text x={cx} y={base + 34} textAnchor="middle" fontSize="12" fill="rgb(var(--muted))">
+                <text x={cx} y={base + 34} textAnchor="middle" fontSize="12" fill={hover === i ? 'rgb(var(--ink))' : 'rgb(var(--muted))'}>
                   {rest.join(' ')}
                 </text>
+                {categoryDescriptions?.[i] ? (
+                  <rect
+                    x={cx - slot / 2}
+                    y={M.t}
+                    width={slot}
+                    height={HEIGHT - M.t}
+                    fill="transparent"
+                    tabIndex={0}
+                    role="img"
+                    aria-label={`${c}: ${categoryDescriptions[i]}`}
+                    className="outline-none"
+                    onMouseEnter={() => setHover(i)}
+                    onMouseLeave={() => setHover(null)}
+                    onFocus={() => setHover(i)}
+                    onBlur={() => setHover(null)}
+                  />
+                ) : null}
               </g>
             );
           })}
           <line x1={M.l} x2={width - M.r} y1={base} y2={base} stroke="rgb(var(--muted))" />
         </svg>
+        {hover !== null && categoryDescriptions?.[hover] ? (
+          <Tooltip x={((M.l + (hover + 0.5) * slot) / width) * 100} bottom={M.b + 6} flip={hover >= categories.length / 2}>
+            <p className="mb-0.5 font-semibold text-ink">{categories[hover]}</p>
+            <p>{categoryDescriptions[hover]}</p>
+          </Tooltip>
+        ) : null}
+        </div>
       </div>
     </Figure>
   );

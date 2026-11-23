@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { delay, Figure, Switch, tone } from './figure';
+import { delay, Figure, Hint, Switch, tone } from './figure';
 
 export type DumbbellMetric = {
   label: string;
@@ -22,12 +22,15 @@ const TONES = ['q3', 'alt'] as const;
 export function Dumbbell({
   title,
   rows,
+  rowDescriptions,
   series,
   metrics,
   caption,
 }: {
   title: string;
   rows: string[];
+  /** Full wording behind each row label, shown when the label is hovered. */
+  rowDescriptions?: string[];
   series: [string, string];
   metrics: DumbbellMetric[];
   caption?: string;
@@ -60,7 +63,10 @@ export function Dumbbell({
           const [lo, hi] = a < b ? [a, b] : [b, a];
           return (
             <li key={row} className="grid grid-cols-[7.5rem_1fr] items-center gap-3 text-sm sm:grid-cols-[9.5rem_1fr]">
-              <span className="truncate text-right text-ink-2">{row}</span>
+              <span tabIndex={rowDescriptions ? 0 : undefined} className="group relative rounded text-right text-ink-2">
+                {row}
+                {rowDescriptions?.[i] ? <Hint>{rowDescriptions[i]}</Hint> : null}
+              </span>
               <span
                 role="img"
                 aria-label={`${row}: ${series[0]} ${a}, ${series[1]} ${b}`}

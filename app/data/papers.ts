@@ -41,11 +41,12 @@ export type PaperViz =
       categoryTitles?: string[];
       bands?: LineBand[];
       datasets: LineDataset[];
+      descriptions?: Record<string, string>;
       minWidth?: number;
       caption?: string;
     }
-  | { type: 'grouped'; title: string; categories: string[]; series: GroupedSeries[]; caption?: string }
-  | { type: 'dumbbell'; title: string; rows: string[]; series: [string, string]; metrics: DumbbellMetric[]; caption?: string }
+  | { type: 'grouped'; title: string; categories: string[]; categoryDescriptions?: string[]; series: GroupedSeries[]; caption?: string }
+  | { type: 'dumbbell'; title: string; rows: string[]; rowDescriptions?: string[]; series: [string, string]; metrics: DumbbellMetric[]; caption?: string }
   | {
       type: 'matrix';
       title: string;
