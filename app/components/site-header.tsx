@@ -6,6 +6,7 @@ import clsx from 'clsx';
 
 const navItems = [
   { href: '/research', label: 'Publications' },
+  { href: '/papers', label: 'Papers' },
   { href: '/cv', label: 'CV' },
   { href: '/projects', label: 'Projects' },
   { href: '/study-materials', label: 'Study materials' },

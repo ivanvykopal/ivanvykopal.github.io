@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ME, isFirstAuthor, type Publication } from 'app/data/publications';
+import { paperPathFor } from 'app/data/papers';
 import { AbstractToggle } from './abstract-toggle';
 import { DatedRow } from './section';
 
@@ -60,6 +61,11 @@ export function PublicationEntry({ pub, id, compact }: { pub: Publication; id: s
             {label}
           </a>
         ))}
+        {paperPathFor(pub.title) ? (
+          <Link href={paperPathFor(pub.title)!} className="link">
+            Paper summary
+          </Link>
+        ) : null}
         {pub.post ? (
           <Link href={pub.post} className="link">
             Blog post
