@@ -7,6 +7,7 @@ import type {
   DotSeries,
   DotView,
   DumbbellMetric,
+  FlowStage,
   GroupedScale,
   GroupedSeries,
   HeatAxis,
@@ -33,6 +34,7 @@ import type {
   StackedView,
 } from 'app/components/paper/viz';
 import { disinformationCapabilities } from './paper-content/disinformation-capabilities';
+import { llmsPfcd } from './paper-content/llms-pfcd';
 import { multiclaim } from './paper-content/multiclaim';
 import { softLanguagePrompts } from './paper-content/soft-language-prompts';
 import { skBench } from './paper-content/sk-bench';
@@ -125,6 +127,7 @@ export type PaperViz =
       switchLabel?: string;
       caption?: string;
     }
+  | { type: 'flow'; title: string; stages: FlowStage[]; caption?: string }
   | {
       type: 'architecture';
       title: string;
@@ -195,7 +198,7 @@ export type PaperPage = {
   bibtex?: string;
 };
 
-export const papers: PaperPage[] = [disinformationCapabilities, multiclaim, softLanguagePrompts, skBench];
+export const papers: PaperPage[] = [disinformationCapabilities, multiclaim, llmsPfcd, softLanguagePrompts, skBench];
 
 export type ResolvedPaper = PaperPage & { pub: Publication };
 

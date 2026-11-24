@@ -5,6 +5,7 @@ import {
   BarChart,
   DotPlot,
   Dumbbell,
+  Flow,
   GroupedBars,
   GroupList,
   Heatmap,
@@ -73,6 +74,8 @@ export function Viz({ viz }: { viz: PaperViz }) {
       return <Heatmap {...viz} />;
     case 'architecture':
       return <Architecture {...viz} />;
+    case 'flow':
+      return <Flow {...viz} />;
   }
 }
 

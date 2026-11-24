@@ -2,6 +2,7 @@ export { Architecture, type ArchConfig, type ArchKind } from './architecture';
 export { BarChart, type BarItem, type BarTone } from './bar-chart';
 export { DotPlot, type DotGroup, type DotRow, type DotSeries, type DotView } from './dot-plot';
 export { Dumbbell, type DumbbellMetric } from './dumbbell';
+export { Flow, type FlowNode, type FlowStage } from './flow';
 export { GroupedBars, type GroupedScale, type GroupedSeries } from './grouped-bars';
 export { Heatmap, type HeatAxis, type HeatCell, type HeatClass, type HeatDetail, type HeatScale, type HeatView } from './heatmap';
 export { LineChart, type LineBand, type LineDataset, type LineSeries } from './line-chart';
