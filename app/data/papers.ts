@@ -1,4 +1,5 @@
 import { publications, type Publication } from 'app/data/publications';
+import type { TableColumn } from 'app/components/paper/data-table';
 import type {
   ArchConfig,
   BarItem,
@@ -214,8 +215,18 @@ export type PaperFinding = {
 export type PaperTable = {
   title: string;
   caption?: string;
-  columns: string[];
+  /** Plain labels, or column options: a shared group heading, the best value in bold, an in-cell bar. */
+  columns: (string | TableColumn)[];
+  /**
+   * Cells as typed in the paper. The table reads "3.787 (**)" as a number with significance, "mid.ru (18)" as a
+   * name with a count, "57.26 ± 92.63" as a mean with its spread, "ar, de*" as language codes and "-" or "NA"
+   * as missing. Repeated values in the first column merge.
+   */
   rows: string[][];
+  /** First cell of a row to set in bold, e.g. the paper's own dataset. */
+  highlight?: string;
+  /** Data colour token for bars scaled within each row, for tables whose rows are measures and columns the things compared. */
+  rowBars?: string;
 };
 
 /**

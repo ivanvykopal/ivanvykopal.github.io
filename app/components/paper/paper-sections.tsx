@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import type { PaperFigure, PaperFinding, PaperStat, PaperTable, PaperViz } from 'app/data/papers';
+import { DataTable } from './data-table';
 import {
   Architecture,
   BarChart,
@@ -196,7 +197,7 @@ export function Findings({ findings }: { findings: PaperFinding[] }) {
 export function Tables({ tables }: { tables: PaperTable[] }) {
   return (
     <PaperSection title="Results" id="results">
-      <div className="space-y-10">
+      <div className="space-y-12">
         {tables.map((t) => (
           <div key={t.title}>
             <h3 className="font-semibold text-ink">{t.title}</h3>
@@ -205,28 +206,7 @@ export function Tables({ tables }: { tables: PaperTable[] }) {
               cells wrap and a wide table never brings in scrollbars.
             */}
             <div className="mt-3">
-              <table className="tabular table w-full max-w-none overflow-visible whitespace-normal break-words border-collapse text-left text-[0.8125rem] sm:text-sm">
-                <thead>
-                  <tr className="border-b border-rule text-muted">
-                    {t.columns.map((c) => (
-                      <th key={c} className="py-2 pr-3 align-bottom font-normal last:pr-0 sm:pr-6 sm:last:pr-0">
-                        {c}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {t.rows.map((r, i) => (
-                    <tr key={i} className="border-b border-rule text-ink-2">
-                      {r.map((cell, j) => (
-                        <td key={j} className={`py-2 pr-3 align-top last:pr-0 sm:pr-6 sm:last:pr-0${j === 0 ? ' text-ink' : ''}`}>
-                          {cell}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <DataTable columns={t.columns} rows={t.rows} highlight={t.highlight} rowBars={t.rowBars} />
             </div>
             {t.caption ? <p className="mt-3 text-sm leading-relaxed text-muted">{t.caption}</p> : null}
           </div>

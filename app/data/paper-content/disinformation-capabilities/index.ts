@@ -480,13 +480,21 @@ export const disinformationCapabilities: PaperPage = {
     {
       title: 'How well the annotators agreed',
       caption:
-        'Pearson correlation (ρ) and mean absolute error (MAE) per question. Human-human compares the two annotators; human-GPT-4 compares GPT-4 with the average human score.',
-      columns: ['', 'Q1 Well-formed', 'Q2 Article', 'Q3 Agree', 'Q4 Disagree', 'Q5 Args for', 'Q6 Args against'],
+        'Pearson correlation (ρ, higher means closer agreement) and mean absolute error (MAE, lower means closer agreement) per question. Human-human compares the two annotators; human-GPT-4 compares GPT-4 with the average human score.',
+      columns: [
+        'Question',
+        { label: 'Human-human', group: 'Pearson ρ', bar: { tone: 'q3', max: 1 } },
+        { label: 'Human-GPT-4', group: 'Pearson ρ', bar: { tone: 'q3', max: 1 } },
+        { label: 'Human-human', group: 'Mean absolute error', bar: { tone: 'q6', max: 1.25 } },
+        { label: 'Human-GPT-4', group: 'Mean absolute error', bar: { tone: 'q6', max: 1.25 } },
+      ],
       rows: [
-        ['Human-human ρ', '0.57', '0.79', '0.85', '0.80', '0.72', '0.78'],
-        ['Human-human MAE', '0.50', '0.64', '0.48', '0.36', '0.70', '0.35'],
-        ['Human-GPT-4 ρ', '0.35', '0.45', '0.71', '0.62', '0.45', '0.45'],
-        ['Human-GPT-4 MAE', '0.55', '1.10', '0.74', '0.68', '1.15', '1.25'],
+        ['Q1 Well-formed', '0.57', '0.35', '0.50', '0.55'],
+        ['Q2 Article', '0.79', '0.45', '0.64', '1.10'],
+        ['Q3 Agree', '0.85', '0.71', '0.48', '0.74'],
+        ['Q4 Disagree', '0.80', '0.62', '0.36', '0.68'],
+        ['Q5 Args for', '0.72', '0.45', '0.70', '1.15'],
+        ['Q6 Args against', '0.78', '0.45', '0.35', '1.25'],
       ],
     },
   ],

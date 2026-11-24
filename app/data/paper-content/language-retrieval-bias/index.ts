@@ -382,13 +382,13 @@ export const languageRetrievalBias: PaperPage = {
     {
       title: 'Generation failures per instruction language',
       caption: 'Table 8 of the paper. Repetitive is degenerate repeated output, unfinished is no parsable label.',
-      columns: ['Language', 'Repetitive (%)', 'Unfinished (%)'],
+      columns: ['Language', { label: 'Repetitive (%)', bar: { tone: 'danger', max: 10 } }, { label: 'Unfinished (%)', bar: { tone: 'danger', max: 10 } }],
       rows: FAILURES_BY_LANGUAGE.map((l) => [l.label, l.rep.toFixed(2), l.unf.toFixed(2)]),
     },
     {
       title: 'Generation failures per model',
       caption: 'Table 9 of the paper, over all languages and prompting strategies.',
-      columns: ['Model', 'Repetitive (%)', 'Unfinished (%)'],
+      columns: ['Model', { label: 'Repetitive (%)', bar: { tone: 'danger', max: 25 } }, { label: 'Unfinished (%)', bar: { tone: 'danger', max: 25 } }],
       rows: FAILURES_BY_MODEL.map((m) => [m.label, m.rep.toFixed(2), m.unf.toFixed(2)]),
     },
   ],

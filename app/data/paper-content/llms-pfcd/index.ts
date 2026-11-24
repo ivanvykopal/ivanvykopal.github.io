@@ -444,14 +444,22 @@ export const llmsPfcd: PaperPage = {
       title: 'AMC-16K statistics per language',
       caption:
         'Table 3 of the paper. Word counts are the mean with the standard deviation. Posts and claims are the numbers of posts and fact-checked claims in the language.',
-      columns: ['Language', 'Words per post', 'Words per claim', 'Posts', 'Claims'],
+      columns: ['Language', 'Words per post', 'Words per claim', { label: 'Posts', bar: { tone: 'q3' } }, { label: 'Claims', bar: { tone: 'q3' } }],
       rows: LANGUAGE_STATS,
     },
     {
       title: 'Quality of the retrieval step',
       caption:
-        'Table 5 of the paper: average results over 20 languages on the same posts, within a language. AMC-16K has more known pairs because of our annotation, so scores are higher there.',
-      columns: ['Model', 'MultiClaim S@10', 'MAP', 'MRR', 'AMC-16K S@10', 'MAP', 'MRR'],
+        'Table 5 of the paper: average results over 20 languages on the same posts, within a language; the best score in each column is in bold. AMC-16K has more known pairs because of our annotation, so scores are higher there.',
+      columns: [
+        'Model',
+        { label: 'S@10', group: 'MultiClaim', better: 'higher' },
+        { label: 'MAP', group: 'MultiClaim', better: 'higher' },
+        { label: 'MRR', group: 'MultiClaim', better: 'higher' },
+        { label: 'S@10', group: 'AMC-16K', better: 'higher' },
+        { label: 'MAP', group: 'AMC-16K', better: 'higher' },
+        { label: 'MRR', group: 'AMC-16K', better: 'higher' },
+      ],
       rows: [
         ['BGE-M3', '0.73', '0.62', '0.65', '0.77', '0.73', '0.81'],
         ['DistilUSE-Base-Multilingual', '0.58', '0.45', '0.48', '0.57', '0.50', '0.60'],

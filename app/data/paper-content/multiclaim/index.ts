@@ -479,6 +479,7 @@ export const multiclaim: PaperPage = {
         ['Hardalov et al., 2022', '316,564', '10,340', '332,660', '1'],
         ['MultiClaim (ours)', '28,092', '205,751', '31,305', '27 / 39'],
       ],
+      highlight: 'MultiClaim (ours)',
     },
   ],
   bibtex: `@inproceedings{pikuliak-etal-2023-multilingual,

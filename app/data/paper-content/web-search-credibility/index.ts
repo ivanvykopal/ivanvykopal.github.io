@@ -354,8 +354,9 @@ export const webSearchCredibility: PaperPage = {
   tables: [
     {
       title: 'Retrieval and response behaviour',
-      caption: 'Table 2 of the paper. FC means fact-checking sources. A dash means the assistant never refused.',
-      columns: ['', 'GPT-4o', 'GPT-5', 'Perplexity', 'Qwen Chat'],
+      caption: 'Table 2 of the paper. FC means fact-checking sources. A dash means the assistant never refused. Bars compare the four assistants within each row.',
+      columns: ['Measure', 'GPT-4o', 'GPT-5', 'Perplexity', 'Qwen Chat'],
+      rowBars: 'q3',
       rows: [
         ['Total sources', '8,416', '12,103', '3,592', '4,587'],
         ['Unique domains', '1,863', '2,425', '754', '1,130'],
@@ -383,7 +384,7 @@ export const webSearchCredibility: PaperPage = {
     {
       title: 'Disinformation sources cited per topic',
       caption: 'Table 15 of the paper, summed over all four assistants.',
-      columns: ['Topic', 'Sources'],
+      columns: ['Topic', { label: 'Sources', bar: { tone: 'danger' } }],
       rows: [
         ['Russia-Ukraine war', '129'],
         ['Climate change', '88'],
@@ -395,8 +396,12 @@ export const webSearchCredibility: PaperPage = {
     {
       title: 'Are the differences between assistants significant?',
       caption:
-        'Table 11 of the paper: mean difference in Credibility Rate (CR) and Non-Credibility Rate (NCR), in points, first minus second. * p < 0.05, ** p < 0.01, *** p < 0.001, ns not significant.',
-      columns: ['Comparison', 'CR difference', 'NCR difference'],
+        'Table 11 of the paper: mean difference in Credibility Rate (CR) and Non-Credibility Rate (NCR), in points, first minus second; bars point right when the first is higher. * p < 0.05, ** p < 0.01, *** p < 0.001; ns, not significant, is greyed out.',
+      columns: [
+        'Comparison',
+        { label: 'CR difference', bar: { tone: 'q3', diverging: true } },
+        { label: 'NCR difference', bar: { tone: 'danger', diverging: true } },
+      ],
       rows: [
         ['GPT-4o vs GPT-5', '3.787 (**)', '0.235 (ns)'],
         ['GPT-4o vs Perplexity', '-11.145 (***)', '1.576 (***)'],
