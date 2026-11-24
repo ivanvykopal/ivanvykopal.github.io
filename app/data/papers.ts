@@ -3,6 +3,13 @@ import type {
   ArchConfig,
   BarItem,
   BarTone,
+  BubbleAxis,
+  BubblePoint,
+  BubbleTarget,
+  ColumnPanel,
+  ColumnSeries,
+  CompositionRow,
+  CompositionSegment,
   ChipGroup,
   DotSeries,
   DotView,
@@ -14,6 +21,8 @@ import type {
   HeatClass,
   HeatScale,
   HeatView,
+  HistogramPanel,
+  HistogramSeries,
   LineBand,
   LineDataset,
   MatrixClass,
@@ -38,12 +47,15 @@ import { llmsPfcd } from './paper-content/llms-pfcd';
 import { multiclaim } from './paper-content/multiclaim';
 import { softLanguagePrompts } from './paper-content/soft-language-prompts';
 import { skBench } from './paper-content/sk-bench';
+import { webSearchCredibility } from './paper-content/web-search-credibility';
 
 export type PaperFigure = {
   /** Path under /public, e.g. "/images/papers/<slug>/fig1.png". */
   src: string;
   alt: string;
   caption: string;
+  /** Drop the white frame and border, for images with a transparent background. */
+  plain?: boolean;
 };
 
 export type PaperStat = { value: string; label: string };
@@ -109,6 +121,29 @@ export type PaperViz =
       switchLabel?: string;
       caption?: string;
     }
+  | {
+      type: 'bubble';
+      title: string;
+      x: BubbleAxis;
+      y: BubbleAxis;
+      points: BubblePoint[];
+      sizeLabel: string;
+      ringLabel: string;
+      target?: BubbleTarget;
+      caption?: string;
+    }
+  | { type: 'columns'; title: string; whole: ColumnSeries; part: ColumnSeries; yLabel?: string; panels: ColumnPanel[]; caption?: string }
+  | {
+      type: 'histogram';
+      title: string;
+      series: HistogramSeries[];
+      panels: HistogramPanel[];
+      yMax?: number;
+      yTicks?: number[];
+      xLabel?: string;
+      caption?: string;
+    }
+  | { type: 'composition'; title: string; segments: CompositionSegment[]; rows: CompositionRow[]; caption?: string }
   | { type: 'scatter'; title: string; families: ScatterFamily[]; views: ScatterView[]; switchLabel?: string; caption?: string }
   | { type: 'paired'; title: string; left: PairedSide; right: PairedSide; rows: PairedRow[]; caption?: string }
   | { type: 'scores'; title: string; columns: ScoreColumn[]; variants?: ScoreVariant[]; groups: ScoreGroup[]; caption?: string }
@@ -127,6 +162,7 @@ export type PaperViz =
       switchLabel?: string;
       caption?: string;
     }
+  | ({ type: 'image' } & PaperFigure)
   | { type: 'flow'; title: string; stages: FlowStage[]; caption?: string }
   | {
       type: 'architecture';
@@ -198,7 +234,7 @@ export type PaperPage = {
   bibtex?: string;
 };
 
-export const papers: PaperPage[] = [disinformationCapabilities, multiclaim, llmsPfcd, softLanguagePrompts, skBench];
+export const papers: PaperPage[] = [disinformationCapabilities, multiclaim, llmsPfcd, softLanguagePrompts, skBench, webSearchCredibility];
 
 export type ResolvedPaper = PaperPage & { pub: Publication };
 

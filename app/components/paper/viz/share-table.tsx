@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import clsx from 'clsx';
-import { delay, Figure, Switch } from './figure';
+import { DIMMED, delay, Figure, LEGEND_LIST, useIsolate, Switch } from './figure';
 import { Swatch, TONE_FILL, type StackedSegment } from './stacked-bars';
 
 export type ShareItem = { id: string; label: string; values: number[] };
@@ -30,6 +30,7 @@ export function ShareTable({
   caption?: string;
 }) {
   const [ranked, setRanked] = useState(false);
+  const iso = useIsolate();
   const shown: ShareGroup[] = ranked
     ? [
         {
@@ -50,9 +51,9 @@ export function ShareTable({
         <Switch label="Order" options={['By category', rankLabel]} value={ranked ? 1 : 0} onChange={(i) => setRanked(i === 1)} />
       }
     >
-      <ul className="flex flex-wrap gap-x-5 gap-y-1 text-sm text-ink-2" aria-label="Legend">
-        {segments.map((s) => (
-          <li key={s.label} className="flex items-center gap-2">
+      <ul className={LEGEND_LIST} aria-label="Legend">
+        {segments.map((s, k) => (
+          <li key={s.label} {...iso.legend(k)}>
             <Swatch tone={s.tone} />
             {s.label}
           </li>
@@ -89,10 +90,13 @@ export function ShareTable({
                           <span
                             key={k}
                             className={clsx(
-                              'viz-seg tabular flex h-full items-center justify-center overflow-hidden text-xs font-semibold',
-                              TONE_FILL[segments[k].tone]
+                              'viz-seg tabular flex h-full items-center justify-center overflow-hidden text-xs font-semibold transition-[opacity,filter] duration-150',
+                              TONE_FILL[segments[k].tone],
+                              iso.dim(k) && DIMMED
                             )}
                             style={{ width: `${(v / total) * 100}%` }}
+                            onMouseEnter={() => iso.setOver(k)}
+                            onMouseLeave={() => iso.setOver(null)}
                           >
                             <span>{v}</span>
                           </span>

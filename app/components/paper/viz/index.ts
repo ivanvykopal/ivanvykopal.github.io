@@ -1,5 +1,9 @@
 export { Architecture, type ArchConfig, type ArchKind } from './architecture';
 export { BarChart, type BarItem, type BarTone } from './bar-chart';
+export { Bubble, type BubbleAxis, type BubblePoint, type BubbleTarget } from './bubble';
+export { ColumnChart, type ColumnBar, type ColumnPanel, type ColumnSeries } from './column-chart';
+export { Histogram, type HistogramPanel, type HistogramSeries } from './histogram';
+export { CompositionBars, type CompositionRow, type CompositionSegment } from './composition-bars';
 export { DotPlot, type DotGroup, type DotRow, type DotSeries, type DotView } from './dot-plot';
 export { Dumbbell, type DumbbellMetric } from './dumbbell';
 export { Flow, type FlowNode, type FlowStage } from './flow';

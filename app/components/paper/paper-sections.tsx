@@ -3,12 +3,16 @@ import type { PaperFigure, PaperFinding, PaperStat, PaperTable, PaperViz } from 
 import {
   Architecture,
   BarChart,
+  Bubble,
+  ColumnChart,
+  CompositionBars,
   DotPlot,
   Dumbbell,
   Flow,
   GroupedBars,
   GroupList,
   Heatmap,
+  Histogram,
   LineChart,
   PairedBars,
   Pipeline,
@@ -34,7 +38,7 @@ export function PaperFigureBlock({ figure }: { figure: PaperFigure }) {
   return (
     <figure className="my-8">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={figure.src} alt={figure.alt} className="w-full rounded border border-rule bg-white" loading="lazy" />
+      <img src={figure.src} alt={figure.alt} className={figure.plain ? 'w-full dark:rounded dark:bg-white dark:p-3' : 'w-full rounded border border-rule bg-white'} loading="lazy" />
       <figcaption className="mt-3 text-sm leading-relaxed text-muted">{figure.caption}</figcaption>
     </figure>
   );
@@ -64,6 +68,14 @@ export function Viz({ viz }: { viz: PaperViz }) {
       return <UnitMatrix {...viz} />;
     case 'dots':
       return <DotPlot {...viz} />;
+    case 'columns':
+      return <ColumnChart {...viz} />;
+    case 'histogram':
+      return <Histogram {...viz} />;
+    case 'composition':
+      return <CompositionBars {...viz} />;
+    case 'bubble':
+      return <Bubble {...viz} />;
     case 'scatter':
       return <Scatter {...viz} />;
     case 'paired':
@@ -74,6 +86,8 @@ export function Viz({ viz }: { viz: PaperViz }) {
       return <Heatmap {...viz} />;
     case 'architecture':
       return <Architecture {...viz} />;
+    case 'image':
+      return <PaperFigureBlock figure={viz} />;
     case 'flow':
       return <Flow {...viz} />;
   }
@@ -104,7 +118,7 @@ export function Overview({ paragraphs, approach }: { paragraphs?: string[]; appr
         </div>
       ) : null}
       {approach?.map((viz) => (
-        <div key={viz.title} className="mt-10">
+        <div key={viz.type === 'image' ? viz.src : viz.title} className="mt-10">
           <Viz viz={viz} />
         </div>
       ))}

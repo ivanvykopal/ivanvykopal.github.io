@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import clsx from 'clsx';
-import { delay, Figure, Switch, tone, Tooltip } from './figure';
+import { delay, Figure, LEGEND_LIST, Switch, tone, Tooltip, useIsolate } from './figure';
 
 type Point = [mean: number, ci: number] | null;
 
@@ -46,7 +46,8 @@ export function DotPlot({
 }) {
   const [vi, setVi] = useState(0);
   const [hotRow, setHotRow] = useState<string | null>(null);
-  const [hotSeries, setHotSeries] = useState<number | null>(null);
+  const iso = useIsolate();
+  const hotSeries = iso.active;
   const view = views[vi];
   const pct = (v: number) => ((Math.min(Math.max(v, domain[0]), domain[1]) - domain[0]) / (domain[1] - domain[0])) * 100;
   const grid = 'grid grid-cols-[8.5rem_1fr] items-center gap-3 sm:grid-cols-[13rem_1fr]';
@@ -73,23 +74,16 @@ export function DotPlot({
         ) : null
       }
     >
-      <ul className="-mx-2 flex flex-wrap gap-x-1 gap-y-0.5 text-sm text-ink-2" aria-label="Legend" onMouseLeave={() => setHotSeries(null)}>
+      <ul className={LEGEND_LIST} aria-label="Legend">
         {series.map((s, k) => (
-          <li
-            key={s.label}
-            onMouseEnter={() => setHotSeries(k)}
-            className={clsx(
-              'flex cursor-default items-center gap-2 rounded px-2 py-0.5 transition-opacity duration-150',
-              hotSeries !== null && hotSeries !== k && 'opacity-40'
-            )}
-          >
+          <li key={s.label} {...iso.legend(k)}>
             <span aria-hidden className="inline-block h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: tone(s.tone) }} />
             {s.label}
           </li>
         ))}
       </ul>
       <p className="mt-1.5 text-sm text-muted" aria-hidden>
-        Hover a row for exact values.
+        Hover a row for exact values. Hover or click a legend entry or a dot to highlight one series.
       </p>
 
       <div className="mt-3 space-y-5" onMouseLeave={() => setHotRow(null)}>
@@ -129,7 +123,7 @@ export function DotPlot({
                         return (
                           <span
                             key={s.label}
-                            className={clsx('absolute inset-0 transition-opacity duration-150', dim && 'opacity-15')}
+                            className={clsx('pointer-events-none absolute inset-0 transition-[opacity,filter] duration-150', dim && 'opacity-20 grayscale')}
                             style={{ zIndex: hotSeries === k ? 2 : 1 }}
                           >
                             <span
@@ -141,8 +135,10 @@ export function DotPlot({
                               }}
                             />
                             <span
-                              className="absolute top-1/2 -ml-[5px] -mt-[5px] h-2.5 w-2.5 rounded-full ring-2 ring-page transition-[left] duration-500 ease-out motion-reduce:transition-none"
+                              className="pointer-events-auto absolute top-1/2 -ml-[5px] -mt-[5px] h-2.5 w-2.5 rounded-full ring-2 ring-page transition-[left] duration-500 ease-out motion-reduce:transition-none"
                               style={{ left: `${pct(v[0])}%`, background: tone(s.tone) }}
+                              onMouseEnter={() => iso.setOver(k)}
+                              onMouseLeave={() => iso.setOver(null)}
                             />
                           </span>
                         );
@@ -216,7 +212,7 @@ function RowTooltip({
           {entries.map(({ s, k, v }) => (
             <li
               key={s.label}
-              className={clsx('tabular flex items-center justify-between gap-4', hotSeries !== null && hotSeries !== k && 'opacity-40')}
+              className={clsx('tabular flex items-center justify-between gap-4', hotSeries !== null && hotSeries !== k && 'opacity-40 grayscale')}
             >
               <span className="flex items-center gap-1.5 whitespace-nowrap">
                 <span className="inline-block h-2 w-2 rounded-full" style={{ background: tone(s.tone) }} />

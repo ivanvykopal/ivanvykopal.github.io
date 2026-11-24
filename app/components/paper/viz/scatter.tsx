@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import clsx from 'clsx';
-import { delay, Figure, Switch, Tooltip, tone, useWidth } from './figure';
+import { DIMMED, delay, Figure, LEGEND_LIST, useIsolate, Switch, Tooltip, tone, useWidth } from './figure';
 
 export type ScatterFamily = {
   label: string;
@@ -49,7 +49,8 @@ export function Scatter({
   const [ref, measured] = useWidth<HTMLDivElement>(700);
   const [vi, setVi] = useState(0);
   const [hot, setHot] = useState<string | null>(null);
-  const [hotFamily, setHotFamily] = useState<number | null>(null);
+  const iso = useIsolate();
+  const hotFamily = iso.active;
   const view = views[vi];
   const width = Math.max(measured, 360);
   const plotW = width - M.l - M.r;
@@ -82,16 +83,9 @@ export function Scatter({
         ) : null
       }
     >
-      <ul className="-mx-2 flex flex-wrap gap-x-1 gap-y-0.5 text-sm text-ink-2" aria-label="Legend" onMouseLeave={() => setHotFamily(null)}>
+      <ul className={LEGEND_LIST} aria-label="Legend">
         {families.map((f, k) => (
-          <li
-            key={f.label}
-            onMouseEnter={() => setHotFamily(k)}
-            className={clsx(
-              'flex cursor-default items-center gap-2 rounded px-2 py-0.5 transition-opacity duration-150',
-              hotFamily !== null && hotFamily !== k && 'opacity-40'
-            )}
-          >
+          <li key={f.label} {...iso.legend(k)}>
             <svg width="10" height="10" aria-hidden className="shrink-0">
               <circle cx="5" cy="5" r={f.hollow ? 3.75 : 5} fill={f.hollow ? 'none' : tone(f.tone)} stroke={tone(f.tone)} strokeWidth={f.hollow ? 2 : 0} />
             </svg>
@@ -140,7 +134,7 @@ export function Scatter({
               return (
                 <g
                   key={base.id}
-                  className="transition-[transform,opacity] duration-500 ease-out motion-reduce:transition-none"
+                  className={clsx('transition-[transform,opacity,filter] duration-500 ease-out motion-reduce:transition-none', iso.dim(base.family) && 'grayscale')}
                   style={{
                     transform: `translate(${sx(shown.x)}px, ${sy(shown.y)}px)`,
                     opacity: p ? (dim ? 0.2 : 1) : 0,
@@ -166,8 +160,14 @@ export function Scatter({
                       role="img"
                       aria-label={p ? `${p.label}: ${view.x.label} ${p.x}, ${view.y.label} ${p.y}` : undefined}
                       className="outline-none"
-                      onMouseEnter={() => setHot(base.id)}
-                      onMouseLeave={() => setHot(null)}
+                      onMouseEnter={() => {
+                        setHot(base.id);
+                        iso.setOver(base.family);
+                      }}
+                      onMouseLeave={() => {
+                        setHot(null);
+                        iso.setOver(null);
+                      }}
                       onFocus={() => setHot(base.id)}
                       onBlur={() => setHot(null)}
                     />

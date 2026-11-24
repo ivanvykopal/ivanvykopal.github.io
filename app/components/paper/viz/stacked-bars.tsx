@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import clsx from 'clsx';
-import { delay, Figure, Switch } from './figure';
+import { delay, Figure, LEGEND_LIST, useIsolate, Switch } from './figure';
 
 export type StackedTone = 'danger' | 'neutral' | 'safe' | 'idle' | 'warn';
 export type StackedSegment = { label: string; tone: StackedTone };
@@ -43,6 +43,7 @@ export function StackedBars({
   caption?: string;
 }) {
   const [vi, setVi] = useState(0);
+  const iso = useIsolate();
   // Hovered mark: a segment (row and class), or a whole class when hovering the legend.
   const [hot, setHot] = useState<{ row: number | null; seg: number } | null>(null);
   const view = views[vi];
@@ -70,16 +71,9 @@ export function StackedBars({
         ) : null
       }
     >
-      <ul className="-mx-2 flex flex-wrap gap-x-1 gap-y-0.5 text-sm text-ink-2" aria-label="Legend" onMouseLeave={() => setHot(null)}>
+      <ul className={LEGEND_LIST} aria-label="Legend">
         {segments.map((s, k) => (
-          <li
-            key={s.label}
-            onMouseEnter={() => setHot({ row: null, seg: k })}
-            className={clsx(
-              'flex cursor-default items-center gap-2 rounded px-2 py-0.5 transition-opacity duration-150',
-              hot && hot.seg !== k && 'opacity-40'
-            )}
-          >
+          <li key={s.label} {...iso.legend(k)} className={clsx(iso.legend(k).className, hot && iso.active === null && hot.seg !== k && 'opacity-40 grayscale')}>
             <Swatch tone={s.tone} />
             {s.label}
           </li>
@@ -130,7 +124,7 @@ export function StackedBars({
                               'viz-seg tabular flex h-full items-center justify-center overflow-hidden text-[0.8125rem] font-semibold transition-opacity duration-150',
                               TONE_FILL[segments[k].tone],
                               // Same row or legend hover: the other classes step back.
-                              hot !== null && !otherRow && hot.seg !== k && 'opacity-35',
+                              !otherRow && (hot ? hot.seg : iso.active) !== null && (hot ? hot.seg : iso.active) !== k && 'opacity-35 grayscale',
                               hot?.row === i && hot.seg === k && 'shadow-[inset_0_0_0_2px_rgb(var(--ink))]'
                             )}
                             style={{ width: `${(v / total) * 100}%` }}

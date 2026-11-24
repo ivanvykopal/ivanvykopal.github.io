@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { delay, Figure, Tooltip, tone, useWidth } from './figure';
+import clsx from 'clsx';
+import { DIMMED, delay, Figure, LEGEND_LIST, useIsolate, Tooltip, tone, useWidth } from './figure';
 
 export type GroupedSeries = {
   label: string;
@@ -59,6 +60,7 @@ export function GroupedBars({
 }) {
   const [ref, measured] = useWidth<HTMLDivElement>(856);
   const [hover, setHover] = useState<number | null>(null);
+  const iso = useIsolate();
   const width = Math.max(measured, 600);
   const left = scale.labelWidth;
   const plotW = width - left - M.r;
@@ -73,9 +75,9 @@ export function GroupedBars({
 
   return (
     <Figure title={title} caption={caption}>
-      <ul className="flex flex-wrap gap-x-5 gap-y-1 text-sm text-ink-2" aria-label="Legend">
-        {series.map((s) => (
-          <li key={s.label} className="flex items-center gap-2">
+      <ul className={LEGEND_LIST} aria-label="Legend">
+        {series.map((s, k) => (
+          <li key={s.label} {...iso.legend(k)}>
             <span
               aria-hidden
               className="inline-block h-2.5 w-2.5 shrink-0 rounded-[2px]"
@@ -118,7 +120,7 @@ export function GroupedBars({
                     const mid = bx + (barW - 3) / 2;
                     const wait = i * 70 + k * 35;
                     return (
-                      <g key={s.label}>
+                      <g key={s.label} className={clsx('transition-[opacity,filter] duration-150', iso.dim(k) && DIMMED)}>
                         <rect
                           className="viz-rise"
                           style={delay(wait)}

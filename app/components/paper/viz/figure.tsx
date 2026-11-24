@@ -9,6 +9,45 @@ export const tone = (name: string, alpha = 1) => `rgb(var(--viz-${name}) / ${alp
 /** Entrance delay in milliseconds for a mark with a viz-* animation class. */
 export const delay = (ms: number) => ({ '--i': ms }) as CSSProperties;
 
+/**
+ * Isolating one series of a chart. Hovering or focusing a legend entry, or a mark of the series, highlights it;
+ * clicking a legend entry keeps it highlighted. Everything else turns grey and fades, in every chart alike.
+ * `legend(k)` gives the props of the entry of series k; `dim(k)` says whether series k steps back.
+ */
+export function useIsolate() {
+  const [over, setOver] = useState<number | null>(null);
+  const [pinned, setPinned] = useState<number | null>(null);
+  const active = over ?? pinned;
+  const legend = (k: number) => ({
+    tabIndex: 0,
+    role: 'button' as const,
+    'aria-pressed': pinned === k,
+    onMouseEnter: () => setOver(k),
+    onMouseLeave: () => setOver(null),
+    onFocus: () => setOver(k),
+    onBlur: () => setOver(null),
+    onClick: () => setPinned(pinned === k ? null : k),
+    onKeyDown: (e: { key: string; preventDefault: () => void }) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        setPinned(pinned === k ? null : k);
+      }
+    },
+    className: clsx(
+      'flex cursor-pointer items-center gap-2 rounded px-2 py-0.5 outline-none transition-[opacity,filter] duration-150 focus-visible:ring-2 focus-visible:ring-ink/30',
+      active !== null && active !== k && 'opacity-40 grayscale',
+      active === k && 'font-semibold text-ink'
+    ),
+  });
+  return { active, setOver, legend, dim: (k: number) => active !== null && active !== k };
+}
+
+/** Classes of a mark that steps back while another series is isolated. */
+export const DIMMED = 'opacity-25 grayscale';
+
+/** Legend list shared by the charts that isolate series. */
+export const LEGEND_LIST = '-mx-2 flex flex-wrap gap-x-1 gap-y-0.5 text-sm text-ink-2';
+
 /** True once the element has scrolled into view. */
 export function useInView<T extends Element>(threshold = 0.3) {
   const ref = useRef<T>(null);

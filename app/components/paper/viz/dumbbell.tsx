@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { delay, Figure, Hint, Switch, tone } from './figure';
+import clsx from 'clsx';
+import { DIMMED, delay, Figure, LEGEND_LIST, useIsolate, Hint, Switch, tone } from './figure';
 
 export type DumbbellMetric = {
   label: string;
@@ -41,6 +42,7 @@ export function Dumbbell({
   caption?: string;
 }) {
   const [mi, setMi] = useState(0);
+  const iso = useIsolate();
   const metric = metrics[mi];
   const min = metric.min ?? 0;
   const pct = (v: number) => ((v - min) / (metric.max - min)) * 100;
@@ -52,14 +54,14 @@ export function Dumbbell({
       caption={caption}
       controls={<Switch label={switchLabel} options={metrics.map((m) => m.label)} value={mi} onChange={setMi} />}
     >
-      <ul className="flex flex-wrap gap-x-5 gap-y-1 text-sm text-ink-2" aria-label="Legend">
+      <ul className={LEGEND_LIST} aria-label="Legend">
         {series.map((label, k) => (
-          <li key={label} className="flex items-center gap-2">
+          <li key={label} {...iso.legend(k)}>
             <span aria-hidden className="inline-block h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: tone(tones[k]) }} />
             {label}
           </li>
         ))}
-        <li className="text-muted">{metric.hint}</li>
+        <li className="px-2 py-0.5 text-muted">{metric.hint}</li>
       </ul>
 
       <ul className="mt-4">
@@ -86,8 +88,13 @@ export function Dumbbell({
                 {[a, b].map((v, k) => (
                   <span
                     key={k}
-                    className="absolute top-1/2 transition-[left] duration-500 ease-out motion-reduce:transition-none"
+                    className={clsx(
+                      'absolute top-1/2 transition-[left,opacity,filter] duration-500 ease-out motion-reduce:transition-none',
+                      iso.dim(k) && DIMMED
+                    )}
                     style={{ left: `${pct(v)}%` }}
+                    onMouseEnter={() => iso.setOver(k)}
+                    onMouseLeave={() => iso.setOver(null)}
                   >
                     <span
                       className="absolute -left-1.5 -top-1.5 h-3 w-3 rounded-full ring-2 ring-page"
