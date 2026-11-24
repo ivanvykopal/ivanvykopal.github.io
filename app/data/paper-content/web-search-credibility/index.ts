@@ -59,7 +59,7 @@ export const webSearchCredibility: PaperPage = {
   tagline:
     'We asked GPT-4o, GPT-5, Perplexity and Qwen Chat to verify 100 misinformation-prone claims through their web interfaces, then checked how credible the sources they cited were and whether their answers were actually supported by those sources.',
   tldr:
-    'All four assistants lean on credible sources and ground most of what they say. Perplexity is the most careful: it cites the most credible sources and almost no non-credible ones. GPT-4o and GPT-5 cite a broader range of domains and more low-credibility ones, most often on the Russia-Ukraine war. A response can be well grounded and still rest on weak evidence, so grounding alone is not a sign of reliability.',
+    'All four assistants lean on credible sources and ground most of what they say. Perplexity is the most careful: it cites the most credible sources and almost no non-credible ones. GPT-4o and GPT-5 cite a broader range of domains and more low-credibility ones, most often on the Russia-Ukraine war. A response can be well grounded and still rest on weak sources, so grounding says little about reliability by itself.',
   stats: [
     { value: '100', label: 'claims in five misinformation-prone topics' },
     { value: '4', label: 'chat assistants with web search' },
@@ -87,7 +87,7 @@ export const webSearchCredibility: PaperPage = {
       'Overall rows of Tables 1 and 4 of the paper. Perplexity alone is in the top right, with the smallest bubble and the thinnest ring. GPT-4o and GPT-5 have the largest bubbles and the thickest rings. Qwen Chat cites fairly credible sources (80.0%) but grounds the least in them (71.6%).',
   },
   overview: [
-    'Chat assistants now search the web, cite what they find and answer from it. That should make answers more reliable, but it also means the open web, including propaganda written for the purpose, can flow into the answer. Russian networks have already been reported to seed their content in the hope that AI systems retrieve it.',
+    'Chat assistants now search the web, cite what they find and answer from it. That should make answers more reliable. It also lets the open web into the answer, propaganda written for the purpose included. Russian networks have already been reported to seed their content in the hope that AI systems retrieve it.',
     'We built a way to measure this in two steps. The first looks at the cited sources: using Media Bias/Fact Check ratings and a list of fact-checking organisations, we compute the share of cited sources that are credible (Credibility Rate) and the share that are not (Non-Credibility Rate). The second looks at the response: we split it into atomic units, check each against the sources the assistant itself cited, and record whether credible or non-credible sources support it.',
     'We took 100 debunked claims from fact-checking organisations, 20 each on health, climate change, the Russia-Ukraine war, U.S. politics and local issues, and paraphrased them so the assistants would not simply find the original article. Each claim was sent in two roles: a fact-checker who wants to verify it, and a claim believer who wants confirmation. We used the public web interfaces rather than APIs, driven by Selenium, with web search switched on.',
   ],
@@ -153,7 +153,7 @@ export const webSearchCredibility: PaperPage = {
       summary:
         'Perplexity reaches a credibility rate of 86.3% and a non-credibility rate of 0.7%. GPT-4o and GPT-5 cast a wider net, citing 14 and 20 sources per chat against 6 for Perplexity, and they cite more low-credibility ones.',
       body: [
-        'The assistants differ significantly in credibility, as pairwise tests in Table 11 show. Perplexity is above every other assistant; GPT-5 is below all of them. Qwen Chat sits in between but cites the largest share of unrated domains, a sign of reliance on less established sources.',
+        'The assistants differ significantly in credibility, as pairwise tests in Table 11 show. Perplexity is above every other assistant; GPT-5 is below all of them. Qwen Chat sits in between but cites the largest share of unrated domains, which may mean it leans on less established sources.',
         'Fact-checking sites are the backbone of grounding. GPT-4o and GPT-5 cite at least one in about 89% of chats, Perplexity in 80% and Qwen Chat in 63%. Wikipedia is among the two most cited domains for all four assistants. Facebook is in the top ten for all except Perplexity.',
       ],
       viz: [
@@ -218,7 +218,7 @@ export const webSearchCredibility: PaperPage = {
       summary:
         'The Russia-Ukraine war and climate change draw the most non-credible citations. GPT-4o reaches 4.55% on the war, the highest of any assistant and topic.',
       body: [
-        'We found 129 cited disinformation sources for the Russia-Ukraine topic across all assistants, against 88 for climate change, 49 for local claims, 38 for U.S. politics and 33 for health. About three quarters of the Russia-Ukraine ones were tied to Russian propaganda, such as News Pravda, EurAsia Daily and the websites of the Russian Ministry of Foreign Affairs. This matches earlier reports that such networks flood the web in order to be picked up by AI systems.',
+        'We found 129 cited disinformation sources for the Russia-Ukraine topic across all assistants, against 88 for climate change, 49 for local claims, 38 for U.S. politics and 33 for health. About three quarters of the Russia-Ukraine ones were tied to Russian propaganda, such as News Pravda, EurAsia Daily and the websites of the Russian Ministry of Foreign Affairs. This matches earlier reports that such networks flood the web to be picked up by AI systems.',
         'Qwen Chat struggled most with local claims, where it had the highest non-credibility rate at 2.50%. Health has the highest credibility rate for GPT-4o, GPT-5 and Qwen Chat; for Perplexity it is climate change.',
       ],
       viz: [
@@ -229,7 +229,7 @@ export const webSearchCredibility: PaperPage = {
           part: { label: 'Disinformation', tone: 'danger' },
           panels: DOMAIN_CATEGORIES,
           caption:
-            'Figure 9 of the paper, redrawn: analysis of cited sources by category for each assistant, with the part that are disinformation sources in red. Red values are printed in the paper only on some columns; the others have none shown. Values are read from the paper\'s figure.',
+            'Figure 9 of the paper, redrawn: analysis of cited sources by category for each assistant, with the disinformation sources in red. Red values are printed in the paper only on some columns; the others have none shown. Values are read from the paper\'s figure.',
         },
         {
           type: 'dots',
@@ -258,7 +258,7 @@ export const webSearchCredibility: PaperPage = {
       summary:
         'Framing the query as a claim believer raises non-credible citations for GPT-4o (1.81% to 2.73%) and GPT-5 (1.87% to 2.20%). Perplexity is unaffected.',
       body: [
-        'The effect is small. Across all assistants the difference in credibility between the two framings is significant but only 1.6 points, and the difference in non-credibility is not significant. It is strongest for the OpenAI models, and GPT-4o is the most sensitive to wording. Perplexity keeps the lowest non-credibility rate under both roles.',
+        'The effect is small. Across all assistants the difference in credibility between the two framings is significant but only 1.6 points, and the difference in non-credibility is not significant. The OpenAI models show it most, and GPT-4o is the most sensitive to wording. Perplexity keeps the lowest non-credibility rate under both roles.',
       ],
     },
     {
@@ -302,7 +302,7 @@ export const webSearchCredibility: PaperPage = {
       body: [
         'Perplexity is the most stable, with high scores in every topic. Qwen Chat varies most, especially on local and geopolitical claims. The two OpenAI models fall in between. All of them are weaker on local claims, where credible information is harder to find: credible groundedness is 66% for GPT-4o and 53% for Qwen Chat.',
         'Qwen Chat avoids non-credible sources most of the time, but when it does cite one, about 60% of the factual units in that response are grounded in it. We read this as a fragile retrieval strategy: failures are rare but heavy. Qwen Chat also produces the most units that cannot be verified at all, such as meta-statements, opinions and questions (24%, against 11% for Perplexity, 17% for GPT-4o and 18% for GPT-5).',
-        'The assistants differ significantly in groundedness (Table 14), whereas user framing has a minor effect. The paper also compares the method with FActScore and VERIFY. Ours reports higher factual precision and lower hallucination scores than both, because separating reported claims from claims removes false contradictions.',
+        'The assistants differ significantly in groundedness (Table 14), whereas user framing has a minor effect. The paper also compares the method with FActScore and VERIFY. Our method reports higher factual precision and lower hallucination scores than both, because separating reported claims from claims removes false contradictions.',
       ],
       viz: [
         {
