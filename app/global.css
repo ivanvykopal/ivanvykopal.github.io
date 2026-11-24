@@ -11,6 +11,28 @@
   --rule: 229 231 235;
   --accent: 37 99 235;
   --accent-strong: 29 78 216;
+
+  /* Data colours, used only by figures on /papers/*. Fill plus the text colour that sits on it. */
+  --viz-danger: 215 59 43;
+  --viz-danger-ink: 255 255 255;
+  --viz-neutral: 251 247 186;
+  --viz-neutral-ink: 104 98 40;
+  --viz-safe: 34 137 63;
+  --viz-safe-ink: 255 255 255;
+  --viz-idle: 229 231 235;
+  --viz-idle-ink: 75 85 99;
+  --viz-warn: 245 166 35;
+  --viz-warn-ink: 66 38 0;
+  /* Series Q1 to Q8 and the second series of two-series charts, after the paper's figures. */
+  --viz-q1: 0 128 0;
+  --viz-q2: 106 200 16;
+  --viz-q3: 31 119 180;
+  --viz-q4: 228 30 38;
+  --viz-q5: 92 178 222;
+  --viz-q6: 240 150 0;
+  --viz-q7: 148 103 189;
+  --viz-q8: 140 86 75;
+  --viz-alt: 255 127 14;
   color-scheme: light;
 }
 
@@ -24,6 +46,26 @@
     --rule: 38 42 49;
     --accent: 127 168 248;
     --accent-strong: 165 193 250;
+
+    --viz-danger: 235 100 82;
+    --viz-danger-ink: 24 10 8;
+    --viz-neutral: 80 76 46;
+    --viz-neutral-ink: 218 212 156;
+    --viz-safe: 70 178 100;
+    --viz-safe-ink: 6 22 12;
+    --viz-idle: 44 49 58;
+    --viz-idle-ink: 170 176 186;
+    --viz-warn: 240 172 62;
+    --viz-warn-ink: 30 18 0;
+    --viz-q1: 62 184 78;
+    --viz-q2: 158 232 68;
+    --viz-q3: 96 165 228;
+    --viz-q4: 255 98 98;
+    --viz-q5: 146 208 242;
+    --viz-q6: 255 182 56;
+    --viz-q7: 186 152 232;
+    --viz-q8: 200 146 132;
+    --viz-alt: 255 152 66;
     color-scheme: dark;
   }
 }
@@ -171,6 +213,14 @@ table {
     --ink-2: 30 30 30;
     --muted: 80 80 80;
     --accent: 0 0 0;
+    --viz-danger: 200 40 30;
+    --viz-danger-ink: 255 255 255;
+    --viz-neutral: 251 247 186;
+    --viz-neutral-ink: 80 76 30;
+    --viz-safe: 34 137 63;
+    --viz-safe-ink: 255 255 255;
+    --viz-idle: 229 231 235;
+    --viz-idle-ink: 60 60 60;
   }
   .no-print {
     display: none !important;
@@ -180,5 +230,150 @@ table {
   }
   body {
     margin: 0 !important;
+  }
+  [data-viz] * {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* "How the study works" diagram on paper pages. */
+@keyframes pipeline-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes pipeline-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/*
+ * Figures on paper pages draw themselves once, when scrolled into view. The figure root carries data-viz and
+ * gets data-seen="true" from an IntersectionObserver; marks opt in with a viz-* class and may set --i, a
+ * delay in milliseconds. Without scripting nothing is hidden.
+ */
+@keyframes viz-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes viz-wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes viz-rise {
+  from {
+    transform: scaleY(0);
+  }
+}
+@keyframes viz-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+}
+
+.viz-rise {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+.viz-pop {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+[data-seen='true'] :is(.viz-in, .viz-wipe, .viz-rise, .viz-pop) {
+  animation-duration: 700ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-fill-mode: both;
+  animation-delay: calc(var(--i, 0) * 1ms);
+}
+[data-seen='true'] .viz-in {
+  animation-name: viz-in;
+  animation-duration: 400ms;
+}
+[data-seen='true'] .viz-wipe {
+  animation-name: viz-wipe;
+  animation-duration: 900ms;
+}
+[data-seen='true'] .viz-rise {
+  animation-name: viz-rise;
+}
+[data-seen='true'] .viz-pop {
+  animation-name: viz-pop;
+  animation-duration: 450ms;
+}
+
+@media (scripting: enabled) {
+  [data-viz]:not([data-seen='true']) :is(.viz-in, .viz-wipe, .viz-rise, .viz-pop) {
+    opacity: 0;
+  }
+}
+
+/*
+ * Fills for HTML marks. Plain classes rather than Tailwind colour utilities: the dev server was seen to drop
+ * the generated bg-viz-* utilities after hot reloads, which left the bars without colour.
+ */
+.viz-fill-danger {
+  background-color: rgb(var(--viz-danger));
+  color: rgb(var(--viz-danger-ink));
+}
+.viz-fill-danger-soft {
+  background-color: rgb(var(--viz-danger) / 0.4);
+}
+.viz-fill-neutral {
+  background-color: rgb(var(--viz-neutral));
+  color: rgb(var(--viz-neutral-ink));
+}
+.viz-fill-safe {
+  background-color: rgb(var(--viz-safe));
+  color: rgb(var(--viz-safe-ink));
+}
+.viz-fill-idle {
+  background-color: rgb(var(--viz-idle));
+  color: rgb(var(--viz-idle-ink));
+}
+.viz-fill-warn {
+  background-color: rgb(var(--viz-warn));
+  color: rgb(var(--viz-warn-ink));
+}
+.viz-fill-series {
+  background-color: rgb(var(--viz-q3));
+}
+.viz-fill-series-soft {
+  background-color: rgb(var(--viz-q3) / 0.4);
+}
+.viz-fill-added {
+  background-color: rgb(var(--viz-neutral) / 0.7);
+}
+
+/* The count inside a stacked-bar segment shows only when the segment is wide enough to hold it. */
+.viz-seg {
+  container-type: inline-size;
+}
+.viz-seg > span {
+  display: none;
+}
+@container (min-width: 1.125rem) {
+  .viz-seg > span {
+    display: inline;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-seen='true'] :is(.viz-in, .viz-wipe, .viz-rise, .viz-pop) {
+    animation-name: viz-in;
+    animation-duration: 200ms;
+    animation-delay: 0ms;
   }
 }
