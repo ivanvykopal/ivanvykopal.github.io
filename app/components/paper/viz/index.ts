@@ -1,6 +1,8 @@
 export { Architecture, type ArchConfig, type ArchKind } from './architecture';
 export { BarChart, type BarItem, type BarTone } from './bar-chart';
+export { BiasPipeline, type BiasLanguage, type BiasModel, type BiasStrategy } from './bias-pipeline';
 export { Bubble, type BubbleAxis, type BubblePoint, type BubbleTarget } from './bubble';
+export { ClaimRanking, type ClaimKind, type ClaimView, type RankedClaim } from './claim-ranking';
 export { ColumnChart, type ColumnBar, type ColumnPanel, type ColumnSeries } from './column-chart';
 export { Histogram, type HistogramPanel, type HistogramSeries } from './histogram';
 export { CompositionBars, type CompositionRow, type CompositionSegment } from './composition-bars';

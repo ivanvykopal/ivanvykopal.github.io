@@ -23,6 +23,8 @@ const fmt = (v: number) => v.toFixed(2);
  * Several methods scored on one row each: a dot per series with its confidence whisker, on a shared axis.
  * Hovering or focusing a row opens a tooltip with every value; hovering a legend entry isolates that series.
  * With several views a switch appears beside the title and the dots slide to their new positions.
+ * `paired` is for two series measured on the same rows, a baseline and a variant: a line joins the two dots,
+ * green where the variant scores higher and red where it scores lower, and the tooltip adds the change.
  */
 export function DotPlot({
   title,
@@ -32,6 +34,7 @@ export function DotPlot({
   ticks = [0, 0.25, 0.5, 0.75, 1],
   axisLabel,
   switchLabel = 'View',
+  paired,
   caption,
 }: {
   title: string;
@@ -42,6 +45,8 @@ export function DotPlot({
   /** Name of the measure, shown under the axis. */
   axisLabel?: string;
   switchLabel?: string;
+  /** Join the two series of each row, coloured by the direction of the change from the first to the second. */
+  paired?: boolean;
   caption?: string;
 }) {
   const [vi, setVi] = useState(0);
@@ -81,6 +86,14 @@ export function DotPlot({
             {s.label}
           </li>
         ))}
+        {paired ? (
+          <li className="flex items-center gap-1.5 px-2 py-0.5 text-muted">
+            <span aria-hidden className="inline-block h-0.5 w-3" style={{ background: tone('safe') }} />
+            higher with {series[1].label.toLowerCase()}
+            <span aria-hidden className="ml-2 inline-block h-0.5 w-3" style={{ background: tone('danger') }} />
+            lower
+          </li>
+        ) : null}
       </ul>
       <p className="mt-1.5 text-sm text-muted" aria-hidden>
         Hover a row for exact values. Hover or click a legend entry or a dot to highlight one series.
@@ -93,13 +106,15 @@ export function DotPlot({
             <ul>
               {group.rows.map((row) => {
                 const i = rowIndex++;
-                const other = hotRow !== null && hotRow !== row.label;
+                // Rows of different groups can share a label, so the hovered row is keyed by its position.
+                const id = `${g}:${row.label}`;
+                const other = hotRow !== null && hotRow !== id;
                 return (
                   <li
                     key={row.label}
                     tabIndex={0}
-                    onMouseEnter={() => setHotRow(row.label)}
-                    onFocus={() => setHotRow(row.label)}
+                    onMouseEnter={() => setHotRow(id)}
+                    onFocus={() => setHotRow(id)}
                     onBlur={() => setHotRow(null)}
                     className={clsx(grid, 'relative rounded text-sm outline-none transition-opacity duration-150', other && 'opacity-35')}
                   >
@@ -116,6 +131,17 @@ export function DotPlot({
                       className="viz-in relative mx-2 block h-7 border-b border-rule/70"
                       style={delay(i * 25)}
                     >
+                      {paired && row.values[0] && row.values[1] ? (
+                        <span
+                          aria-hidden
+                          className="absolute top-1/2 h-[3px] -translate-y-1/2 rounded-full transition-[left,width,background-color] duration-500 ease-out motion-reduce:transition-none"
+                          style={{
+                            left: `${pct(Math.min(row.values[0][0], row.values[1][0]))}%`,
+                            width: `${Math.abs(pct(row.values[1][0]) - pct(row.values[0][0]))}%`,
+                            background: tone(row.values[1][0] >= row.values[0][0] ? 'safe' : 'danger', 0.6),
+                          }}
+                        />
+                      ) : null}
                       {series.map((s, k) => {
                         const v = row.values[k];
                         if (!v) return null;
@@ -144,11 +170,12 @@ export function DotPlot({
                         );
                       })}
                     </span>
-                    {hotRow === row.label ? (
+                    {hotRow === id ? (
                       <RowTooltip
                         row={row}
                         series={series}
                         hotSeries={hotSeries}
+                        paired={paired}
                         pct={pct}
                         overlay={trackOverlay}
                         above={rowCount > 4 && i >= rowCount - 3}
@@ -186,6 +213,7 @@ function RowTooltip({
   pct,
   overlay,
   above,
+  paired,
 }: {
   row: DotRow;
   series: DotSeries[];
@@ -193,6 +221,7 @@ function RowTooltip({
   pct: (v: number) => number;
   overlay: string;
   above: boolean;
+  paired?: boolean;
 }) {
   const entries = series
     .map((s, k) => ({ s, k, v: row.values[k] }))
@@ -225,6 +254,15 @@ function RowTooltip({
             </li>
           ))}
         </ul>
+        {paired && row.values[0] && row.values[1] ? (
+          <p className="tabular mt-1 flex justify-between gap-4 border-t border-rule pt-1">
+            <span className="text-muted">Change</span>
+            <span className="font-semibold text-ink">
+              {row.values[1][0] - row.values[0][0] > 0 ? '+' : ''}
+              {fmt(row.values[1][0] - row.values[0][0])}
+            </span>
+          </p>
+        ) : null}
       </Tooltip>
     </span>
   );

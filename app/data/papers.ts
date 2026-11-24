@@ -3,9 +3,13 @@ import type {
   ArchConfig,
   BarItem,
   BarTone,
+  BiasLanguage,
+  BiasModel,
+  BiasStrategy,
   BubbleAxis,
   BubblePoint,
   BubbleTarget,
+  ClaimView,
   ColumnPanel,
   ColumnSeries,
   CompositionRow,
@@ -43,6 +47,7 @@ import type {
   StackedView,
 } from 'app/components/paper/viz';
 import { disinformationCapabilities } from './paper-content/disinformation-capabilities';
+import { languageRetrievalBias } from './paper-content/language-retrieval-bias';
 import { llmsPfcd } from './paper-content/llms-pfcd';
 import { multiclaim } from './paper-content/multiclaim';
 import { softLanguagePrompts } from './paper-content/soft-language-prompts';
@@ -63,6 +68,14 @@ export type PaperStat = { value: string; label: string };
 /** Animated, interactive visual described as data; rendered by components/paper/viz. */
 export type PaperViz =
   | { type: 'bars'; title: string; items: BarItem[]; max?: number; unit?: string; tone?: BarTone; legend?: [string, string]; caption?: string }
+  | {
+      type: 'claims';
+      title: string;
+      views: ClaimView[];
+      similarity: { min: number; max: number; ticks: number[] };
+      switchLabel?: string;
+      caption?: string;
+    }
   | { type: 'pipeline'; title: string; steps: PipelineStep[] }
   | { type: 'stacked'; title: string; segments: StackedSegment[]; views: StackedView[]; switchLabel?: string; caption?: string }
   | { type: 'prompts'; title: string; tabs: PromptTab[] }
@@ -119,6 +132,8 @@ export type PaperViz =
       ticks?: number[];
       axisLabel?: string;
       switchLabel?: string;
+      /** Join the two series of each row and colour the line by the direction of the change. */
+      paired?: boolean;
       caption?: string;
     }
   | {
@@ -164,6 +179,17 @@ export type PaperViz =
     }
   | ({ type: 'image' } & PaperFigure)
   | { type: 'flow'; title: string; stages: FlowStage[]; caption?: string }
+  | {
+      type: 'bias-pipeline';
+      title: string;
+      strategies: BiasStrategy[];
+      languages: BiasLanguage[];
+      baseline: string;
+      models: BiasModel[];
+      retrievers: string[];
+      topK: number;
+      caption?: string;
+    }
   | {
       type: 'architecture';
       title: string;
@@ -234,7 +260,7 @@ export type PaperPage = {
   bibtex?: string;
 };
 
-export const papers: PaperPage[] = [disinformationCapabilities, multiclaim, llmsPfcd, softLanguagePrompts, skBench, webSearchCredibility];
+export const papers: PaperPage[] = [disinformationCapabilities, multiclaim, llmsPfcd, softLanguagePrompts, skBench, webSearchCredibility, languageRetrievalBias];
 
 export type ResolvedPaper = PaperPage & { pub: Publication };
 

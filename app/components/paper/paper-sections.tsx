@@ -3,7 +3,9 @@ import type { PaperFigure, PaperFinding, PaperStat, PaperTable, PaperViz } from 
 import {
   Architecture,
   BarChart,
+  BiasPipeline,
   Bubble,
+  ClaimRanking,
   ColumnChart,
   CompositionBars,
   DotPlot,
@@ -90,6 +92,10 @@ export function Viz({ viz }: { viz: PaperViz }) {
       return <PaperFigureBlock figure={viz} />;
     case 'flow':
       return <Flow {...viz} />;
+    case 'bias-pipeline':
+      return <BiasPipeline {...viz} />;
+    case 'claims':
+      return <ClaimRanking {...viz} />;
   }
 }
 
